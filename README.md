@@ -5,7 +5,7 @@
 ## Requisitos
 - WordPress 6.0+
 - PHP 8.0+
--Plugin Secure Custom Fields (Opcional)
+- Plugin Secure Custom Fields (Opcional)
 
 ## Licencia
 
