@@ -10,7 +10,7 @@
  * @package stories
  * @since 2.0.0
  */
-
+ 
 /**
  * Enables SVG file upload support with security checks
  * 
