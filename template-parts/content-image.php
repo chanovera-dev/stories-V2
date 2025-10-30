@@ -2,6 +2,20 @@
     <header class="post--header glass-bright">
         <?php echo get_the_post_thumbnail( null, 'post-header-thumbnail', [ 'class' => 'post-thumbnail', 'alt'   => get_the_title(), 'loading' => 'lazy' ] ); ?>
         <div class="glass-reflex"></div>
+        <div class="tags">
+            <?php
+                $categories = get_the_category();
+                if ( ! empty( $categories ) ) {
+                    foreach ( $categories as $category ) {
+                        // Escapar el nombre y generar link seguro
+                        $cat_name = esc_html( $category->name );
+                        $cat_link = esc_url( get_category_link( $category->term_id ) );
+
+                        echo "<a href='{$cat_link}' class='tag-type small-text glass-backdrop glass-bright'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-bookmark\" viewBox=\"0 0 16 16\"><path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z\"/></svg>{$cat_name}</a> ";
+                    }
+                }
+            ?>
+        </div>
     </header>
     <div class="post--body">
         <div class="post--tags">
