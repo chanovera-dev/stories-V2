@@ -27,7 +27,20 @@ get_header(); ?>
             if ( have_posts() ) {
                 while ( have_posts() ) {
                     the_post();
-                    get_template_part( 'template-parts/content', 'archive' );
+
+                    // Intentar cargar template-parts/content-{post_type}.php
+                    // Si no existe, usar el fallback 'archive'.
+                    $post_format = get_post_format();
+                    $part = 'archive';
+
+                    if ( $post_format ) {
+                        // locate_template devuelve ruta si el fichero existe en el tema (o child theme)
+                        if ( locate_template( "template-parts/content-{$post_format}.php" ) ) {
+                            $part = $post_format;
+                        }
+                    }
+
+                    get_template_part( 'template-parts/content', $part );
                 }
 
                 the_posts_pagination( array(

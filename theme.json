@@ -47,6 +47,11 @@
 					"color": "color-mix(in srgb, currentColor 20%, transparent)",
 					"name": "Accent 6",
 					"slug": "accent-6"
+				},
+				                {
+					"color": "color-mix(in srgb, currentColor 10%, transparent)",
+					"name": "Accent 7",
+					"slug": "accent-7"
 				}
 			]
 		},

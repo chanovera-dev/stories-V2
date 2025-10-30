@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 body {
-    background-color: light-dark(var(--wp--preset--color--base), var(--wp--preset--color--contrast));
+    background-color: light-dark(var(--wp--preset--color--base), #0c0e10);
     color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
 } 
 

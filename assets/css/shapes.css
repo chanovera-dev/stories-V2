@@ -8,11 +8,46 @@
 .post {
     display: grid;
     grid-template-rows: auto 1fr;
-    padding: 10px;
-    border: 1px solid light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6));
+    padding: .625rem;
+    border: 1px solid light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-6));
     border-radius: 1rem;
     font-size: var(--wp--preset--font-size--small);
     transition: border-color .3s ease;
+
+    &.image {
+        grid-template-rows: 1fr auto;
+
+        & .post--header {
+            aspect-ratio: inherit;
+            height: 100%;
+
+            & .wp-post-image {
+                aspect-ratio: inherit;
+                height: 100%;
+            }
+        }
+    }
+
+    &.aside {
+        grid-template-rows: 1fr;
+        & .post--body {
+            & .post--body__header {
+                padding-top: 0;
+
+                & p {
+                    font-size: var(--wp--preset--font-size--x-large);
+                    line-height: 1.4;
+                    font-weight: 500;
+                    color: light-dark(#0c0e10, #fff);
+                    margin-top: 0;
+
+                    &:not(:last-child) {
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+        }
+    }
 
     & .post--header {
         aspect-ratio: 4 / 3;
@@ -22,7 +57,7 @@
         display: grid;
         place-content: end;
         padding: 1rem;
-        background-color: light-dark(var(--wp--preset--color--secondary), #111);
+        background-color: light-dark(var(--wp--preset--color--secondary), #181c20);
 
         & .wp-post-image {
             width: 100%;
@@ -60,8 +95,8 @@
                 transition: color .3s ease;
 
                 & .post--title {
-                    font-size: var(--wp--preset--font-size--medium);
-                    font-weight: 600;
+                    font-size: var(--wp--preset--font-size--large);
+                    font-weight: 500;
                 }
 
                 &:hover {
@@ -83,7 +118,7 @@
     }
 
     &:hover {
-        border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main-alpha-50));
+        border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main));
     }
 }
 
@@ -174,5 +209,30 @@
 
     &:active {
         transform: translateY(1px);
+    }
+}
+
+body.is-chromium {
+    & .post {
+        border-radius: 2rem;
+        corner-shape: squircle;
+
+        & header.post--header {
+            border-radius: 1rem;
+            corner-shape: squircle;
+        }
+
+        & .post--body {
+            & .post--tags {
+                & .tag-type {
+                    border-radius: 1rem;
+                }
+            }
+        }
+    }
+
+    & .tag-type {
+        border-radius: 1rem;
+        corner-shape: squircle;
     }
 }
