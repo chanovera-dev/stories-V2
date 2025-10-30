@@ -7,6 +7,10 @@
 
     /* colors */
     --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
+
+    /* lines */
+    --line-1: #abb8c3;
+    --line-2: #DBE1F3;
 }
 
 
