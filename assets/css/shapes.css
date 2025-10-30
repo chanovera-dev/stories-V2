@@ -18,7 +18,7 @@
         grid-template-rows: 1fr auto;
 
         & .post--header {
-            aspect-ratio: inherit;
+            aspect-ratio: 4 / 5;
             height: 100%;
 
             & .wp-post-image {
