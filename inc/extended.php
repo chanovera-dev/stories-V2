@@ -204,7 +204,7 @@ function wp_breadcrumbs() {
         }
     } elseif (is_search()) {
         if ($paged === 1) {
-            echo '<h1 class="page-title">'; esc_html_e('Búsqueda de "', 'stories'); echo the_search_query(); esc_html_e('"', 'stories') . '</h1>';
+            echo '<h1 class="page-title">'; esc_html_e('Resultados de búsqueda de "', 'stories'); echo the_search_query(); esc_html_e('"', 'stories') . '</h1>';
         } else {
             echo '<h1 class="page-title">' . esc_html('Página ' . $paged) . '</h1>';
         }

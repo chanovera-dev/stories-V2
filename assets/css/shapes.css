@@ -240,7 +240,19 @@ body.is-chromium {
 @media (width < 600px) {
     .post {
         &.image {
-            & header.post--header {aspect-ratio: 4 / 5;}
+            & header.post--header {
+                aspect-ratio: 4 / 5;
+            }
+        }
+    }
+}
+
+@media (width >= 600px) {
+    .post {
+        &.image {
+            & header.post--header {
+                min-height: 350px;
+            }
         }
     }
 }

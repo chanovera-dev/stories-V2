@@ -33,6 +33,10 @@
                     font-size: var(--wp--preset--font-size--medium);
                     font-weight: 400;
                     margin-left: 5px;
+
+                    &::first-letter {
+                        text-transform: lowercase;
+                    }
                 }
 
                 & .breadcrumb-pagination {
