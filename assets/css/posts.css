@@ -1,0 +1,12 @@
+.site-main {
+    & .block.posts--body {
+        & .content {
+            padding: 50px 0;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+    }
+}

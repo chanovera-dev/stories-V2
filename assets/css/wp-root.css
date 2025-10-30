@@ -4,6 +4,9 @@
     /* sizes */
     --heigh-wp-adminbar: 2.875rem;
     --max-width--content: min(100% - 2.5rem, 85.375rem);
+
+    /* colors */
+    --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
 }
 
 

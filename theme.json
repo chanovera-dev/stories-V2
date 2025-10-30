@@ -14,14 +14,34 @@
 					"slug": "base"
 				},
 				{
-					"color": "#323232",
+					"color": "#ffffff7e",
+					"name": "Base Alpha 50",
+					"slug": "base-alpha-50"
+				},
+				{
+					"color": "#000000",
 					"name": "Contrast",
 					"slug": "contrast"
+				},
+				{
+					"color": "#0000007e",
+					"name": "Contrast Alpha 50",
+					"slug": "contrast-alpha-50"
 				},
 				{
 					"color": "#f6f6f6",
 					"name": "Secondary",
 					"slug": "secondary"
+				},
+				{
+					"color": "#1e90ff",
+					"name": "Main",
+					"slug": "main"
+				},
+				{
+					"color": "#1e90ff7e",
+					"name": "Main Alpha 50",
+					"slug": "main-alpha-50"
 				},
                 {
 					"color": "color-mix(in srgb, currentColor 20%, transparent)",

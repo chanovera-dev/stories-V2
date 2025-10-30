@@ -10,3 +10,20 @@ Requires PHP: 8.0
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
+
+body {
+    background-color: light-dark(var(--wp--preset--color--base), var(--wp--preset--color--contrast));
+    color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+} 
+
+*,
+::before,
+::after {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+img {
+    display: block;
+    height: auto;
+}
