@@ -9,37 +9,37 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#ffffff",
+					"color": "#f5f7f5",
 					"name": "Base",
 					"slug": "base"
 				},
 				{
-					"color": "#ffffff7e",
+					"color": "#f5f7f57e",
 					"name": "Base Alpha 50",
 					"slug": "base-alpha-50"
 				},
 				{
-					"color": "#000000",
+					"color": "#3D4651",
 					"name": "Contrast",
 					"slug": "contrast"
 				},
 				{
-					"color": "#0000007e",
+					"color": "#3D46517e",
 					"name": "Contrast Alpha 50",
 					"slug": "contrast-alpha-50"
 				},
 				{
-					"color": "#f6f6f6",
+					"color": "#eaeeea",
 					"name": "Secondary",
 					"slug": "secondary"
 				},
 				{
-					"color": "#1e90ff",
+					"color": "#6b846b",
 					"name": "Main",
 					"slug": "main"
 				},
 				{
-					"color": "#1e90ff7e",
+					"color": "#6b846b7e",
 					"name": "Main Alpha 50",
 					"slug": "main-alpha-50"
 				},
