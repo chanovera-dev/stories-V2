@@ -1,0 +1,68 @@
+.site-main {
+    & .block.breadcrumbs--wrapper {
+        background-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+        color: light-dark(var(--wp--preset--color--base), var(--wp--preset--color--base));
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
+
+        & .content {
+            padding: .5rem 0;
+
+            & .breadcrumbs {
+                display: inline-flex;
+                align-items: center;
+                flex-wrap: wrap;
+                width: 100%;
+
+                & .go-home {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 7px;
+                    transition: color .3s ease-in-out;
+
+                    & svg {
+                        position: relative;
+                        bottom: 1px;
+                    }
+
+                    &:hover {
+                        color: light-dark(var(--wp--preset--color--base-alpha-50), var(--wp--preset--color--base-alpha-50));
+                    }
+                }
+
+                & :is(h1.page-title,h3.property-title) {
+                    font-size: var(--wp--preset--font-size--medium);
+                    font-weight: 400;
+                    margin-left: 5px;
+                }
+
+                & .breadcrumb-pagination {
+                    margin-left: auto;
+                    display: flex;
+                    gap: 10px;
+
+                    & a {
+                        display: grid;
+                        width: 28.51px;
+                        height: 28.51px;
+                        place-content: center;
+                        transition: color .3s ease-in-out;
+
+                        & svg {
+                            width: 28px;
+                            height: 28px;
+                            transition: fill .3s ease-in-out;
+                        }
+
+                        &:hover {
+                            color: light-dark(var(--wp--preset--color--base-alpha-50), var(--wp--preset--color--base-alpha-50));
+                        }
+                    }
+                }
+
+                & .bi.bi-chevron-right {
+                    margin: 0 .623rem;
+                }
+            }
+        }
+    }
+}

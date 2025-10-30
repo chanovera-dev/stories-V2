@@ -134,3 +134,105 @@ function custom_comment_avatar_size($avatar) {
     return $avatar;
 }
 add_filter('get_avatar', 'custom_comment_avatar_size', 10, 1);
+
+/**
+  * Add Google Tag Manager
+  */
+ function add_gtm_header() {
+    ?>
+    <!-- Google Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XNN23WGQT"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7XNN23WGQT', { 'transport_type': 'beacon', 'send_page_view': false });
+    </script>
+    <?php
+}
+add_action('wp_head', 'add_gtm_header');
+
+/**
+ * Breadcrumbs
+ */
+function wp_breadcrumbs() {
+    $separator = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/></svg>';
+    $icon_home = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.76c0-1.358 0-2.037.274-2.634c.275-.597.79-1.038 1.821-1.922l1-.857C9.96 5.75 10.89 4.95 12 4.95s2.041.799 3.905 2.396l1 .857c1.03.884 1.546 1.325 1.82 1.922c.275.597.275 1.276.275 2.634V17c0 1.886 0 2.828-.586 3.414S16.886 21 15 21H9c-1.886 0-2.828 0-3.414-.586S5 18.886 5 17z"/><path stroke-linecap="round" stroke-linejoin="round" d="M14.5 21v-5a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v5"/></g></svg>';
+    $home = 'Inicio';
+    $showCurrent = 1;
+    $showOnHome = 0;
+    $current = '';
+    $paged = get_query_var('paged') ? get_query_var('paged') : 1;
+
+    global $post;
+    $homeLink = get_bloginfo('url');
+    echo '<section class="block breadcrumbs--wrapper"><div class="content"><div class="breadcrumbs">';
+    echo '<a class="go-home" href="' . $homeLink . '">' . $icon_home . $home . '</a>' . $separator;
+
+    if (is_category()) {
+        if ($paged === 1) {
+            echo 'Últimos artículos de la'; the_archive_title( '<h1 class="page-title">', '</h1>' );
+        } else {
+            echo esc_html('Página ' . $paged . ' de '); the_archive_title('<h1 class="page-title">', '</h1>');
+        } 
+    }
+     elseif ( is_archive() ) {
+        if ($paged === 1) {
+            echo 'Últimos artículos de la'; the_archive_title( '<h1 class="page-title">', '</h1>' );
+        } else {
+            echo esc_html('Página ' . $paged . ' de '); the_archive_title('<h1 class="page-title">', '</h1>');
+        } 
+    } elseif (is_home()) {
+        if ($paged === 1) {
+            echo '<h1 class="page-title">' . esc_html_e( 'Últimos artículos', 'stories' ) . '</h1>';
+        } else {
+            echo esc_html('Página ' . $paged . ' de ') . '<h1 class="page-title">todos los artículos</h1>';
+        }
+    } elseif (is_page_template('archivo-detras-del-espejo.php')) {
+        echo $current . 'Capítulos de "Detrás del Espejo"';
+    } elseif (is_page()) {
+        if ($post->post_parent) {
+            $ancestors = get_post_ancestors($post->ID);
+            foreach ($ancestors as $ancestor) {
+                $output = '<a href="' . get_permalink($ancestor) . '">' . get_the_title($ancestor) . '</a>' . $separator;
+            }
+            echo $output;
+            echo $current . ' ' . get_the_title();
+        } else {
+            if ($showCurrent == 1) echo $current . ' ' . get_the_title();
+        }
+    } elseif (is_search()) {
+        if ($paged === 1) {
+            echo '<h1 class="page-title">'; esc_html_e('Búsqueda de "', 'stories'); echo the_search_query(); esc_html_e('"', 'stories') . '</h1>';
+        } else {
+            echo '<h1 class="page-title">' . esc_html('Página ' . $paged) . '</h1>';
+        }
+    } elseif (is_day()) {
+        echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a>' . $separator;
+        echo '<a href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '">' . get_the_time('F') . '</a>' . $separator;
+        echo get_the_time('d') . $separator;
+        echo $current . ' ' . get_the_time('l');
+    } elseif (is_month()) {
+        echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a>' . $separator;
+        echo $current . ' ' . get_the_time('F');
+    } elseif (is_year()) {
+        echo $current . ' ' . get_the_time('Y');
+    } elseif (is_single() && !is_attachment()) {
+        if (get_post_type() != 'post') {
+            $post_type = get_post_type_object(get_post_type());
+            $slug = $post_type->rewrite;
+            echo '<a href="' . $homeLink . '/' . $slug['slug'] . '/">' . $post_type->labels->singular_name . '</a>' . $separator;
+            if ($showCurrent == 1) echo $current . ' ';
+        } else
+        {
+            $cat = get_the_category();
+            $cat = $cat[0];
+            $cats = get_category_parents($cat, TRUE, $separator);
+            if ($showCurrent == 0) $cats = preg_replace("#^(.+)$separator$#", "$1", $cats);
+            echo $cats;
+            echo $current . ' ';
+        }
+    } elseif (!is_single() && !is_page() && get_post_type() != 'post' && !is_404()) {}
+    echo '</div></div></section>';
+}

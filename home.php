@@ -18,7 +18,7 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main">
 
-    
+    <?php wp_breadcrumbs(); ?>
 
     <!-- Archive Posts Section -->
     <section class="block posts--body">
