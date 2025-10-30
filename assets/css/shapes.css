@@ -1,0 +1,6 @@
+.block {
+    & .content {
+        width: var(--max-width--content);
+        margin-inline: auto;
+    }
+}
