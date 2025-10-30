@@ -18,7 +18,7 @@
         grid-template-rows: 1fr auto;
 
         & .post--header {
-            aspect-ratio: 4 / 5;
+            aspect-ratio: inherit;
             height: 100%;
 
             & .wp-post-image {
@@ -234,5 +234,13 @@ body.is-chromium {
     & .tag-type {
         border-radius: 1rem;
         corner-shape: squircle;
+    }
+}
+
+@media (width < 600px) {
+    .post {
+        &.image {
+            & header.post--header {aspect-ratio: 4 / 5;}
+        }
     }
 }
