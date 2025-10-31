@@ -1,0 +1,320 @@
+::-webkit-search-cancel-button {
+    display: none;
+}
+
+/*******************************************************************
+*   I N P U T S
+*******************************************************************/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px var(--base) inset, 0 0 0 .2rem rgba(0, 123, 255, .25) !important;
+  -webkit-text-fill-color: var(--text);  
+  transition: border-color .3s ease-in-out;
+}
+
+label:not([for="wp-comment-cookies-consent"]) {
+    margin-bottom: .25rem;
+    display: inline-block;
+}
+
+input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input),
+textarea,
+select {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-family: var(--wp--preset--font-family--manrope);
+    font-size: var(--wp--preset--font-size--medium);
+    font-weight: 400;
+    line-height: 1.25;
+    color: light-dark(var(--wp--preset--color--contrast), var(--contrast-dark));
+    background-color: transparent;
+    background-clip: padding-box;
+    border: 0.063rem solid var(--wp--preset--color--accent-6);
+    border-radius: .5rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input):hover,
+textarea:hover,
+select:hover {
+    border-color: light-dark(var(--main--lighter), var(--main--lighter));
+    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+}
+
+input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input):focus,
+textarea:focus,
+select:focus {
+    outline: 0;
+    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+}
+
+::placeholder {
+    font-family: var(--wp--preset--font-family--libre-manrope);
+    font-size: var(--wp--preset--font-size--medium);
+    opacity: .5;
+}
+
+select {
+    background-image: url('../../assets/icons/select-image.svg');
+    background-repeat: no-repeat;
+    background-size: 5px 10px;
+    background-position: right .75rem center;
+    padding-right: calc(.75rem * 2 + 5px);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+textarea {
+    height: calc(5.25rem + 2px);
+}
+
+/*******************************************************************
+*   B U T T O N S
+*******************************************************************/
+
+.btn,
+#submit,
+.wpcf7-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 38px;
+    justify-content: space-between;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    padding: .7085rem 1.25rem;
+    border-radius: .5rem;
+    corper-shape: inherit;
+    border: none;
+    background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
+    transition: color .15s ease-in-out, border-color .15s ease-in-out, filter .3s ease-in-out, gap .3s ease-in-out;
+
+    &:has(svg) {
+        line-height: 2;
+    }
+
+    & svg {
+        height: 1lh;
+        position: relative;
+        bottom: 1px;
+        transition: transform .3s ease-in-out;
+    }
+
+    &:hover {
+        filter: brightness(1.1);
+        cursor: pointer;
+      
+        & svg {
+            transform: translateX(-5px);
+        }
+    }
+
+    &.without-line.go-to-properties {
+        &:hover {
+            & svg {
+                transform: translateX(5px);
+            }
+        }
+    }
+
+    &.yellow {
+      background-color: #ffe900;
+    }
+
+    &:is(.tag,.category, .type) {
+      box-shadow: none;
+      background-color: transparent;
+      border-width: 1px;
+      border-style: solid;
+      border-color: light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-6));
+      text-transform: inherit;
+      height: auto;
+    }
+
+    &.type {
+      font-size: calc(var(--wp--preset--font-size--small) - 3px);
+      padding: 8px 10px;
+      border-width: 0;
+      background-color: #000;
+      color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px, rgba(0, 0, 0, 0.2) 0px 7px 13px -3px, rgba(255, 255, 255, 0.2) 0px -2px 0px inset;
+    }
+
+    &:active {
+        transform: translate(1px, 1px);
+    }
+}
+
+.primary,
+#submit,
+.wpcf7-submit {
+  color: var(--wp--preset--color--base);
+  background-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
+}
+
+.secondary {
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px solid light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-6));
+}
+
+.outline {
+  border-color: var(--wp--preset--color--accent-6);
+
+  &:hover {
+    color: light-dark(var(--wp--preset--color--main), var(--main--lighter));
+    border-color: light-dark(var(--wp--preset--color--main), var(--main--lighter));
+  }
+}
+
+.without-line {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.btn-small {
+  font-size: var(--wp--preset--font-size--small);
+  padding: 5px 8px;
+}
+
+.btn-large {}
+
+.inactive {
+    opacity: .4;
+}
+
+.inactive:hover {
+    cursor: default !important;
+}
+
+.btn:hover {
+
+}
+
+#submit,
+.wpcf7-submit {
+    
+}
+
+
+/*******************************************************************
+*   C H E C K B O X
+*******************************************************************/
+
+/* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 54px;
+  opacity: 0;
+  z-index: 1;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  margin-bottom: 0;
+  padding-left: 1.5em;
+  font-size: 1.05em;
+  line-height: 1.7;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 1em;
+    height: 1em;
+    border: 1px solid light-dark(#0000002c, #ffffff47);
+    border-radius: 4px;
+    transition: all 0.275s;
+}
+
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: "";
+    width: .8em;
+    height: .8em;
+    border-radius: .15rem;
+    position: absolute;
+    top: 0.32em;
+    left: 0.1em;
+    background-color: light-dark(var(--main--lighter), var(--main--lighter));
+    transition: all 0.2s;
+}
+
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+}
+
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+/* Disabled checkbox *
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #e9e9e9;
+}
+
+[type="checkbox"]:disabled:checked + label:after {
+  color: #777;
+}
+
+[type="checkbox"]:disabled + label {
+  color: #aaa;
+}
+
+/* Accessibility *
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 6px rgba(203, 34, 237, 0.2);
+}
+*/
+
+body.is-chromium {
+    & input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input),
+    & textarea,
+    & select,
+    & [type="checkbox"]:not(:checked) + label:before,
+    & [type="checkbox"]:checked + label:before,
+    & [type="checkbox"]:not(:checked) + label:after,
+    & [type="checkbox"]:checked + label:after {
+        border-radius: 1rem;
+        corner-shape: squircle;
+    }
+
+    & [type="checkbox"]:not(:checked) + label:after,
+    & [type="checkbox"]:checked + label:after {
+        height: .75em;
+        top: 0.35em;
+    }
+}
