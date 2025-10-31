@@ -55,6 +55,19 @@ img {
             z-index: 0;
             padding: .625rem 0;
 
+            & .site-brand {
+                & a {
+                    &:hover {
+                        color: var(--wp--preset--color--main);
+                    }
+
+                    &:focus {
+                        outline: none;
+                        color: orangered;
+                    }
+                }
+            }
+
             & .navigation-searchform--wrapper {
                 & ul {
                     padding-left: 0;
@@ -149,6 +162,11 @@ img {
 
                     &:hover {
                         border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main));
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: light-dark(orangered, orangered);
                     }
                 }
             }

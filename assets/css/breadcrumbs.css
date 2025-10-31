@@ -27,6 +27,11 @@
                     &:hover {
                         color: light-dark(var(--wp--preset--color--base-alpha-50), var(--wp--preset--color--base-alpha-50));
                     }
+
+                    &:focus {
+                        outline: none;
+                        color: light-dark(lawngreen, lawngreen);
+                    }
                 }
 
                 & :is(h1.page-title,h3.property-title) {

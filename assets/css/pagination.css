@@ -34,7 +34,8 @@
 
             &:hover:not(.current,.dots) {
                 background-color: light-dark(var(--wp--preset--color--secondary), #181c20);
-                &:before {
+
+                &::before {
                     position: absolute;
                     content: '';
                     bottom: 0;
@@ -50,6 +51,23 @@
             & svg {
                 width: 24px;
                 height: 24px;
+            }
+
+            &:focus {
+                outline: none;
+                background-color: light-dark(var(--wp--preset--color--secondary), #181c20);
+
+                &::before {
+                    position: absolute;
+                    content: '';
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 4px;
+                    background-color: orangered;
+                    animation: mark-pagination .3s ease forwards;
+                }
             }
         }
 
