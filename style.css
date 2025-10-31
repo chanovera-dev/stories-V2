@@ -646,9 +646,21 @@ img {
                                     place-content: center;
                                     width: 56px;
                                     height: 36px;
-                                    border: 1px solid var(--wp--preset--color--main-alpha-50);
-                                    background-color: var(--wp--preset--color--main-alpha-50);
+                                    border: 1px solid var(--wp--preset--color--main);
+                                    background-color: var(--wp--preset--color--main);
                                     border-radius: 6px;
+                                    color: var(--wp--preset--color--base);
+                                    transition: background-color .3s ease, border-color .3s ease;
+
+                                    &:hover {
+                                        background-color: var(--wp--preset--color--main-alpha-50);
+                                    }
+
+                                    &:focus-visible {
+                                        outline: none;
+                                        border-color: orangered;
+                                        background-color: orangered;
+                                    }
                                 }
 
                                 & .close-custom-searchform {
