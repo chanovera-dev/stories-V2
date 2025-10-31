@@ -1,0 +1,46 @@
+header.block {
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+
+    & .content {
+        display: grid;
+        
+        & .page-title {
+            font-size: var(--wp--preset--font-size--xx-large);
+            text-align: center;
+            position: relative;
+            max-width: 40.313rem;
+            margin-inline: auto;
+            margin-block-start: 5rem;
+            margin-block-end: 5rem;
+        }
+
+        & .latest-modified,
+        & .metadata {
+            text-align: center;
+            font-size: var(--wp--preset--font-size--small);
+            margin-inline: auto;
+            margin-block-start: .875rem;
+            margin-block-end: .875rem;
+        }
+    }
+}
+
+.block {
+    & .is-layout-constrained {
+        padding-bottom: 2.5rem;
+    }
+}
+
+@media (width < 31.25rem) {
+    header.block {
+        & .content {
+            & .page-title {
+                margin-top: 5rem;
+                margin-bottom: 5rem;
+                border-radius: 0;
+            }
+        }
+    }
+}

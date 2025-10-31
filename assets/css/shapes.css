@@ -282,6 +282,93 @@ ul {
     }
 }
 
+.btn-pagination {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: grid;
+    place-content: center;
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 1rem;
+    position: relative;
+    transition: background-color .3s ease;
+    background-color: transparent;
+
+    &.small-pagination {
+        width: 46px;
+        height: 46px;
+        border-radius: .5rem;
+
+        & svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--main--lighter-plus);
+    }
+
+    & svg {
+        transition: fill .3s ease;
+        fill: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+    }
+
+    &.glass-backdrop {
+        background-color: transparent !important;
+
+        & svg {
+            fill: var(--wp--preset--color--base);
+        }
+
+        &:hover {
+            background-color: light-dark(var(--wp--preset--color--base-alpha), var(--base-alpha-dark)) !important;
+
+            & svg {
+                fill: light-dark(var(--wp--preset--color--contrast), var(--contrast-dark));
+            }
+        }
+    }
+
+    &:focus-visible {
+        outline: none;
+        background-color: orangered;
+
+        & svg {
+            fill: var(--wp--preset--color--base);
+        }
+    }
+
+    &:active {
+        transform: translateY(.5px);
+    }
+}
+
+@media (width < 600px) {
+    .post {
+        &.image {
+            & header.post--header {
+                aspect-ratio: 4 / 5;
+            }
+        }
+    }
+}
+
+@media (width >= 600px) {
+    .post {
+        &.image {
+            & header.post--header {
+                min-height: 350px;
+            }
+        }
+    }
+}
+
 body.is-chromium {
     & .post {
         border-radius: 2rem;
@@ -305,24 +392,13 @@ body.is-chromium {
         border-radius: 1rem;
         corner-shape: squircle;
     }
-}
 
-@media (width < 600px) {
-    .post {
-        &.image {
-            & header.post--header {
-                aspect-ratio: 4 / 5;
-            }
-        }
-    }
-}
+    & .btn-pagination {
+        border-radius: 2rem;
+        corner-shape: squircle;
 
-@media (width >= 600px) {
-    .post {
-        &.image {
-            & header.post--header {
-                min-height: 350px;
-            }
+        &.small-pagination {
+            border-radius: 1rem;
         }
     }
 }

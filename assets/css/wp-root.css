@@ -7,11 +7,15 @@
 
     /* colors */
     --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
+    --main--lighter-plus: oklch(from var(--wp--preset--color--main-alpha-50) calc(l + .3) c calc(h * .88));
     --contrast--darker: oklch(from var(--wp--preset--color--contrast) calc(l - .2) c h);
 
     /* lines */
     --line-1: #abb8c3;
     --line-2: #DBE1F3;
+
+    /* shadows */
+    --modern-text-shadow: 0px 2px 3px rgba(0,0,0,0.4), 0px 4px 13px rgba(0,0,0,0.1), 0px 9px 23px rgba(0,0,0,0.1);
 }
 
 

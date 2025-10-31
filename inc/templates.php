@@ -75,9 +75,10 @@ function stories_get_assets() {
             'single'             => "$assets_path/css/single.css",
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
+            'slideshow'          => "$assets_path/css/slideshow.css",
         ],
         'js' => [
-            'slideshow'          => "$assets_path/js/slideshow-related-properties.js",
+            'slideshow-script'   => "$assets_path/js/slideshow.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
         ]
     ];
@@ -101,6 +102,7 @@ function page_template() {
         $a = stories_get_assets();
 
         stories_enqueue_style( 'page', $a['css']['page'] );
+        stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
 
         $post_id = get_queried_object_id();
         if ( $post_id && has_post_thumbnail( $post_id ) ) {
@@ -119,7 +121,8 @@ function page_template() {
             ] );
 
             if ( ! empty( $related_posts ) ) {
-                stories_enqueue_style( 'posts', $a['css']['posts'] );
+                stories_enqueue_style( 'slideshow', $a['css']['slideshow'] );
+                stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
             }
 
             if ( comments_open() ) {
