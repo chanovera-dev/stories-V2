@@ -53,7 +53,7 @@
                 height: 24px;
             }
 
-            &:focus {
+            &:focus-visible {
                 outline: none;
                 background-color: light-dark(var(--wp--preset--color--secondary), #181c20);
 

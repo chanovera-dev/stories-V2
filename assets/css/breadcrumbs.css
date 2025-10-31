@@ -28,7 +28,7 @@
                         color: light-dark(var(--wp--preset--color--base-alpha-50), var(--wp--preset--color--base-alpha-50));
                     }
 
-                    &:focus {
+                    &:focus-visible {
                         outline: none;
                         color: light-dark(lawngreen, lawngreen);
                     }

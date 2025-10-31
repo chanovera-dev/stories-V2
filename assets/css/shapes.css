@@ -104,7 +104,7 @@
                     color: var(--wp--preset--color--main);
                 }
 
-                &:focus {
+                &:focus-visible {
                     outline: none;
                     color: orangered;
                 }
@@ -213,7 +213,7 @@
         z-index: 1;
     }
 
-    &:focus {
+    &:focus-visible {
         border-color: orangered;
         box-shadow: 0 0 0 .2rem #ff44007e;
         z-index: 1;
@@ -234,7 +234,7 @@ ul {
                 color: var(--wp--preset--color--main);
             }
 
-            &:focus {
+            &:focus-visible {
                 outline: none;
                 color: orangered;
             }
@@ -270,7 +270,7 @@ ul {
                     }
                 }
 
-                &:focus {
+                &:focus-visible {
                     outline: none;
 
                     &::before {

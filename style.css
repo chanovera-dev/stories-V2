@@ -61,7 +61,7 @@ img {
                         color: var(--wp--preset--color--main);
                     }
 
-                    &:focus {
+                    &:focus-visible {
                         outline: none;
                         color: orangered;
                     }
@@ -164,7 +164,7 @@ img {
                         border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main));
                     }
 
-                    &:focus {
+                    &:focus-visible {
                         outline: none;
                         border-color: light-dark(orangered, orangered);
                     }
