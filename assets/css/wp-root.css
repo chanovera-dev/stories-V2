@@ -7,6 +7,7 @@
 
     /* colors */
     --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
+    --contrast--darker: oklch(from var(--wp--preset--color--contrast) calc(l - .2) c h);
 
     /* lines */
     --line-1: #abb8c3;

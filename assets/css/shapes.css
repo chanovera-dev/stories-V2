@@ -212,6 +212,28 @@
     }
 }
 
+.social {
+    & .menu {
+        & li {
+            & a {
+                position: relative;
+                display: grid;
+                font-size: 0;
+
+                &:before {
+                    position: relative;
+                    content: '';
+                    display: block;
+                    width: 1rem;
+                    height: 1rem;
+                    transition: background-color .3s ease-in-out;
+                    background-color: currentColor;
+                }
+            }
+        }                     
+    }
+}
+
 body.is-chromium {
     & .post {
         border-radius: 2rem;
