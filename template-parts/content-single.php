@@ -92,7 +92,16 @@
                 <div class="related-posts--list slideshow">
                     <?php 
                         while ($related_posts->have_posts()) : $related_posts->the_post();
-                            get_template_part( 'template-parts/content', 'archive' );
+                            $post_format = get_post_format();
+                            $part = 'archive';
+
+                            if ( $post_format ) {
+                                if ( locate_template( "template-parts/content-{$post_format}.php" ) ) {
+                                    $part = $post_format;
+                                }
+                            }
+
+                            get_template_part( 'template-parts/content', $part );
                         endwhile;
                     ?>
                 </div>
