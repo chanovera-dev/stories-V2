@@ -15,25 +15,31 @@
                         ?>
                     </div>
                     <div class="other-links">
-                        <div class="group-links">
-                            <?php
-                                $menu_id_pages = get_nav_menu_locations()['pages'];
-                                $menu_pages = wp_get_nav_menu_object($menu_id_pages);
-                                $items_pages = wp_get_nav_menu_items($menu_id_pages);
+                        <?php
+                        $footer_menus = ['footer-1', 'footer-2', 'footer-3'];
+                        $menu_locations = get_nav_menu_locations();
 
-                                if ( ! empty($items_pages) ) {
-                                    echo '
-                                    <h3 class="title-section">' . $menu_pages->name . '</h3>';
-                                    wp_nav_menu(
-                                        array(
+                        foreach ($footer_menus as $location) :
+                            if (isset($menu_locations[$location])) :
+                                $menu_id = $menu_locations[$location];
+                                $menu_obj = wp_get_nav_menu_object($menu_id);
+                                $menu_items = wp_get_nav_menu_items($menu_id);
+
+                                if (!empty($menu_items)) : ?>
+                                    <div class="group-links">
+                                        <h3 class="title-section"><?php echo esc_html($menu_obj->name); ?></h3>
+                                        <?php
+                                        wp_nav_menu([
                                             'container' => 'nav',
-                                            'container_class' => 'pages',
-                                            'theme_location' => 'pages',
-                                        )
-                                    );
-                                }
-                            ?>
-                        </div>
+                                            'container_class' => 'footer',
+                                            'theme_location' => $location,
+                                        ]);
+                                        ?>
+                                    </div>
+                                <?php endif;
+                            endif;
+                        endforeach;
+                        ?>
                     </div>
                 </div>
             </section>

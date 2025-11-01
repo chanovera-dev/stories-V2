@@ -20,9 +20,11 @@ function setup_stories() {
      */
     register_nav_menus(
         array(
-            'pages'   => __( 'Pages', 'stories' ),
             'primary' => __( 'Main Menu', 'stories' ),
             'social'  => __( 'Social Menu', 'stories' ),
+            'footer-1'   => __( 'Footer 1', 'stories' ),
+            'footer-2'   => __( 'Footer 2', 'stories' ),
+            'footer-3'   => __( 'Footer 3', 'stories' ),
         )
     );
 
