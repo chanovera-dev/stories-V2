@@ -1,20 +1,33 @@
 <?php
+/**
+ * Theme Customizer Settings for Stories
+ *
+ * This file adds a custom section to the WordPress Customizer
+ * that allows administrators to set site-specific data such as
+ * a short bio or description. All fields include sanitization
+ * and translation support for better security and flexibility.
+ */
 
-function theme_customizer($wp_customize) {
-    // Datos personales
-    $wp_customize->add_section('site__data', array(
-        'title' => __('Datos del sitio'),
-        'description' => __('Establece tus datos'), 
-        'priority' => 11,
+function stories_customize_register($wp_customize) {
+
+    // ====== SECTION: Site Data ======
+    $wp_customize->add_section('stories_site_data', array(
+        'title'       => __('Site Data', 'stories'),
+        'description' => __('Define basic information about your website.', 'stories'),
+        'priority'    => 11,
     ));
-        // bio corta
-        $wp_customize->add_setting('bio', array(
-            'default' => __('Relatos y Cartas es un espacio dedicado a la creatividad y la expresión a través de las palabras. Aquí encontrarás cuentos, microcuentos, poemas e historias que buscan inspirar, emocionar y conectar con los lectores.'),
-        ));
-        $wp_customize->add_control('bio', array(
-            'label' => 'Bio corta',
-            'section' => 'site__data',
-            'type' => 'textarea',
-        ));  
+
+    // ====== SETTING: Short Bio ======
+    $wp_customize->add_setting('stories_bio', array(
+        'default'           => __('Relatos y Cartas is a space dedicated to creativity and expression through words. Here you will find stories, micro-stories, poems, and letters that seek to inspire, move, and connect with readers.', 'stories'),
+        'sanitize_callback' => 'wp_kses_post', // Allows safe HTML
+    ));
+
+    // ====== CONTROL: Short Bio ======
+    $wp_customize->add_control('stories_bio', array(
+        'label'   => __('Short Bio', 'stories'),
+        'section' => 'stories_site_data',
+        'type'    => 'textarea',
+    ));
 }
-add_action('customize_register', 'theme_customizer');
+add_action('customize_register', 'stories_customize_register');
