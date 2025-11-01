@@ -57,7 +57,7 @@
     .block {
         & .content.container {
             & .slideshow--wrapper {
-                width: var(--max-width--content);
+                width: calc(var(--max-width--content) + 2.5rem);
 
                 & .slideshow {
                     width: 202%;

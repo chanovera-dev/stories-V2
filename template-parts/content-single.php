@@ -89,14 +89,12 @@
                 <h2><?php echo esc_html_e( 'Contenido relacionado', 'stories' ); ?></h2>
             </div>
             <div class="content container">
-                <div class="slideshow--wrapper">
-                    <div class="related-posts--list slideshow">
-                        <?php 
-                            while ($related_posts->have_posts()) : $related_posts->the_post();
-                                get_template_part( 'template-parts/content', 'archive' );
-                            endwhile;
-                        ?>
-                    </div>
+                <div class="related-posts--list slideshow">
+                    <?php 
+                        while ($related_posts->have_posts()) : $related_posts->the_post();
+                            get_template_part( 'template-parts/content', 'archive' );
+                        endwhile;
+                    ?>
                 </div>
             </div>
             <div class="content slideshow-buttons">
