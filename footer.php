@@ -2,8 +2,8 @@
             <section class="block middle-footer">
                 <div class="content">
                     <div class="about">
-                        <h3 class="title-section">Sobre Relatos y Cartas</h3>
-                        <p class="section">Relatos y Cartas es un espacio dedicado a la creatividad y la expresión a través de las palabras. Aquí encontrarás cuentos, microcuentos, poemas e historias que buscan inspirar, emocionar y conectar con los lectores.</p>
+                        <h3 class="title-section">Sobre <?php bloginfo( 'title' ); ?></h3>
+                        <p class="section"><?php echo get_theme_mod('bio', 'Relatos y Cartas es un espacio dedicado a la creatividad y la expresión a través de las palabras. Aquí encontrarás cuentos, microcuentos, poemas e historias que buscan inspirar, emocionar y conectar con los lectores.'); ?></p>
                         <?php
                             wp_nav_menu(
                                 array(

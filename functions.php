@@ -38,6 +38,7 @@ $inc_files = array(
     'core'       => 'inc/core.php',
     'extended'   => 'inc/extended.php',
     'templates'  => 'inc/templates.php',
+    'customizer' => 'inc/customizer.php',
 );
 
 foreach ( $inc_files as $key => $relative_path ) {
