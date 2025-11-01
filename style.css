@@ -275,7 +275,7 @@ img {
                     margin-bottom: 1rem;
                 }
 
-                & .section {
+                & .site-bio {
                     font-size: var(--wp--preset--font-size--small);
                 }
             }
