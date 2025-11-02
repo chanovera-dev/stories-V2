@@ -200,10 +200,31 @@ body.is-chromium {
                     }
                 }
             }
+
+            & .content-author {
+                border-radius: 1.7rem;
+                corner-shape: squircle;
+
+                & .avatar {
+                    border-radius: 1rem;
+                    corner-shape: inherit;
+                }
+            }
         }
     }
 }
 
 :root :where(.wp-block-separator) {
     color: light-dark(var(--wp--preset--color--border-line), var(--wp--preset--color--border-line-dark));
+}
+
+/* DETRÁS DEL ESPEJO */
+.single-detras-del-espejo {
+    & .site-main {
+        & .single-post {
+            & .block:has(.content.content-comments) {
+                background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+            }
+        }
+    }
 }

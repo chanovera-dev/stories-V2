@@ -49,6 +49,15 @@
         }
     }
 
+    &.dde {
+        & .post--body {
+            & .post--body__header {
+                padding: 0;
+                border: none;
+            }
+        }
+    }
+
     & .post--header {
         aspect-ratio: 4 / 3;
         position: relative;

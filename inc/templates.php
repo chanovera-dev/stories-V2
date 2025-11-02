@@ -146,7 +146,7 @@ add_action( 'wp_enqueue_scripts', 'page_template' );
  * @return void
  */
 function posts_styles() {
-    if ( is_home() or is_archive() or is_search() ) {
+    if ( is_home() || is_archive() || is_search() || is_page_template( 'archive-detras-del-espejo.php' ) ) {
         $a = stories_get_assets();
         
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
