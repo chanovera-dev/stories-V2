@@ -50,7 +50,7 @@ input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type
 textarea:hover,
 select:hover {
     border-color: light-dark(var(--main--lighter), var(--main--lighter));
-    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
 }
 
 input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input):focus,
@@ -58,7 +58,7 @@ textarea:focus,
 select:focus {
     outline: 0;
     border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
-    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
 }
 
 ::placeholder {
@@ -257,12 +257,12 @@ textarea {
 [type="checkbox"]:not(:checked) + label:after,
 [type="checkbox"]:checked + label:after {
     content: "";
-    width: .8em;
-    height: .8em;
+    width: .6em;
+    height: .6em;
     border-radius: .15rem;
     position: absolute;
-    top: 0.32em;
-    left: 0.1em;
+    top: 0.44em;
+    left: 0.2em;
     background-color: light-dark(var(--main--lighter), var(--main--lighter));
     transition: all 0.2s;
 }
@@ -317,7 +317,7 @@ body.is-chromium {
 
     & [type="checkbox"]:not(:checked) + label:after,
     & [type="checkbox"]:checked + label:after {
-        height: .75em;
-        top: 0.35em;
+        height: .55em;
+        top: 0.45em;
     }
 }

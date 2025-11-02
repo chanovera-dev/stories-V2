@@ -19,6 +19,11 @@
 					"slug": "base-alpha-50"
 				},
 				{
+					"color": "#f5f7f540",
+					"name": "Base Alpha 25",
+					"slug": "base-alpha-25"
+				},
+				{
 					"color": "#3D4651",
 					"name": "Contrast",
 					"slug": "contrast"
@@ -27,6 +32,11 @@
 					"color": "#0000007e",
 					"name": "Contrast Alpha 50",
 					"slug": "contrast-alpha-50"
+				},
+				{
+					"color": "#00000040",
+					"name": "Contrast Alpha 25",
+					"slug": "contrast-alpha-25"
 				},
 				{
 					"color": "#eaeeea",
@@ -42,6 +52,11 @@
 					"color": "#2c7b2c7e",
 					"name": "Main Alpha 50",
 					"slug": "main-alpha-50"
+				},
+				{
+					"color": "#2c7b2c40",
+					"name": "Main Alpha 25",
+					"slug": "main-alpha-25"
 				},
                 {
 					"color": "color-mix(in srgb, currentColor 20%, transparent)",

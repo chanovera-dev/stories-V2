@@ -253,6 +253,18 @@ img {
     & ul {
         padding-left: 0;
         list-style: none;
+
+        & li {
+            & a {
+                &:hover {
+                    color: var(--main--lighter);
+
+                    &::before {
+                        background-color: var(--main--lighter);
+                    }
+                }
+            }
+        }
     }
 
     & .title-section {
@@ -636,12 +648,12 @@ img {
                                 padding-right: 60px;
                                 border-radius: 8px;
                                 border: 1px solid light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-6));
-                                background-color: light-dark(var(--wp--preset--color--base-alpha-50), var(--wp--preset--color--contrast-alpha-50));
+                                background-color: light-dark(var(--wp--preset--color--base-alpha-25), var(--wp--preset--color--contrast-alpha-25));
                                 transition: border-color .3s ease, box-shadow .3s ease;
 
                                 &:hover {
                                     border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
-                                    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+                                    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
                                 }
 
                                 &:focus {
@@ -667,7 +679,7 @@ img {
                                     transition: background-color .3s ease, border-color .3s ease;
 
                                     &:hover {
-                                        background-color: var(--wp--preset--color--main-alpha-50);
+                                        background-color: var(--wp--preset--color--main-alpha-25);
                                     }
 
                                     &:focus-visible {

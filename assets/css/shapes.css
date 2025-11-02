@@ -209,7 +209,7 @@
 
     &:hover {
         border-color: var(--wp--preset--color--main);
-        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
         z-index: 1;
     }
 
