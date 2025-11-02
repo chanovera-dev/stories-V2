@@ -264,7 +264,7 @@ header.block {
         & .content {
             & .tree--wrapper {
                 & .tree {
-                    filter: brightness(.2);
+                    filter: brightness(.4);
                 }
 
                 & .tree-leaves {
@@ -324,19 +324,19 @@ header.block {
 @keyframes leaves-wind--night {
   0%, 100% {
     transform: translateX(0) translateY(0) scaleY(1);
-    filter: brightness(.2);
+    filter: brightness(.4);
   }
   25% {
     transform: translateX(2px) translateY(1px) scaleY(.999);
-    filter: brightness(.2);
+    filter: brightness(.4);
   }
   50% {
     transform:  translateX(-2px) translateY(-2px) scaleY(1.001);
-    filter: brightness(.2);
+    filter: brightness(.4);
   }
   75% {
     transform: translateX(3px) translateY(0) scaleY(.999);
-    filter: brightness(.2);
+    filter: brightness(.4);
   }
 }
 
