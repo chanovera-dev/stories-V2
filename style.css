@@ -529,12 +529,23 @@ img {
 }
 
 @media (width >= 1024px) {
+    :is(.scroll-down,.scroll-up) {
+        & #main-header {
+            & .block {
+                & .content {
+                    padding: 0;
+                }
+            }
+        }
+    }
+
     & #main-header {
         & .block {
             & .content {
                 display: flex;
                 align-items: center;
                 width:fit-content;
+                transition: padding .3s ease-in-out;
 
                 > * {
                     position: relative;
