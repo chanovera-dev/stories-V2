@@ -18,7 +18,27 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main">
 
+    <?php if ( ! is_paged() ) : ?>
+    <header class="block">
+        <div class="content">
+            <div class="clouds--wrapper">
+                <div class="clouds">
+                    <div class="c1 one"></div>
+                    <div class="c1 two"></div>
+                    <div class="c1 three"></div>
+                    <div class="c1 four"></div>
+                    <div class="c2 one"></div>
+                    <div class="c2 two"></div>
+                    <div class="c2 three"></div>
+                    <div class="c2 four"></div>
+                </div>
+            </div>
+            <div class="stars"></div>
+        </div>
+    </header>
+    <?php else : ?>
     <?php wp_breadcrumbs(); ?>
+    <?php endif; ?>
 
     <!-- Archive Posts Section -->
     <section class="block posts--body">

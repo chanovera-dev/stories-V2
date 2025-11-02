@@ -1,0 +1,215 @@
+header.block {
+    & .content {
+        width: 100dvw;
+        max-width: 1366px;
+        padding: 1.2rem;
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            z-index: -1;
+            background: linear-gradient(
+                to bottom,
+                light-dark(var(--background-sky-2), var(--background-sky-2--night)) 0%,
+                light-dark(var(--background-sky-2), var(--background-sky-2--night)) 40%,
+                light-dark(var(--background-sky-1), var(--background-sky-1--night)) 100%
+            );
+            background-size: 100% 200%;
+            background-position: top;
+            transition: background-position 0.5s ease;
+            animation: sky-content 2.5s ease forwards;
+        }
+
+        & .clouds--wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            
+            & .clouds {
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                opacity: 0;
+                overflow: hidden;
+                animation: opacity-clouds .6s ease 1.5s forwards;
+            }
+        }
+
+        & .stars,
+        & .twinkling {
+            background: transparent url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: opacity-stars .6s ease 1.5s forwards;
+        }
+    }
+}
+
+.c1, .c2 {
+    width: 400px;
+    height: 350px;
+    position: absolute;
+    background: transparent url("https://relatosycartas.com/wp-content/themes/stories/assets/img/clouds.webp") 0 0 no-repeat;
+    background-size: 100%;
+    z-index:999;
+    animation: moving-clouds 60s linear infinite;
+}
+
+.c1.one, .c2.one {
+    top: -260px;
+    left: 0px;
+}
+.c1.two, .c2.two {
+    top: -200px;
+    left: 100px;
+}
+.c1.three, .c2.three {
+    top: -240px;
+    right: 100px;
+}
+.c1.four, .c22.four {
+    top: -180px;
+    right: 0px;
+}
+
+.c2 .one {
+    top: -209px;
+}
+
+@media (width < 600px) {
+    header.block {
+        & .content {
+            min-height: 500px;
+        }
+    }
+}
+
+@media (width >= 768px) {
+    header.block {
+        & .content {
+            min-height: 450px;
+            width: var(--max-width--content);
+        }
+    }
+}
+
+@keyframes sky-content {
+  0% {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-position: top; /* solo el primer color */
+  }
+
+  50% {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-position: top;
+  }
+
+  70% {
+    width: 100%;
+    height: 100%;
+    border-radius: 10rem;
+    background-position: top; /* empieza a mezclarse */
+  }
+
+  100% {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    background-position: bottom; /* el gradiente se asienta: atmósfera completa */
+  }
+}
+
+@keyframes webkit-sky-content {
+  0% {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    corner-shape: round;
+    background-position: top; /* solo el primer color */
+  }
+
+  50% {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    corner-shape: round;
+    background-position: top;
+  }
+
+  70% {
+    width: 100%;
+    height: 100%;
+    border-radius: 10rem;
+    corner-shape: squircle;
+    background-position: top; /* empieza a mezclarse */
+  }
+
+  100% {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    corner-shape: squircle;
+    background-position: bottom; /* el gradiente se asienta: atmósfera completa */
+  }
+}
+
+@keyframes opacity-clouds {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: var(--opacity-clouds);
+    }
+}
+
+@keyframes opacity-stars {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: var(--opacity-stars);
+    }
+}
+
+@keyframes move-background {
+  from {
+		transform: translate3d(0px, 0px, 0px);
+	}
+	to { 
+		transform: translate3d(1000px, 0px, 0px);
+	}
+}
+
+body.is-chromium {
+    & header.block {
+        & .content {
+            border-radius: 2rem;
+            corner-shape: squircle;
+
+            &::before {
+                corner-shape: inherit;
+                animation: webkit-sky-content 2.5s ease forwards;
+            }
+        }
+    }
+}

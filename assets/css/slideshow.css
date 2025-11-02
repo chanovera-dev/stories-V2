@@ -45,22 +45,10 @@
     .block {
         & .content.container {
             & .slideshow--wrapper {
-                & .slideshow {
-                    width: 270%;
-                }
-            }
-        }
-    }
-}
-
-@media (width >= 1366px) {
-    .block {
-        & .content.container {
-            & .slideshow--wrapper {
                 width: calc(var(--max-width--content) + 2.5rem);
 
                 & .slideshow {
-                    width: 202%;
+                    width: 270%;
                 }
             }
         }

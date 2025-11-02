@@ -76,10 +76,12 @@ function stories_get_assets() {
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
             'slideshow'          => "$assets_path/css/slideshow.css",
+            'clouds-styles'      => "$assets_path/css/clouds.css"
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
+            'clouds-script'      => "$assets_path/js/clouds.js",
         ]
     ];
 }
@@ -148,6 +150,11 @@ add_action( 'wp_enqueue_scripts', 'page_template' );
 function posts_styles() {
     if ( is_home() || is_archive() || is_search() || is_page_template( 'archive-detras-del-espejo.php' ) ) {
         $a = stories_get_assets();
+
+        if ( is_home() && is_main_query() && !is_paged() ) {
+            stories_enqueue_style( 'clouds-styles', $a['css']['clouds-styles'] );
+            stories_enqueue_script( 'clouds-script', $a['js']['clouds-script'] );
+        }
         
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
         stories_enqueue_style( 'posts', $a['css']['posts'] );
