@@ -39,18 +39,6 @@ header.block {
 
     & .categories {
         width: min(100% - 2.5rem, 40.313rem);
-        margin-bottom: 1.25rem;
-    }
-
-    &.container--related-posts {
-        background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
-        display: grid;
-        gap: 2rem;
-        padding: 3rem 0;
-
-        & .content.related-posts--title {
-            text-align: center;
-        }
     }
 
     & .content-tags {
@@ -59,13 +47,11 @@ header.block {
         align-items: center;
         flex-wrap: wrap;
         gap: .438rem;
-        padding-bottom: 2.5rem;
     }
 
     & .content-author {
         width: min(100% - 2.5rem, 40.313rem) !important;
         padding: 1.25rem;
-        margin-bottom: 2.5rem;
         border: 0.063rem solid var(--wp--preset--color--accent-6);
         border-radius: 1rem;
 
@@ -88,10 +74,59 @@ header.block {
         }
     }
 
+    & .post-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2.5rem;
+
+        & :is(.left,.right) {
+            & a {
+                & .pagination-indicator {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 7px;
+                    transition: color .3s ease;
+                }
+
+                &:hover {
+                    & .pagination-indicator {
+                        color: var(--wp--preset--color--main);
+                    }
+                }
+            }
+        }
+
+        & .right {
+            text-align: right;
+        }
+    }
+
+    &.container--related-posts {
+        background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+        display: grid;
+        gap: 2rem;
+        padding: 3rem 0;
+
+        & .content.related-posts--title {
+            text-align: center;
+        }
+    }
+
     & .content-comments {
         width: min(100% - 2.5rem, 40.313rem) !important;
         padding-top: 2.5rem;
         padding-bottom: 2.5rem;
+    }
+}
+
+.block.image-metadata {
+    padding: 2.5rem 0;
+    display: grid;
+    gap: 1rem;
+
+    & .content.date.categories.tags {
+        width: min(100% - 2.5rem, 40.313rem) !important;
     }
 }
 

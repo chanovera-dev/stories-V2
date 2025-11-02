@@ -1,5 +1,4 @@
 header.block {
-    margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
 
@@ -27,10 +26,10 @@ header.block {
     }
 }
 
-.block {
-    & .is-layout-constrained {
-        padding-bottom: 2.5rem;
-    }
+.block:has(.is-layout-constrained) {
+    padding: 2.5rem 0;
+    display: grid;
+    gap: 2.5rem;
 }
 
 @media (width < 31.25rem) {
