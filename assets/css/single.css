@@ -37,6 +37,22 @@ header.block {
         }
     }
 
+    & .content.date.categories.tags {
+        width: min(100% - 2.5rem, 40.313rem) !important;
+
+        & .date {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: var(--wp--preset--font-size--small);
+
+            & svg {
+                width: 1em;
+                height: 1em;
+            }
+        }
+    }
+
     & .categories {
         width: min(100% - 2.5rem, 40.313rem);
     }
@@ -123,11 +139,7 @@ header.block {
 .block.image-metadata {
     padding: 2.5rem 0;
     display: grid;
-    gap: 1rem;
-
-    & .content.date.categories.tags {
-        width: min(100% - 2.5rem, 40.313rem) !important;
-    }
+    gap: 2rem;
 }
 
 @media (width < 31.25rem) {
