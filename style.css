@@ -86,7 +86,7 @@ img {
                 }
             }
 
-            & > div {
+            & > div:has(.search-mobile__button) {
                 margin-left: auto;
 
                 .search-mobile__button {
