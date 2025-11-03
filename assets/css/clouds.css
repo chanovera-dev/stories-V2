@@ -48,7 +48,7 @@ header.block {
         }
 
         & .stars {
-            background: transparent url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
+            background: transparent url(https://relatosycartas.com/wp-content/themes/stories/assets/img/stars.webp) repeat;
             opacity: 0;
             position: absolute;
             top: 0;
