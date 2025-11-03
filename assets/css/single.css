@@ -21,6 +21,16 @@ header.block {
                 }
             }
         }
+
+        & .wp-block-video {
+            video {
+                width: 100%;
+                max-width: 400px;
+                display: flex;
+                margin-inline: auto;
+                border-radius: 1rem;
+            }
+        }
     }
 }
 
@@ -187,6 +197,17 @@ header.block {
 
 body.is-chromium {
     .site-main {
+        header.block {
+            & .content {
+                & .wp-block-video {
+                    video {
+                        border-radius: 2rem;
+                        corner-shape: squircle;
+                    }
+                }
+            }
+        }
+
         .block {
             & .is-layout-constrained {
                 & .wp-block-image.alignwide.size-large {
