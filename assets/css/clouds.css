@@ -86,6 +86,22 @@ header.block {
                 animation: leaves-wind 5s ease-in-out .3s infinite;
             }
         }
+
+        & .container {
+            position: relative;
+            color: #fff;
+            opacity: 0;
+            animation: text-entrance 1.5s ease-in-out 1.5s forwards;
+
+            & h2,
+            & h3 {
+                text-shadow: 1px 1px 1px #8992ab,
+                             1px 2px 6px #00011166,
+                             1px 3px 10px #00011133,
+                             1px 4px 35px #00011133,
+                             1px 5px 60px #00011166;
+            }
+        }
     }
 }
 
@@ -198,6 +214,10 @@ header.block {
         & .content {
             min-height: 450px;
             width: var(--max-width--content);
+
+            & .container {
+                max-width: 60%;
+            }
         }
     }
 
@@ -351,6 +371,26 @@ header.block {
   }
 }
 
+@keyframes tree-entrance {
+    0% { 
+        transform: translate(130%, 0px);
+    }
+    100% {
+        transform: translate(0, 0px);
+    }
+}
+
+@keyframes text-entrance {
+    0% { 
+        transform: translate(-130%, 0px);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0, 0px);
+        opacity: 1;
+    }
+}
+
 body.is-chromium {
     & header.block {
         & .content {
@@ -362,14 +402,5 @@ body.is-chromium {
                 animation: webkit-sky-content 2.5s ease forwards;
             }
         }
-    }
-}
-
-@keyframes tree-entrance {
-    0% { 
-        transform: translate(130%, 0px);
-    }
-    100% {
-        transform: translate(0, 0px);
     }
 }
