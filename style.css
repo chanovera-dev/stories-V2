@@ -67,6 +67,8 @@ img {
             padding: .625rem 0;
 
             & .site-brand {
+                animation: tilt-in-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
                 & a {
                     &:hover {
                         color: var(--wp--preset--color--main);
@@ -331,6 +333,42 @@ img {
     }
 }
 
+@media (width < 769px) {
+    #main-header {
+        & .block {
+            & .content {
+                & .search-mobile__button {
+                    animation: tilt-in-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s both;
+                }
+
+                & .menu-mobile__button {
+                    animation: tilt-in-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) .6s both;
+                }
+            }
+        }
+    }
+}
+
+@media (width >=769px) {
+    #main-header {
+        & .block {
+            & .content {
+                & .navigation-searchform--wrapper {
+                    & .main-navigation {
+                        & .menu {
+                            animation: tilt-in-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s both;
+                        }
+                    }
+                }
+
+                & .search-mobile__button {
+                    animation: tilt-in-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) .6s both;
+                }
+            }
+        }
+    }
+}
+
 @media (width < 1024px) {
     #main-header {
         & .block {
@@ -580,6 +618,7 @@ img {
                     width: 1px;
                     min-height: 43.8px;
                     background: linear-gradient(to bottom, transparent 10%, var(--line-1) 40%, var(--line-1) 60%, transparent 90%);
+                    animation: header-separators .6s 2.7s both;
                 }
 
                 & .site-brand {
@@ -742,5 +781,23 @@ body.is-chromium {
     & #searchsubmit {
         border-radius: 12px !important;
         corner-shape: squircle;
+    }
+}
+
+@keyframes tilt-in-top {
+    0%  {transform:rotateY(30deg) translateY(-300px) skewY(-30deg);}
+    100%{transform:rotateY(0deg) translateY(0) skewY(0deg);}
+}
+
+@keyframes header-separators {
+    0%  {
+        min-height: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    100% {
+        min-height: 43.8px;
+        top: 0;
+        transform: translateY(0);
     }
 }
