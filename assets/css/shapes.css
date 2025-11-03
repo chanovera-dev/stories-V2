@@ -407,6 +407,7 @@ ul {
 
 @media (width >= 600px) {
     .post {
+        &.video,
         &.image {
             & header.post--header {
                 min-height: 350px;
