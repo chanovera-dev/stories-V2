@@ -47,8 +47,7 @@ header.block {
             }
         }
 
-        & .stars,
-        & .twinkling {
+        & .stars {
             background: transparent url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
             opacity: 0;
             position: absolute;
@@ -77,6 +76,14 @@ header.block {
                 left: 0;
                 width: 100%;
                 animation: leaves-wind 5s ease-in-out infinite;
+            }
+
+            & .tree-leaves-2 {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                animation: leaves-wind 5s ease-in-out .3s infinite;
             }
         }
     }
