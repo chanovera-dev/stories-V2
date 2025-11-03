@@ -48,7 +48,7 @@ header.block {
         }
 
         & .stars {
-            background: transparent url("https://relatosycartas.com/wp-content/themes/stories/assets/img/stars.webp") repeat;
+            background: transparent url("https://relatosycartas.com/wp-content/themes/stories-V2/assets/img/stars.webp") repeat;
             opacity: 0;
             position: absolute;
             top: 0;
@@ -109,7 +109,7 @@ header.block {
     width: 400px;
     height: 350px;
     position: absolute;
-    background: transparent url("https://relatosycartas.com/wp-content/themes/stories/assets/img/clouds.webp") 0 0 no-repeat;
+    background: transparent url("https://relatosycartas.com/wp-content/themes/stories-V2/assets/img/clouds.webp") 0 0 no-repeat;
     background-size: 100%;
     z-index:999;
     animation: moving-clouds 60s linear infinite;
