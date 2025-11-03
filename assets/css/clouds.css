@@ -277,6 +277,10 @@ header.block {
                 & .tree-leaves {
                     animation: leaves-wind--night 5s ease-in-out infinite;
                 }
+
+                & .tree-leaves-2 {
+                    animation: leaves-wind--night 5s ease-in-out .3s infinite;
+                }
             }
         }
     }
