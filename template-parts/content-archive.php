@@ -1,4 +1,4 @@
-<article class="post">
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="post--header glass-bright">
         <?php echo get_the_post_thumbnail( null, 'post-header-thumbnail', [ 'class' => 'post-thumbnail', 'alt'   => get_the_title(), 'loading' => 'lazy' ] ); ?>
         <div class="glass-reflex"></div>
