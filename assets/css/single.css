@@ -195,5 +195,5 @@ body.is-chromium {
 }
 
 :root :where(.wp-block-separator) {
-    color: light-dark(var(--wp--preset--color--border-line), var(--wp--preset--color--border-line-dark));
+    color: light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-7));
 }

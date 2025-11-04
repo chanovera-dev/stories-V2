@@ -78,7 +78,7 @@ img {
                 }
             }
 
-            & > div {
+            & > div:has(.search-mobile__button) {
                 margin-left: auto;
 
                 .search-mobile__button {
@@ -554,24 +554,10 @@ img {
     & #main-header {
         & .block {
             & .content {
-                display: flex;
+                display: grid;
                 align-items: center;
-                width:fit-content;
+                grid-template-columns: 1fr auto 1fr;
                 transition: padding .3s ease-in-out;
-
-                > * {
-                    position: relative;
-                }
-
-                > *:not(:nth-child(1),:last-child):after {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    content: '';
-                    width: 1px;
-                    min-height: 43.8px;
-                    background: linear-gradient(to bottom, transparent 10%, var(--line-1) 40%, var(--line-1) 60%, transparent 90%);
-                }
 
                 & .site-brand {
                     padding-right: 1.2rem;
@@ -597,9 +583,8 @@ img {
                         & .menu {
                             display: flex;
                             align-items: center;
-                            padding: 0 1.2rem;
                             width: 700px;
-                            max-width: 180px;
+                            max-width: fit-content;
                             transition: max-width .6s ease-in-out, padding .6s ease-in-out;
                             
                             &.hide {
@@ -610,16 +595,31 @@ img {
 
                                 & li {
                                     & a {
+                                        padding: 0;
                                         font-size: 0;
                                         opacity: 0;
-                                        transition: font-size 0s ease, opacity 0s ease;
+                                        transition: font-size 0s ease, opacity 0s ease, padding 0s ease;
                                     }
                                 }
                             }
 
+                            > *:not(:nth-child(1)):after {
+                                position: absolute;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                left: 0;
+                                content: '';
+                                width: 1px;
+                                min-height: 43.8px;
+                                background: linear-gradient(to bottom, transparent 10%, var(--line-1) 40%, var(--line-1) 60%, transparent 90%);
+                            }
+
                             & li {
+                                position: relative;
+
                                 & a {
-                                    transition: font-size .3s .6s, opacity .3s .8s;
+                                    padding: 0 1.2rem;
+                                    transition: font-size .3s .6s, opacity .3s .8s, padding .3s .6s;
                                 }
                             }
                         }
@@ -639,8 +639,6 @@ img {
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
-                            opacity: 0;
-                            transition: opacity .3s ease-in-out .7s;
 
                             input[type="text"] {
                                 width: 350px;
