@@ -44,27 +44,29 @@ select {
     border: 0.063rem solid var(--wp--preset--color--accent-6);
     border-radius: .5rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
 
-input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input):hover,
-textarea:hover,
-select:hover {
-    border-color: light-dark(var(--main--lighter), var(--main--lighter));
-    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
-}
+    &:hover {
+        border-color: light-dark(var(--main--lighter), var(--main--lighter));
+        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
+    }
 
-input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]):not(.wp-block-search__input):focus,
-textarea:focus,
-select:focus {
-    outline: 0;
-    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
-    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
-}
+    &:focus-visible {
+        outline: none;
+        border-color: light-dark(orangered, orangered);
+        box-shadow: 0 0 0 .2rem #ff44007e;
+    }
 
-::placeholder {
-    font-family: var(--wp--preset--font-family--libre-manrope);
-    font-size: var(--wp--preset--font-size--medium);
-    opacity: .5;
+    &:focus {
+        outline: 0;
+        border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
+    }
+
+    &::placeholder {
+        font-family: var(--wp--preset--font-family--libre-manrope);
+        font-size: var(--wp--preset--font-size--medium);
+        opacity: .5;
+    }
 }
 
 select {
@@ -157,6 +159,11 @@ textarea {
 
     &:active {
         transform: translate(1px, 1px);
+    }
+
+    &:focus-visible {
+      outline: none;
+        background-color: orangered;
     }
 }
 

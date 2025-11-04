@@ -569,7 +569,6 @@ img {
 
                     & .main-navigation {
                         & .glass-backdrop {
-                            filter-backdrop: none;
                             background-color: transparent;
                         }
 
@@ -650,12 +649,19 @@ img {
                                 transition: border-color .3s ease, box-shadow .3s ease;
 
                                 &:hover {
-                                    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+                                    border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main-alpha-50));
                                     box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
                                 }
 
                                 &:focus {
+                                    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
                                     outline: none;
+                                }
+
+                                &:focus-visible {
+                                    outline: none;
+                                    border-color: light-dark(orangered, orangered);
+                                    box-shadow: 0 0 0 .2rem #ff44007e;
                                 }
                             }
 
