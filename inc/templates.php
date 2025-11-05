@@ -76,10 +76,12 @@ function stories_get_assets() {
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
             'slideshow'          => "$assets_path/css/slideshow.css",
+            'home-slideshow'     => "$assets_path/css/home-slideshow.css",
             'clouds-styles'      => "$assets_path/css/clouds.css"
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
+            'home-slideshow-js'  => "$assets_path/js/home-slideshow.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
             'clouds-script'      => "$assets_path/js/clouds.js",
         ]
@@ -153,7 +155,9 @@ function posts_styles() {
 
         if ( is_home() && is_main_query() && !is_paged() ) {
             stories_enqueue_style( 'clouds-styles', $a['css']['clouds-styles'] );
+            stories_enqueue_style( 'home-slideshow', $a['css']['home-slideshow'] );
             stories_enqueue_script( 'clouds-script', $a['js']['clouds-script'] );
+            stories_enqueue_script( 'slideshow', $a['js']['home-slideshow-js'] ); 
         }
         
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
