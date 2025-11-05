@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  let firstRun = true; // ✅ bandera para saber si es la primera animación
+
   /**
-   * Función que aplica el efecto de aparición con blur por palabra
-   * a un elemento heading dentro de una quote-item activa.
+   * Aplica el efecto de aparición con blur por palabra
+   * al heading dentro del quote-item activo.
    */
   function animateQuote(quoteItem) {
     const titleEl = quoteItem.querySelector(".quote-content .wp-block-heading");
@@ -27,7 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
       wordSpan.style.opacity = "0";
       wordSpan.style.filter = "blur(20px)";
       wordSpan.style.transition = "filter 0.6s ease-out, opacity 0.6s ease-out";
-      wordSpan.style.transitionDelay = `${index * 0.25}s`;
+
+      // ⏱️ Añadimos retardo adicional solo en la primera ejecución
+      const baseDelay = index * 0.25;
+      const extraDelay = firstRun ? 2.5 : 0;
+      wordSpan.style.transitionDelay = `${baseDelay + extraDelay}s`;
 
       titleEl.appendChild(wordSpan);
 
@@ -39,12 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
         spaceSpan.style.opacity = "0";
         spaceSpan.style.filter = "blur(20px)";
         spaceSpan.style.transition = "filter 0.6s ease-out, opacity 0.6s ease-out";
-        spaceSpan.style.transitionDelay = `${index * 0.25}s`;
+        spaceSpan.style.transitionDelay = `${baseDelay + extraDelay}s`;
         titleEl.appendChild(spaceSpan);
       }
     });
 
-    // Disparar animación
+    // Activar animación
     requestAnimationFrame(() => {
       const spans = titleEl.querySelectorAll(".word, span[aria-hidden='true']");
       spans.forEach((span) => {
@@ -52,11 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
         span.style.filter = "blur(0)";
       });
     });
+
+    // Después de la primera ejecución, desactivar el retardo adicional
+    if (firstRun) firstRun = false;
   }
 
   /**
-   * Detecta cuándo un .quote-item gana o pierde la clase .active
-   * usando MutationObserver.
+   * Observa los cambios de clase en los quote-item
    */
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -68,19 +76,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const el = mutation.target;
 
         if (el.classList.contains("active")) {
-          // pequeña pausa para que si se cambia rápido no se corte
+          // ligera pausa para evitar que se corte al cambiar rápido
           setTimeout(() => animateQuote(el), 100);
         }
       }
     });
   });
 
-  // Observar todos los quote-item del slideshow
+  // Observar todos los quote-item
   document.querySelectorAll(".quote-item").forEach((item) => {
     observer.observe(item, { attributes: true });
   });
 
-  // También animar el que esté activo al cargar la página
+  // Animar el que esté activo al cargar la página
   const activeOnLoad = document.querySelector(".quote-item.active");
   if (activeOnLoad) animateQuote(activeOnLoad);
 });
