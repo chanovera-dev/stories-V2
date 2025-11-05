@@ -16,6 +16,12 @@
                 & .quote-item {
                     padding: 20px;
                     border: none;
+                    opacity: 0;
+                    transition: opacity .3s ease-in-out .3s;
+
+                    &.active {
+                        opacity: 1;
+                    }
 
                     & .quote-content {
                         & > *:not(:last-child) {

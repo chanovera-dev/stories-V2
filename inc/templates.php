@@ -84,6 +84,7 @@ function stories_get_assets() {
             'home-slideshow-js'  => "$assets_path/js/home-slideshow.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
             'clouds-script'      => "$assets_path/js/clouds.js",
+            'blur-typing'        => "$assets_path/js/blur-typing.js",
         ]
     ];
 }
@@ -158,6 +159,7 @@ function posts_styles() {
             stories_enqueue_style( 'home-slideshow', $a['css']['home-slideshow'] );
             stories_enqueue_script( 'clouds-script', $a['js']['clouds-script'] );
             stories_enqueue_script( 'slideshow', $a['js']['home-slideshow-js'] ); 
+            stories_enqueue_script( 'blur-typing', $a['js']['blur-typing'] ); 
         }
         
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
