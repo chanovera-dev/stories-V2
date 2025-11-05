@@ -61,6 +61,7 @@
                 left: 0;
                 bottom: 0;
                 width: 100%;
+                transform: translateX(100%);
                 animation: bullets-in .6s ease-in-out 2.5s;
 
                 & .slideshow-bullets {
