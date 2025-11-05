@@ -88,6 +88,11 @@
 
                 & .btn-pagination {
                     &.small-pagination {
+
+                        &:hover {
+                            background-color: light-dark(var(--wp--preset--color--contrast-alpha-50), var(--wp--preset--color--base-alpha-50));
+                        }
+
                         & svg {
                             fill: var(--wp--preset--color--base);
                         }
@@ -118,5 +123,19 @@
     100% {
         transform: translate(0, 0px);
         opacity: 1;
+    }
+}
+
+body.is-chromium {
+    .block {
+        & .content {
+            & .container {
+                & .slideshow-bullets-wrapper {
+                    & .btn-pagination {
+                        border-radius: 2rem;
+                    }
+                }
+            }
+        }
     }
 }
