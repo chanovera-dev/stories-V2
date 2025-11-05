@@ -88,7 +88,8 @@
 
                 & .btn-pagination {
                     &.small-pagination {
-
+                        border-radius: .7rem;
+                        
                         &:hover {
                             background-color: light-dark(var(--wp--preset--color--contrast-alpha-50), var(--wp--preset--color--base-alpha-50));
                         }
