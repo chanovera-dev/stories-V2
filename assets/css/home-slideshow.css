@@ -1,36 +1,54 @@
 .block {
     & .content {
-        & .slideshow--wrapper {
-            position: relative;
+        & .container {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            color: #fff;
-            opacity: 0;
-            animation: text-entrance 1.5s ease-in-out 1.5s forwards;
-
-            & .slideshow {
+            
+            & .slideshow--wrapper {
+                width: 100%;
                 height: 100%;
-                display: flex;
+                overflow: hidden;
+                color: #fff;
+                opacity: 0;
+                animation: text-entrance 1.5s ease-in-out 1.5s forwards;
 
-                & .quote-item {
-                    padding: 20px;
-                    border: none;
-                    opacity: 0;
-                    transition: opacity .3s ease-in-out .3s;
+                & .slideshow {
+                    height: 100%;
+                    display: flex;
 
-                    &.active {
-                        opacity: 1;
-                    }
+                    & .quote-item {
+                        padding: 20px;
+                        border: none;
+                        opacity: 0;
+                        transition: opacity .3s ease-in-out .3s;
 
-                    & .quote-content {
-                        & > *:not(:last-child) {
-                            margin-bottom: 1.5rem;
+                        &.active {
+                            opacity: 1;
+
+                            & .quote-content {
+                                & h3 {
+                                    transform: translateX(0);
+                                }
+                            }
                         }
 
-                        & h2,
-                        & h3 {
-                            text-shadow: var(--modern-text-shadow);
+                        & .quote-content {
+                            & > *:not(:last-child) {
+                                margin-bottom: 1.5rem;
+                            }
+
+                            & h2,
+                            & h3 {
+                                text-shadow: var(--modern-text-shadow);
+                            }
+
+                            & h3 {
+                                transform: translateX(100%);
+                                transition: transform .6s ease-in-out 1.5s;
+                            }
                         }
                     }
                 }
@@ -40,6 +58,10 @@
                 padding: 20px;
                 display: flex;
                 align-items: center;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
 
                 & .slideshow-bullets {
                     padding-left: 0;
@@ -79,8 +101,10 @@
 @media (width >= 768px) {
     .block {
         & .content {
-            & .slideshow--wrapper {
-                width: 60%;
+            & .container {
+                & .slideshow--wrapper {
+                    width: 60%;
+                }
             }
         }
     }
