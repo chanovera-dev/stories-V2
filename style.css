@@ -582,7 +582,7 @@ img {
                         & .menu {
                             display: flex;
                             align-items: center;
-                            width: 700px;
+
                             max-width: fit-content;
                             transition: max-width .6s ease-in-out, padding .6s ease-in-out;
                             
