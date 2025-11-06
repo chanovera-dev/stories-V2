@@ -246,6 +246,9 @@
                 left: 0;
                 padding: .6rem;
                 z-index: 4;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2px;
 
                 & a {
                     border-radius: 4px;
