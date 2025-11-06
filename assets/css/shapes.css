@@ -63,6 +63,26 @@
                 }
             }
 
+            & .post--body__content {
+                padding-top: .6rem;
+
+                & .date {
+                    display: flex; 
+                    align-items: center;
+                    gap: 7px;
+                    opacity: .5;
+
+                    & p {
+                        text-transform: capitalize;
+                    }
+
+                    & svg {
+                        width: 13px;
+                        height: 13px;
+                    }
+                }
+            }
+
             & .post--body__footer {
                 padding-top: 12px;
                 margin-top: 12px;
