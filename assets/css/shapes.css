@@ -127,6 +127,10 @@
                     color: var(--wp--preset--color--base);
                     text-shadow: var(--modern-text-shadow);
 
+                    & p {
+                        text-transform: capitalize;
+                    }
+
                     & svg {
                         filter: drop-shadow(2px 3px 5px #000);
                     }
