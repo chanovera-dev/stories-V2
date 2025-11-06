@@ -114,6 +114,23 @@
                         border-radius: 4px;
                     }
                 }
+
+                & .date {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    padding: .6rem;
+                    z-index: 2;
+                    display: flex; 
+                    align-items: center;
+                    gap: 7px;
+                    color: var(--wp--preset--color--base);
+                    text-shadow: var(--modern-text-shadow);
+
+                    & svg {
+                        filter: drop-shadow(2px 3px 5px #000);
+                    }
+                }
             }
 
             & .post--body__footer {
