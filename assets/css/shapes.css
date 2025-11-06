@@ -64,26 +64,6 @@
                     }
                 }
             }
-
-            & .post--body__content {
-                padding-top: .6rem;
-
-                & .date {
-                    display: flex; 
-                    align-items: center;
-                    gap: 7px;
-                    opacity: .5;
-
-                    & p {
-                        text-transform: capitalize;
-                    }
-
-                    & svg {
-                        width: 13px;
-                        height: 13px;
-                    }
-                }
-            }
         }
     }
 
@@ -177,22 +157,6 @@
                         }
                     }
                 }
-
-                & .date {
-                    display: flex; 
-                    align-items: center;
-                    gap: 7px;
-                    opacity: .5;
-                    
-                    & p {
-                        text-transform: capitalize;
-                    }
-
-                    & svg {
-                        width: 13px;
-                        height: 13px;
-                    }
-                }
             }
         }
     }
@@ -258,6 +222,24 @@
 
         & .post--body__content {
             padding: .625rem;
+            display:grid;
+            gap: .625rem;
+
+            & .date {
+                display: flex; 
+                align-items: center;
+                gap: 7px;
+                opacity: .5;
+
+                & p {
+                    text-transform: capitalize;
+                }
+
+                & svg {
+                    width: 13px;
+                    height: 13px;
+                }
+            }
         }
 
         & .post--body__footer {
@@ -553,7 +535,7 @@ ul {
 
 @media (width < 600px) {
     .post {
-        &.format-video,
+        &.video,
         &.format-image {
             & .post--body {
                 & header.post--body__header {
@@ -595,21 +577,9 @@ body.is-chromium {
         }
 
         & .post--body {
-            & .post--body__header {
-                border-radius: 1rem;
-                corner-shape: squircle;
-            }
-            
-            & .post--body__footer {
-                & .post--tags {
-                    & .tag-type {
-                        border-radius: 1rem;
-                    }
-                }
-
-                &::after {
-                    border-radius: 2rem;
-                    corner-shape: squircle;
+            & .post--tags {
+                & .tag-type {
+                    border-radius: 1rem;
                 }
             }
         }
