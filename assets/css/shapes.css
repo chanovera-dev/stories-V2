@@ -61,6 +61,23 @@
                         border-radius: 4px;
                     }
                 }
+
+                & .post--permalink {
+                    position: absolute;
+                    z-index: 4;
+                    top: 0;
+                    right: 0;
+                    transition: background-color .3s ease-in-out, backdrop-filter .3s ease-in-out;
+                    
+                    & svg {
+                        fill: var(--wp--preset--color--base);
+                    }
+
+                    &:hover {
+                        backdrop-filter: blur(7px);
+                        background-color: var(--wp--preset--color--contrast-alpha-50);
+                    }
+                }
             }
 
             & .post--body__content {
@@ -132,6 +149,23 @@
 
                     & a {
                         border-radius: 4px;
+                    }
+                }
+
+                & .post--permalink {
+                    position: absolute;
+                    z-index: 2;
+                    top: 0;
+                    right: 0;
+                    transition: background-color .3s ease-in-out, backdrop-filter .3s ease-in-out;
+                    
+                    & svg {
+                        fill: var(--wp--preset--color--base);
+                    }
+
+                    &:hover {
+                        backdrop-filter: blur(7px);
+                        background-color: var(--wp--preset--color--contrast-alpha-50);
                     }
                 }
             }
