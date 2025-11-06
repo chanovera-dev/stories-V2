@@ -567,6 +567,7 @@ ul {
             & .post--body {
                 & header.post--body__header {
                     min-height: 350px;
+                    height: calc(100% - .625rem);
 
                     & .tags {
                         & a {
