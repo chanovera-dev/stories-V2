@@ -114,25 +114,24 @@
                         border-radius: 4px;
                     }
                 }
+            }
+
+            & .post--body__content {
+                padding-top: .6rem;
 
                 & .date {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    padding: .6rem;
-                    z-index: 2;
                     display: flex; 
                     align-items: center;
                     gap: 7px;
-                    color: var(--wp--preset--color--base);
-                    text-shadow: var(--modern-text-shadow);
+                    opacity: .5;
 
                     & p {
                         text-transform: capitalize;
                     }
 
                     & svg {
-                        filter: drop-shadow(2px 3px 5px #000);
+                        width: 13px;
+                        height: 13px;
                     }
                 }
             }
@@ -159,13 +158,35 @@
             grid-template-rows: 1fr auto;
 
             & .post--body__content {
-                & p {
-                    font-size: clamp(2rem, 5vw, 2.2rem) !important;
-                    line-height: 1.4;
-                    font-weight: 500;
+                display: grid;
+                grid-template-rows: 1fr auto;
+                gap: .6rem;
 
-                    &:not(:last-child) {
-                        margin-bottom: 1rem;
+                & .text {
+                    p {
+                        font-size: clamp(2rem, 5vw, 2.2rem) !important;
+                        line-height: 1.4;
+                        font-weight: 500;
+
+                        &:not(:last-child) {
+                            margin-bottom: 1rem;
+                        }
+                    }
+                }
+
+                & .date {
+                    display: flex; 
+                    align-items: center;
+                    gap: 7px;
+                    opacity: .5;
+                    
+                    & p {
+                        text-transform: capitalize;
+                    }
+
+                    & svg {
+                        width: 13px;
+                        height: 13px;
                     }
                 }
             }

@@ -1,7 +1,16 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <div class="post--body">
         <div class="post--body__content">
-            <?php the_content(); ?>
+            <div class="text">
+                <?php the_content(); ?>
+            </div>
+            <div class="date">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-week" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+                    <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                <?php the_date( 'F j, Y', '<p>', '</p>' ); ?>
+            </div>
         </div>
         <div class="post--body__footer">
             <div class="post--tags">
@@ -41,17 +50,6 @@
 
                     echo '<a href="' . esc_url( $format_link ) . '" class="post-format-label tag-type small-text">'
                         . $format_svg . esc_html( $format_label ) . '</a>';
-
-                    $categories = get_the_category();
-                    if ( ! empty( $categories ) ) {
-                        foreach ( $categories as $category ) {
-                            // Escapar el nombre y generar link seguro
-                            $cat_name = esc_html( $category->name );
-                            $cat_link = esc_url( get_category_link( $category->term_id ) );
-
-                            echo "<a href='{$cat_link}' class='tag-type small-text'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-bookmark\" viewBox=\"0 0 16 16\"><path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z\"/></svg>{$cat_name}</a> ";
-                        }
-                    }
 
                     $tags = get_the_tags();
                     if ( $tags ) {
