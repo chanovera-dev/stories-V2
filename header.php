@@ -24,7 +24,13 @@
                 <div class="site-brand">
                     <?php
                         if ( ! has_custom_logo() ) {
-                            echo '<a href="' . get_home_url() . '" aria-label="link to home page">'; bloginfo( 'title' ); echo '</a>';
+                            /* Safe site title output */
+                            printf(
+                                '<a href="%s" aria-label="%s">%s</a>',
+                                esc_url( home_url( '/' ) ),
+                                esc_attr__( 'Home', 'stories' ),
+                                esc_html( get_bloginfo( 'name' ) )
+                            );
                         } else {
                             the_custom_logo();
                         }
@@ -52,7 +58,7 @@
                             echo $menu_html;
                         }
                     ?>
-                    <form role="search" method="get" id="custom-searchform" class="" action="<?php echo home_url( '/' ); ?>">
+                    <form role="search" method="get" id="custom-searchform" class="" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                         <div class="section">
                             <label class="screen-reader-text" for="s"><?php esc_html__('Buscar', 'stories'); ?></label>
                             <input class="wp-block-search__input" type="text" value="" name="s" id="s" placeholder="<?php esc_html_e('Buscar', 'stories'); ?>">

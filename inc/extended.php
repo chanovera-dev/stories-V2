@@ -53,7 +53,6 @@ add_filter('excerpt_length', 'reduce_excerpt_length', 999);
  * @return string Modified menu item HTML
  */
 function custom_menu($item_output, $item, $depth, $args) {
-    
     $allowed_locations = ['primary'];
 
     if (!isset($args->theme_location) || !in_array($args->theme_location, $allowed_locations)) {
