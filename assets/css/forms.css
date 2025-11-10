@@ -93,6 +93,7 @@ textarea {
     align-items: center;
     gap: 7px;
     height: 38px;
+    font-family: var(--wp--preset--font-family--manrope);
     justify-content: space-between;
     text-transform: uppercase;
     letter-spacing: 1px;
