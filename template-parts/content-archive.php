@@ -43,6 +43,11 @@
                         }
                     }
                 ?>
+                <div class="custom-scrollbar" aria-hidden="true">
+                    <div class="custom-scrollbar__track">
+                        <div class="custom-scrollbar__thumb"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

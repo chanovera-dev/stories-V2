@@ -259,43 +259,21 @@
                 border-radius: 1rem;
             }
 
-            .post--tags {
+            & .post--tags {
                 padding: .625rem;
                 padding-right: .2rem;
                 display: flex;
                 flex-wrap: nowrap;
-                overflow-x: auto;
+                overflow-x: scroll;
                 gap: 2px;
                 scrollbar-width: none; /* Firefox */
                 transition: scrollbar-width .3s ease;
 
                 /* Ocultar en WebKit */
                 &::-webkit-scrollbar {
-                    height: 6px;
-                    opacity: 0;
+                    display: none;
                 }
-
-                &::-webkit-scrollbar-thumb {
-                    background-color: light-dark(var(--wp--preset--color--contrast-alpha-25), var(--wp--preset--color--base-alpha-25));
-                    border-radius: 3px;
-                    transition: background-color .2s ease;
-                }
-
-                /* Mostrar al hacer hover */
-                &:hover {
-                    scrollbar-width: thin; /* Firefox */
-                    
-                    &::-webkit-scrollbar {
-                        display: block;
-                        height: 6px;
-                        opacity: 1;
-                    }
-
-                    &::-webkit-scrollbar-thumb {
-                        background-color: light-dark(var(--wp--preset--color--contrast-alpha-25), var(--wp--preset--color--base-alpha-25));
-                    }
-                }
-                }
+            }
         }
     }
 
@@ -571,15 +549,17 @@ body.is-chromium {
         border-radius: 2rem;
         corner-shape: squircle;
 
-        & header.post--header {
-            border-radius: 1rem;
-            corner-shape: squircle;
-        }
-
         & .post--body {
-            & .post--tags {
-                & .tag-type {
-                    border-radius: 1rem;
+            & header.post--body__header {
+                border-radius: 1rem;
+                corner-shape: squircle;
+            }
+            
+            & .post--body__footer {
+                & .post--tags {
+                    & .tag-type {
+                        border-radius: 1rem;
+                    }
                 }
             }
         }
