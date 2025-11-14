@@ -10,11 +10,20 @@
             width: calc(100svw - 40px);
             position: relative;
             overflow: hidden;
+            padding: .2rem;
 
             & .slideshow {
                 display: grid;
                 width: 800%;
                 grid-template-columns: repeat(8, 1fr);
+
+                & .post:not(:has(header.block.entry-header)) {
+                    & .post-body__footer {
+                        &::after {
+                            background: linear-gradient(to left, light-dark(var(--wp--preset--color--secondary), var(--contrast--darker)) 0%, transparent 100%);
+                        }
+                    }
+                }
             }
         }
     }

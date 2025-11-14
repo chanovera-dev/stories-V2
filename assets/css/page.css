@@ -1,27 +1,28 @@
 header.block {
     position: relative;
     overflow: hidden;
+    text-align: center;
 
-    & .content {
-        display: grid;
-        
+    & .content {   
+        padding: 3rem 0;
+         
         & .page-title {
             font-size: var(--wp--preset--font-size--xx-large);
             text-align: center;
             position: relative;
             max-width: 40.313rem;
             margin-inline: auto;
-            margin-block-start: 5rem;
-            margin-block-end: 5rem;
         }
 
         & .latest-modified,
         & .metadata {
             text-align: center;
-            font-size: var(--wp--preset--font-size--small);
-            margin-inline: auto;
-            margin-block-start: .875rem;
-            margin-block-end: .875rem;
+
+            & .date {
+                & svg {
+                    margin-right: .5rem;
+                }
+            }
         }
     }
 }
@@ -30,16 +31,4 @@ header.block {
     padding: 2.5rem 0;
     display: grid;
     gap: 2.5rem;
-}
-
-@media (width < 31.25rem) {
-    header.block {
-        & .content {
-            & .page-title {
-                margin-top: 5rem;
-                margin-bottom: 5rem;
-                border-radius: 0;
-            }
-        }
-    }
 }

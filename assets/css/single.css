@@ -1,6 +1,13 @@
 header.block {
     & .content {
-        .metadata {
+        & .post-tags {
+            display: flex; 
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+        }
+
+        & .metadata {
             display: inline-flex; 
             flex-wrap: wrap;
 
@@ -26,6 +33,13 @@ header.block {
 
 .block {
     & .is-layout-constrained {
+
+        & .attachment-full.size-full.wp-post-image {
+            width: 100%;
+            max-width: 1096px !important;
+            border-radius: 1rem;
+        }
+
         & .wp-block-image.alignwide.size-large {
             max-width: 1024px;
         }
@@ -51,10 +65,6 @@ header.block {
                 height: 1em;
             }
         }
-    }
-
-    & .categories {
-        width: min(100% - 2.5rem, 40.313rem);
     }
 
     & .content-tags {
@@ -179,6 +189,11 @@ body.is-chromium {
     .site-main {
         .block {
             & .is-layout-constrained {
+                & .attachment-full.size-full.wp-post-image {
+                    border-radius: 2rem;
+                    corner-shape: squircle;
+                }
+
                 & .wp-block-image.alignwide.size-large {
                     max-width: 1024px;
                 }

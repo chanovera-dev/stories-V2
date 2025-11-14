@@ -5,7 +5,7 @@
     }
 }
 
-.post {
+.post:not(:has(header.block.entry-header)) {
     display: grid;
     grid-template-rows: auto 1fr auto;
     border: 1px solid light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6));
@@ -454,7 +454,7 @@ ul {
 }
 
 body.is-chromium {
-    .post {
+    .post.post:not(:has(header.block.entry-header)) {
         border-radius: 2.7rem 2.7rem 1.5rem 1.5rem;
         corner-shape: squircle;
 
