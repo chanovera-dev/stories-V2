@@ -180,11 +180,13 @@ section.block {
 
 @media (width < 42.813rem) {
     & .site-main {
-        .block {
-            & .is-layout-constrained {
-                > *:not(.wp-block-separator) {
-                    margin-left: 1.25rem !important;
-                    margin-right: 1.25rem !important;
+        section.block {
+            & .content {
+                & .is-layout-constrained {
+                    > *:not(.wp-block-separator) {
+                        margin-left: 1.25rem !important;
+                        margin-right: 1.25rem !important;
+                    }
                 }
             }
         }
@@ -193,21 +195,23 @@ section.block {
 
 body.is-chromium {
     .site-main {
-        .block {
-            & .is-layout-constrained {
-                & .attachment-full.size-full.wp-post-image {
-                    border-radius: 2rem;
-                    corner-shape: squircle;
-                }
-
-                & .wp-block-image.alignwide.size-large {
-                    max-width: 1024px;
-                }
-
-                & .wp-block-image {
-                    img {
+        section.block {
+            & .content {
+                & .is-layout-constrained {
+                    & .attachment-full.size-full.wp-post-image {
                         border-radius: 2rem;
                         corner-shape: squircle;
+                    }
+
+                    & .wp-block-image.alignwide.size-large {
+                        max-width: 1024px;
+                    }
+
+                    & .wp-block-image {
+                        img {
+                            border-radius: 2rem;
+                            corner-shape: squircle;
+                        }
                     }
                 }
             }

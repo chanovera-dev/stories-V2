@@ -59,11 +59,12 @@ select {
     &:focus {
         outline: 0;
         border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
-        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
+        box-shadow: 0 0 0 1px var(--wp--preset--color--main),
+                    0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
     }
 
     &::placeholder {
-        font-family: var(--wp--preset--font-family--libre-manrope);
+        font-family: var(--wp--preset--font-family--manrope);
         font-size: var(--wp--preset--font-size--medium);
         opacity: .5;
     }
@@ -91,6 +92,7 @@ textarea {
 .btn,
 #submit,
 .wpcf7-submit {
+    font-family: var(--wp--preset--font-family--manrope);
     display: inline-flex;
     align-items: center;
     gap: 7px;
