@@ -1,5 +1,6 @@
 <div id="main" class="site-main" role="main"> 
     <article class="article single-page" id="<?php the_ID(); ?>">
+        <?php wp_breadcrumbs(); ?>
         <header class="block">
             <div class="content">
                 <?php
