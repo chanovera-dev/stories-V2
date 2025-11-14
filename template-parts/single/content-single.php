@@ -50,11 +50,13 @@
             </div>
         </header>
         <section class="block">
-            <?php
-                foreach ( [ 'content', 'tags', 'author', 'single-post-pagination' ] as $part ) {
-                    get_template_part( 'templates/single/' . $part );
-                }
-            ?>
+            <div class="content">
+                <?php
+                    foreach ( [ 'content', 'tags', 'author', 'single-post-pagination' ] as $part ) {
+                        get_template_part( 'templates/single/' . $part );
+                    }
+                ?>
+            </div>
         </section>
         <?php 
             get_template_part( 'templates/single/related', 'posts' );

@@ -9,6 +9,7 @@ header.block {
 
         & .metadata {
             display: inline-flex; 
+            justify-content: center;
             flex-wrap: wrap;
 
             & > div:not(:last-child) {
@@ -31,100 +32,105 @@ header.block {
     }
 }
 
-.block {
-    & .is-layout-constrained {
+section.block {
+    & .content {
+        display: grid; gap: 2rem;
 
-        & .attachment-full.size-full.wp-post-image {
-            width: 100%;
-            max-width: 1096px !important;
-            border-radius: 1rem;
-        }
+        & .is-layout-constrained {
 
-        & .wp-block-image.alignwide.size-large {
-            max-width: 1024px;
-        }
-
-        & .wp-block-image {
-            img {
+            & .attachment-full.size-full.wp-post-image {
+                width: 100%;
+                max-width: 1096px !important;
                 border-radius: 1rem;
             }
-        }
-    }
 
-    & .content.date.categories.tags {
-        width: min(100% - 2.5rem, 40.313rem) !important;
+            & .wp-block-image.alignwide.size-large {
+                max-width: 1024px;
+            }
 
-        & .date {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: var(--wp--preset--font-size--small);
-
-            & svg {
-                width: 1em;
-                height: 1em;
+            & .wp-block-image {
+                img {
+                    border-radius: 1rem;
+                }
             }
         }
-    }
 
-    & .content-tags {
-        width: min(100% - 2.5rem, 40.313rem) !important;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: .438rem;
-    }
+        & .date.categories.tags {
+            width: min(100% - 2.5rem, 40.313rem) !important;
 
-    & .content-author {
-        width: min(100% - 2.5rem, 40.313rem) !important;
-        padding: 1.25rem;
-        border: 0.063rem solid var(--wp--preset--color--accent-6);
-        border-radius: 1rem;
+            & .date {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                font-size: var(--wp--preset--font-size--small);
 
-        & .author-name {
-            margin-bottom: 1rem;
-        }
-
-        & .avatar {
-            position: relative;
-            top: 0.313rem;
-            float: left;
-            shape-outside: margin-box;
-            border-radius: .5rem;
-            corner-shape: inherit;
-            margin: 0 1.25rem 0 0;
-        }
-
-        & .author-description {
-            font-size: var(--wp--preset--font-size--small);
-        }
-    }
-
-    & .post-navigation {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2.5rem;
-
-        & :is(.left,.right) {
-            & a {
-                & .pagination-indicator {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 7px;
-                    transition: color .3s ease;
+                & svg {
+                    width: 1em;
+                    height: 1em;
                 }
+            }
+        }
 
-                &:hover {
+        & .content-tags {
+            width: min(100% - 2.5rem, 40.313rem) !important;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .438rem;
+        }
+
+        & .content-author {
+            width: min(100% - 2.5rem, 40.313rem) !important;
+            margin-inline: auto;
+            padding: 1.25rem;
+            border: 0.063rem solid var(--wp--preset--color--accent-6);
+            border-radius: 1rem;
+
+            & .author-name {
+                margin-bottom: 1rem;
+            }
+
+            & .avatar {
+                position: relative;
+                top: 0.313rem;
+                float: left;
+                shape-outside: margin-box;
+                border-radius: .5rem;
+                corner-shape: inherit;
+                margin: 0 1.25rem 0 0;
+            }
+
+            & .author-description {
+                font-size: var(--wp--preset--font-size--small);
+            }
+        }
+
+        & .post-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+
+            & :is(.left,.right) {
+                & a {
                     & .pagination-indicator {
-                        color: var(--wp--preset--color--main);
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 7px;
+                        transition: color .3s ease;
+                    }
+
+                    &:hover {
+                        & .pagination-indicator {
+                            color: var(--wp--preset--color--main);
+                        }
                     }
                 }
             }
-        }
 
-        & .right {
-            text-align: right;
+            & .right {
+                text-align: right;
+            }
         }
     }
 

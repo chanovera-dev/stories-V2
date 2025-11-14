@@ -1,4 +1,4 @@
-<nav class="content post-navigation" aria-label="<?= esc_attr__( 'Navegación de publicaciones', 'stories' ); ?>">
+<nav class="post-navigation" aria-label="<?= esc_attr__( 'Navegación de publicaciones', 'stories' ); ?>">
     <div class="left">
         <?php
             $next_post = get_next_post();
