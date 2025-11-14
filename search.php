@@ -30,12 +30,12 @@ get_header(); ?>
                     $part = 'archive';
 
                     if ( $post_format ) {
-                        if ( locate_template( "template-parts/content-{$post_format}.php" ) ) {
+                        if ( locate_template( "template-parts/loop/content-{$post_format}.php" ) ) {
                             $part = $post_format;
                         }
                     }
 
-                    get_template_part( 'template-parts/content', $part );
+                    get_template_part( 'template-parts/loop/content', $part );
                 }
 
                 the_posts_pagination( array(
