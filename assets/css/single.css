@@ -44,6 +44,10 @@ section.block {
                 border-radius: 1rem;
             }
 
+            & .wp-block-video video {
+                border-radius: 1rem;
+            }
+
             & .wp-block-image.alignwide.size-large {
                 max-width: 1024px;
             }
@@ -55,19 +59,17 @@ section.block {
             }
         }
 
-        & .date.categories.tags {
+        & .date {
             width: min(100% - 2.5rem, 40.313rem) !important;
+            margin-inline: auto;
+            display: inline-flex;
+            align-items: baseline;
+            gap: .5rem;
+            opacity: .5;
 
-            & .date {
-                display: inline-flex;
-                align-items: center;
-                gap: 7px;
-                font-size: var(--wp--preset--font-size--small);
-
-                & svg {
-                    width: 1em;
-                    height: 1em;
-                }
+            & svg {
+                position: relative;
+                top: 1px;
             }
         }
 
@@ -193,11 +195,41 @@ section.block {
     }
 }
 
+@media (width >= 1024px) {
+    .single-format-video,
+    .single-format-image {
+        & .site-main {
+            & :is(.format-image,.format-video) {
+                & section.block {
+                    & .content {
+                        & .is-layout-constrained {
+                            & > * {
+                                max-width: 100% !important;
+                                margin-left: 0 !important;
+                                margin-right: 0 !important;
+                            }
+
+                            & .wp-block-video video,
+                            & .attachment-full.size-full.wp-post-image {
+                                float: left;
+                                max-width: 500px !important;
+                                margin-right: 2rem !important;
+                                margin-bottom: 2rem !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 body.is-chromium {
     .site-main {
         section.block {
             & .content {
                 & .is-layout-constrained {
+                    & .wp-block-video video,
                     & .attachment-full.size-full.wp-post-image {
                         border-radius: 2rem;
                         corner-shape: squircle;
