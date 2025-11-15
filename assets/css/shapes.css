@@ -452,8 +452,8 @@ ul {
 
 @media (width < 600px) {
     .post {
-        &.format-video,
-        &.format-image {
+        &.format-video:not(:has(header.block.entry-header)),
+        &.format-image:not(:has(header.block.entry-header)) {
             & header.post-body__header {
                 aspect-ratio: 4 / 5;
             }
@@ -463,8 +463,8 @@ ul {
 
 @media (width >= 600px) {
     .post {
-        &.format-video,
-        &.format-image {
+        &.format-video:not(:has(header.block.entry-header)),
+        &.format-image:not(:has(header.block.entry-header)) {
             & header.post-body__header {
                 min-height: 350px;
             }
