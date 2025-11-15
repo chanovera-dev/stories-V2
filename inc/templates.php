@@ -162,6 +162,7 @@ function posts_styles() {
         }
         
         if ( $has_gallery ) {
+            require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
             stories_enqueue_script( 'gallery', $a['js']['gallery'] );
         }
 

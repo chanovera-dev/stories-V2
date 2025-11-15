@@ -1,37 +1,36 @@
-document.addEventListener("DOMContentLoaded", function () {
+function showGallery() {
     const wrappers = document.querySelectorAll(".gallery-wrapper");
 
     wrappers.forEach((wrapper) => {
-        const slideshow = wrapper.querySelector(".gallery");
-        const originalSlides = Array.from(wrapper.querySelectorAll(".gallery> *"));
+        const gallery = wrapper.querySelector(".gallery");
+        const originalSlides = Array.from(wrapper.querySelectorAll(".gallery > *"));
         const bulletsWrapper = wrapper.querySelector(".gallery-bullets");
 
-        if (!slideshow || originalSlides.length === 0 || !bulletsWrapper) return;
+        if (!gallery || originalSlides.length === 0 || !bulletsWrapper) return;
 
         // Clonar para efecto infinito
         const firstClone = originalSlides[0].cloneNode(true);
         const lastClone = originalSlides[originalSlides.length - 1].cloneNode(true);
-        slideshow.prepend(lastClone);
-        slideshow.appendChild(firstClone);
+        gallery.prepend(lastClone);
+        gallery.appendChild(firstClone);
 
-        const slides = slideshow.querySelectorAll(".gallery > *");
+        const slides = gallery.querySelectorAll(".gallery > *");
         const totalSlides = slides.length;
         const visibleSlides = originalSlides.length;
 
-        let currentSlide = 1; // Empieza en 1 (primer slide real)
+        let currentSlide = 1;
         let animationFrame;
         let isAnimating = false;
 
         // Ajustar anchos
-        slideshow.style.width = `${100 * totalSlides}%`;
+        gallery.style.width = `${100 * totalSlides}%`;
         slides.forEach(slide => {
             slide.style.width = `${100 / totalSlides}%`;
         });
 
-        // Posicionar en el primer slide real
-        slideshow.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
 
-        // Crear botones
+        // Crear bullets
         bulletsWrapper.innerHTML = "";
         originalSlides.forEach((_, index) => {
             const bullet = document.createElement("li");
@@ -44,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const bullets = bulletsWrapper.querySelectorAll(".gallery-bullet");
 
         function updateActiveClasses() {
-            // Remover `.active` de todos
             originalSlides.forEach(slide => slide.classList.remove("active"));
 
             const realIndex = currentSlide - 1;
@@ -72,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const elapsed = time - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 const current = from + distance * progress;
-                slideshow.style.transform = `translateX(-${current}%)`;
+                gallery.style.transform = `translateX(-${current}%)`;
 
                 if (progress < 1) {
                     animationFrame = requestAnimationFrame(animate);
@@ -80,21 +78,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     cancelAnimationFrame(animationFrame);
                     currentSlide = targetIndex;
 
-                    // Reubicar sin animación si estamos en clones
                     if (currentSlide === 0) {
                         currentSlide = visibleSlides;
-                        slideshow.style.transition = "none";
-                        slideshow.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                        requestAnimationFrame(() => {
-                            slideshow.style.transition = "";
-                        });
+                        gallery.style.transition = "none";
+                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+                        requestAnimationFrame(() => gallery.style.transition = "");
                     } else if (currentSlide === totalSlides - 1) {
                         currentSlide = 1;
-                        slideshow.style.transition = "none";
-                        slideshow.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                        requestAnimationFrame(() => {
-                            slideshow.style.transition = "";
-                        });
+                        gallery.style.transition = "none";
+                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+                        requestAnimationFrame(() => gallery.style.transition = "");
                     }
 
                     updateActiveClasses();
@@ -109,7 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
         bulletsWrapper.addEventListener("click", function (e) {
             if (e.target.classList.contains("gallery-bullet")) {
                 const index = parseInt(e.target.dataset.index);
-                goToSlide(index + 1); // +1 por el clon al inicio
+                goToSlide(index + 1);
+                resetAutoSlide();
             }
         });
 
@@ -118,22 +112,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let endX = 0;
         const threshold = 50;
 
-        slideshow.addEventListener("touchstart", function (e) {
-            startX = e.touches[0].clientX;
-        });
-
-        slideshow.addEventListener("touchmove", function (e) {
-            endX = e.touches[0].clientX;
-        });
-
-        slideshow.addEventListener("touchend", function () {
+        gallery.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+        gallery.addEventListener("touchmove", e => endX = e.touches[0].clientX);
+        gallery.addEventListener("touchend", () => {
             const deltaX = endX - startX;
             if (Math.abs(deltaX) > threshold) {
-                if (deltaX < 0) {
-                    goToSlide(currentSlide + 1);
-                } else {
-                    goToSlide(currentSlide - 1);
-                }
+                if (deltaX < 0) goToSlide(currentSlide + 1);
+                else goToSlide(currentSlide - 1);
             }
             startX = 0;
             endX = 0;
@@ -146,54 +131,31 @@ document.addEventListener("DOMContentLoaded", function () {
         if (prevBtn) {
             prevBtn.addEventListener("click", () => {
                 goToSlide(currentSlide - 1);
+                resetAutoSlide();
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener("click", () => {
                 goToSlide(currentSlide + 1);
+                resetAutoSlide();
             });
         }
 
-        // Inicializar
         updateActiveClasses();
 
-        // Autoslide cada 10 segundos
         let autoSlide = setInterval(() => {
             goToSlide(currentSlide + 1);
         }, 14000);
 
-        // Opcional: reiniciar el intervalo si el usuario interactúa
         function resetAutoSlide() {
             clearInterval(autoSlide);
             autoSlide = setInterval(() => {
                 goToSlide(currentSlide + 1);
             }, 10000);
         }
-
-        // Reiniciar cuando se hace clic manualmente
-        bulletsWrapper.addEventListener("click", function (e) {
-            if (e.target.classList.contains("gallery-bullet")) {
-                const index = parseInt(e.target.dataset.index);
-                goToSlide(index + 1); // +1 por el clon al inicio
-                resetAutoSlide();
-            }
-        });
-
-        // Reiniciar al usar botones prev/next
-        if (prevBtn) {
-            prevBtn.addEventListener("click", () => {
-                goToSlide(currentSlide - 1);
-                resetAutoSlide();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener("click", () => {
-                goToSlide(currentSlide + 1);
-                resetAutoSlide();
-            });
-        }
-
     });
-});
+}
+
+// Ejecutar automáticamente
+document.addEventListener("DOMContentLoaded", showGallery);
