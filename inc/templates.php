@@ -79,6 +79,7 @@ function stories_get_assets() {
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
+            'gallery'            => "$assets_path/js/gallery.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
         ]
     ];
@@ -151,6 +152,7 @@ function posts_styles() {
         
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
         stories_enqueue_style( 'posts', $a['css']['posts'] );
+        stories_enqueue_script( 'gallery', $a['js']['gallery'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
     }
 }
