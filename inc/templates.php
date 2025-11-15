@@ -149,10 +149,24 @@ add_action( 'wp_enqueue_scripts', 'page_template' );
 function posts_styles() {
     if ( is_home() or is_archive() or is_search() ) {
         $a = stories_get_assets();
+
+        global $wp_query;
+
+        $has_gallery = false;
+
+        foreach ( $wp_query->posts as $post ) {
+            if ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) {
+                $has_gallery = true;
+                break;
+            }
+        }
         
+        if ( $has_gallery ) {
+            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+        }
+
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
         stories_enqueue_style( 'posts', $a['css']['posts'] );
-        stories_enqueue_script( 'gallery', $a['js']['gallery'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
     }
 }
