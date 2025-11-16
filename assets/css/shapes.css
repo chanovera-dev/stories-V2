@@ -205,10 +205,15 @@
                 overflow: hidden;
                 border-radius: 1rem;
                 z-index: 0;
+                opacity: .5;
+                background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+                animation: animation-gallery-wrapper 1.3s forwards;
 
                 & .gallery { 
                     display: flex;
                     height: 100%;
+                    opacity: 0;
+                    animation: animation-gallery .3s ease 1s forwards;
 
                     & img {
                         height: 100%;
@@ -643,4 +648,17 @@ body.is-chromium {
             border-radius: 1rem;
         }
     }
+}
+
+@keyframes animation-gallery-wrapper {
+    0%   {opacity: .25;}
+    25%  {opacity: 1;}
+    50%  {opacity: .25;}
+    75%  {opacity: 1;}
+    100% {opacity: 1;}
+}
+
+@keyframes animation-gallery {
+    0%   {opacity: 0;}
+    100% {opacity: 1;}
 }
