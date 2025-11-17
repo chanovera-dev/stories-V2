@@ -96,29 +96,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // MOVIMIENTO CIRCULAR REAL
   function next() {
+    // iniciamos movimiento visual
     slideshow.style.transition = "all .5s ease-in-out";
     slideshow.style.transform = `translateX(-${slideWidth}px)`;
 
     setTimeout(function () {
+      // detener transición momentáneamente para reordenar DOM
       slideshow.style.transition = "none";
 
       const first = slides[0];
       const clone = first.cloneNode(true);
+      clone.classList.remove("animate-in"); // evitar heredar animación
 
       slideshow.appendChild(clone);
       slideshow.removeChild(first);
 
+      // resetear transform a 0 (ya hicimos el desplazamiento visual)
       slideshow.style.transform = `translateX(0)`;
 
+      // actualizar lista de slides y tamaños
       slides = Array.from(slideshow.children);
+      updateSlideWidth();
+      updateBullets();
 
+      // ------ control manual de animate-in (evita race con updateAnimations) ------
+      // limpiar clases previas
+      slides.forEach(s => s.classList.remove("animate-in"));
+
+      // forzar reflow para que el navegador registre el cambio de DOM/estilos
+      void slideshow.offsetWidth;
+
+      // añadir animate-in a los visibles (primeros itemsPerView)
+      for (let i = 0; i < Math.min(itemsPerView, slides.length); i++) {
+        const el = slides[i];
+        if (el) el.classList.add("animate-in");
+      }
+      // ---------------------------------------------------------------------------
+
+      // reactivar transición si necesitas (aquí lo dejamos por compatibilidad)
       requestAnimationFrame(() => {
         slideshow.style.transition = "all .5s ease-in-out";
       });
-
-      updateSlideWidth();
-      updateBullets();
-      updateAnimations();
     }, 500);
   }
 
@@ -129,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clone = last.cloneNode(true);
 
     slideshow.insertBefore(clone, slides[0]);
+    clone.classList.remove("animate-in");
     slideshow.removeChild(last);
 
     slides = Array.from(slideshow.children);
@@ -138,13 +157,17 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(() => {
       slideshow.style.transition = "all .5s ease-in-out";
       slideshow.style.transform = `translateX(0)`;
+
+      // 🔥 Delay de 0.3 segundos antes de agregar animate-in
+      setTimeout(() => {
+        clone.classList.add("animate-in");
+      }, 500);
     });
 
     updateSlideWidth();
     updateBullets();
     updateAnimations();
   }
-
 
   // NAVEGACIÓN
   navNext.addEventListener("click", next);
