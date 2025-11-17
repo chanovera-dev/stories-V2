@@ -161,7 +161,7 @@
                 height: calc(100% - 6px);
                 background: linear-gradient(
                     to left,
-                    light-dark(var(--wp--preset--color--base), var(--wp--preset--color--contrast)) 0%,
+                    light-dark(var(--wp--preset--color--base), #0c0e10) 0%,
                     transparent 100%
                 );
                 z-index: 1;
