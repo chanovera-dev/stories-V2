@@ -512,7 +512,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: inherit;
+    width: 100%;
 
     & .bullets { 
             padding-left: 0;
@@ -613,6 +613,12 @@ ul {
             & header.post-body__header {
                 aspect-ratio: 4 / 5;
             }
+        }
+    }
+
+    .slideshow-navigation {
+        & .bullets {
+            display: none;
         }
     }
 }

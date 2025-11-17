@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!slideshow) return;
 
   wrapper.style.overflow = "hidden";
-  wrapper.style.display = "grid";
+  wrapper.style.display = "flex";
+  wrapper.style.flexDirection = "column";
   wrapper.style.gap = "1rem";
   slideshow.style.display = "flex";
   navigation.style.display = "flex";
@@ -224,9 +225,42 @@ document.addEventListener("DOMContentLoaded", () => {
   updateItemsPerView();
 
   requestAnimationFrame(() => {
-    // animateInitialStagger();
     updateBullets();
     startAuto();
   });
+
+  // ----------------------------------------
+  // TOUCH / SWIPE SUPPORT
+  // ----------------------------------------
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const SWIPE_THRESHOLD = 50; // mínimo px para considerar un swipe
+
+  function handleTouchStart(e) {
+    stopAuto(); // detener autoSlide mientras el usuario interactúa
+    touchStartX = e.touches[0].clientX;
+    touchEndX = touchStartX;
+  }
+
+  function handleTouchMove(e) {
+    touchEndX = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd() {
+    const dx = touchEndX - touchStartX;
+
+    if (Math.abs(dx) > SWIPE_THRESHOLD) {
+      if (dx < 0) next(); // swipe hacia la izquierda
+      else prev();        // swipe hacia la derecha
+    }
+
+    startAuto(); // reanudar autoSlide
+  }
+
+  // Añadir listeners directamente al wrapper
+  wrapper.addEventListener("touchstart", handleTouchStart, { passive: true });
+  wrapper.addEventListener("touchmove", handleTouchMove, { passive: true });
+  wrapper.addEventListener("touchend", handleTouchEnd, { passive: true });
 
 });
