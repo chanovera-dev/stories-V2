@@ -16,152 +16,170 @@ document.addEventListener("DOMContentLoaded", () => {
   wrapper.style.display = "grid";
   wrapper.style.gap = "1rem";
   slideshow.style.display = "flex";
-  slideshow.style.padding = "0.2rem 0";
   navigation.style.display = "flex";
 
-  // =============================
-  // CLONES PERMANENTES (∞ real)
-  // =============================
-  const originalSlides = Array.from(slideshow.children);
-  const totalOriginal = originalSlides.length;
-
-  const firstClone = originalSlides[0].cloneNode(true);
-  const lastClone = originalSlides[totalOriginal - 1].cloneNode(true);
-
-  slideshow.appendChild(firstClone);
-  slideshow.insertBefore(lastClone, originalSlides[0]);
-
+  // SLIDES
   let slides = Array.from(slideshow.children);
-
-  let currentIndex = 1; // Inicia en el primer slide real (por el clon inicial)
+  const totalOriginal = slides.length;
   let itemsPerView = 1;
   let slideWidth = 0;
   let autoInterval = null;
+  let firstLoad = true;
 
 
-  // =============================
   // BULLETS
-  // =============================
   function createBullets() {
     bulletsContainer.innerHTML = "";
     for (let i = 0; i < totalOriginal; i++) {
       const b = document.createElement("button");
       b.className = "bullet";
-      b.dataset.index = i;
+      b.dataset.id = slides[i].dataset.id; // id único por slide
       bulletsContainer.appendChild(b);
     }
   }
   createBullets();
 
+
   function updateBullets() {
-    bulletsContainer.querySelectorAll(".bullet").forEach(b => b.classList.remove("active"));
-    bulletsContainer.children[currentIndex - 1].classList.add("active");
+    const bullets = bulletsContainer.querySelectorAll(".bullet");
+    bullets.forEach(b => b.classList.remove("active"));
+
+    const activeId = slides[0].dataset.id;
+    bullets.forEach(b => {
+      if (b.dataset.id === activeId) b.classList.add("active");
+    });
   }
 
 
-  // =============================
   // RESPONSIVE
-  // =============================
-function updateItemsPerView() {
-  const w = wrapper.clientWidth; // 👈 ahora siempre mide el contenedor real
+  function updateItemsPerView() {
+    const w = wrapper.clientWidth;
 
-  if (w < 600) itemsPerView = 1;
-  else if (w < 983) itemsPerView = 2;
-  else if (w < 1366) itemsPerView = 3;
-  else if (w < 1440) itemsPerView = 4;
-  else itemsPerView = 5;
+    if (w < 600) itemsPerView = 1;
+    else if (w < 983) itemsPerView = 2;
+    else if (w < 1326) itemsPerView = 3;
+    else if (w < 1440) itemsPerView = 4;
+    else itemsPerView = 5;
 
-  updateSlideWidth();
-  goToSlide(currentIndex, true);
-}
+    updateSlideWidth();
+    updateBullets();
+  }
 
-function updateSlideWidth() {
-  const containerWidth = wrapper.getBoundingClientRect().width; 
-  // 👆 mucho más exacto que clientWidth, incluye tamaños reales sin scroll
+  function updateSlideWidth() {
+    const containerWidth = wrapper.getBoundingClientRect().width;
 
-  slideWidth =
-    (containerWidth - (itemsPerView > 1 ? (itemsPerView - 1) * GAP : 0)) /
-    itemsPerView;
+    slideWidth =
+      (containerWidth - (itemsPerView > 1 ? (itemsPerView - 1) * GAP : 0)) /
+      itemsPerView;
 
-  slideshow.style.gap = itemsPerView > 1 ? `${GAP}px` : "0px";
+    slideshow.style.gap = itemsPerView > 1 ? `${GAP}px` : "0px";
 
-  slides.forEach(s => {
-    s.style.minWidth = slideWidth + "px";
-    s.style.maxWidth = slideWidth + "px"; // opcional pero recomendable
-  });
-}
+    slides.forEach(s => {
+      s.style.minWidth = slideWidth + "px";
+      s.style.maxWidth = slideWidth + "px";
+    });
+  }
 
 
-  // =============================
-  // ANIMACIONES EN VISTA
-  // =============================
+  // ANIMACIONES
   function updateAnimations() {
+    if (firstLoad) return;
+
     slides.forEach(s => s.classList.remove("animate-in"));
 
     for (let i = 0; i < itemsPerView; i++) {
-      const visible = slides[currentIndex + i];
-      if (visible) visible.classList.add("animate-in");
+      const visible = slides[i];
+      if (!visible) continue;
+      visible.classList.add("animate-in");
     }
   }
 
+  // MOVIMIENTO CIRCULAR REAL
+  function next() {
+    slideshow.style.transition = "all .5s ease-in-out";
+    slideshow.style.transform = `translateX(-${slideWidth}px)`;
 
-  // =============================
-  // MOVIMIENTO
-  // =============================
-  function goToSlide(index, instant = false) {
-    slideshow.style.transition = instant ? "none" : "transform 0.5s ease";
+    setTimeout(function () {
+      slideshow.style.transition = "none";
 
-    const offset = -(slideWidth + GAP) * index;
-    slideshow.style.transform = `translateX(${offset}px)`;
+      const first = slides[0];
+      const clone = first.cloneNode(true);
 
-    currentIndex = index;
+      slideshow.appendChild(clone);
+      slideshow.removeChild(first);
 
-    if (index === 0) {
-      setTimeout(() => {
-        slideshow.style.transition = "none";
-        currentIndex = totalOriginal;
-        goToSlide(currentIndex, true);
-      }, 510);
-    }
+      slideshow.style.transform = `translateX(0)`;
 
-    if (index === totalOriginal + 1) {
-      setTimeout(() => {
-        slideshow.style.transition = "none";
-        currentIndex = 1;
-        goToSlide(currentIndex, true);
-      }, 510);
-    }
+      slides = Array.from(slideshow.children);
 
+      requestAnimationFrame(() => {
+        slideshow.style.transition = "all .5s ease-in-out";
+      });
+
+      updateSlideWidth();
+      updateBullets();
+      updateAnimations();
+    }, 500);
+  }
+
+  function prev() {
+    slideshow.style.transition = "none";
+
+    const last = slides[slides.length - 1];
+    const clone = last.cloneNode(true);
+
+    slideshow.insertBefore(clone, slides[0]);
+    slideshow.removeChild(last);
+
+    slides = Array.from(slideshow.children);
+
+    slideshow.style.transform = `translateX(-${slideWidth}px)`;
+
+    requestAnimationFrame(() => {
+      slideshow.style.transition = "all .5s ease-in-out";
+      slideshow.style.transform = `translateX(0)`;
+    });
+
+    updateSlideWidth();
     updateBullets();
     updateAnimations();
   }
 
-  function next() {
-    goToSlide(currentIndex + 1);
-  }
 
-  function prev() {
-    goToSlide(currentIndex - 1);
-  }
-
+  // NAVEGACIÓN
   navNext.addEventListener("click", next);
   navPrev.addEventListener("click", prev);
 
 
-  // =============================
-  // BULLETS
-  // =============================
+  // BULLETS (SALTO PROGRAMADO)
+  let bulletJumping = false;
+
+  function goToSlideById(targetId) {
+    if (bulletJumping) return;
+    bulletJumping = true;
+
+    function step() {
+      if (slides[0].dataset.id === targetId) {
+        bulletJumping = false;
+        return;
+      }
+
+      next();
+      setTimeout(step, 520); // esperar animación
+    }
+
+    step();
+  }
+
   bulletsContainer.querySelectorAll(".bullet").forEach(b =>
     b.addEventListener("click", () => {
-      const realIndex = parseInt(b.dataset.index, 10) + 1;
-      goToSlide(realIndex);
+      const targetId = b.dataset.id;
+      goToSlideById(targetId);
     })
   );
 
 
-  // =============================
   // AUTO-SLIDE
-  // =============================
   function startAuto() {
     stopAuto();
     autoInterval = setInterval(next, AUTO_TIME);
@@ -174,17 +192,18 @@ function updateSlideWidth() {
   wrapper.addEventListener("mouseleave", startAuto);
 
 
-  // =============================
   // RESIZE
-  // =============================
   window.addEventListener("resize", updateItemsPerView);
   window.addEventListener("orientationchange", updateItemsPerView);
 
 
-  // =============================
   // INICIALIZACIÓN
-  // =============================
   updateItemsPerView();
-  goToSlide(1, true);
-  startAuto();
+
+  requestAnimationFrame(() => {
+    // animateInitialStagger();
+    updateBullets();
+    startAuto();
+  });
+
 });

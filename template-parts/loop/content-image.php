@@ -1,4 +1,4 @@
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> data-id="<?php echo get_the_ID(); ?>">
     <div class="post-body">
         <header class="post-body__header">
             <div class="category post--tags">

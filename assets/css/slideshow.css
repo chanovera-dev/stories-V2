@@ -2,6 +2,8 @@ section.block.posts--body {
     &.container--related-posts {
         .content {
             &.slideshow-wrapper {
+                width: var(--max-width--content);
+                
                 & .slideshow {
                     & .post:not(:has(header.block.entry-header)) {
                         padding: .1rem;
