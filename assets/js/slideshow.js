@@ -1,77 +1,190 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Crear los contenedores
-  const postsList = document.querySelector('.container .slideshow');
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (postsList) {
-    const slideshowWrapper = document.createElement('div');
-    slideshowWrapper.className = 'related-posts--wrapper';
+  const AUTO_TIME = 10000;
+  const GAP = 16;
 
-    const postsDiv = document.createElement('div');
-    postsDiv.className = 'slideshow--wrapper';
+  const wrapper = document.querySelector(".slideshow-wrapper");
+  const slideshow = wrapper.querySelector(".slideshow");
+  const navigation = wrapper.querySelector(".slideshow-navigation");
+  const navPrev = wrapper.querySelector(".slide-prev");
+  const navNext = wrapper.querySelector(".slide-next");
+  const bulletsContainer = wrapper.querySelector(".bullets");
 
-    postsList.parentNode.insertBefore(slideshowWrapper, postsList);
-    slideshowWrapper.appendChild(postsDiv);
-    postsDiv.appendChild(postsList);
+  if (!slideshow) return;
+
+  wrapper.style.overflow = "hidden";
+  wrapper.style.display = "grid";
+  wrapper.style.gap = "1rem";
+  slideshow.style.display = "flex";
+  slideshow.style.padding = "0.2rem 0";
+  navigation.style.display = "flex";
+
+  // =============================
+  // CLONES PERMANENTES (∞ real)
+  // =============================
+  const originalSlides = Array.from(slideshow.children);
+  const totalOriginal = originalSlides.length;
+
+  const firstClone = originalSlides[0].cloneNode(true);
+  const lastClone = originalSlides[totalOriginal - 1].cloneNode(true);
+
+  slideshow.appendChild(firstClone);
+  slideshow.insertBefore(lastClone, originalSlides[0]);
+
+  let slides = Array.from(slideshow.children);
+
+  let currentIndex = 1; // Inicia en el primer slide real (por el clon inicial)
+  let itemsPerView = 1;
+  let slideWidth = 0;
+  let autoInterval = null;
+
+
+  // =============================
+  // BULLETS
+  // =============================
+  function createBullets() {
+    bulletsContainer.innerHTML = "";
+    for (let i = 0; i < totalOriginal; i++) {
+      const b = document.createElement("button");
+      b.className = "bullet";
+      b.dataset.index = i;
+      bulletsContainer.appendChild(b);
+    }
+  }
+  createBullets();
+
+  function updateBullets() {
+    bulletsContainer.querySelectorAll(".bullet").forEach(b => b.classList.remove("active"));
+    bulletsContainer.children[currentIndex - 1].classList.add("active");
   }
 
-  setTimeout(() => {
-    const slideshow = document.querySelector('.container .related-posts--wrapper .slideshow--wrapper .slideshow');
-    if (!slideshow) return;
 
-    function prev() {
-      const firstSlide = slideshow.querySelector('.post');
-      slideshow.style.transition = 'all .5s ease-in-out';
-      slideshow.style.transform = 'translateX(-12.5%)';
+  // =============================
+  // RESPONSIVE
+  // =============================
+function updateItemsPerView() {
+  const w = wrapper.clientWidth; // 👈 ahora siempre mide el contenedor real
 
+  if (w < 600) itemsPerView = 1;
+  else if (w < 983) itemsPerView = 2;
+  else if (w < 1366) itemsPerView = 3;
+  else if (w < 1440) itemsPerView = 4;
+  else itemsPerView = 5;
+
+  updateSlideWidth();
+  goToSlide(currentIndex, true);
+}
+
+function updateSlideWidth() {
+  const containerWidth = wrapper.getBoundingClientRect().width; 
+  // 👆 mucho más exacto que clientWidth, incluye tamaños reales sin scroll
+
+  slideWidth =
+    (containerWidth - (itemsPerView > 1 ? (itemsPerView - 1) * GAP : 0)) /
+    itemsPerView;
+
+  slideshow.style.gap = itemsPerView > 1 ? `${GAP}px` : "0px";
+
+  slides.forEach(s => {
+    s.style.minWidth = slideWidth + "px";
+    s.style.maxWidth = slideWidth + "px"; // opcional pero recomendable
+  });
+}
+
+
+  // =============================
+  // ANIMACIONES EN VISTA
+  // =============================
+  function updateAnimations() {
+    slides.forEach(s => s.classList.remove("animate-in"));
+
+    for (let i = 0; i < itemsPerView; i++) {
+      const visible = slides[currentIndex + i];
+      if (visible) visible.classList.add("animate-in");
+    }
+  }
+
+
+  // =============================
+  // MOVIMIENTO
+  // =============================
+  function goToSlide(index, instant = false) {
+    slideshow.style.transition = instant ? "none" : "transform 0.5s ease";
+
+    const offset = -(slideWidth + GAP) * index;
+    slideshow.style.transform = `translateX(${offset}px)`;
+
+    currentIndex = index;
+
+    if (index === 0) {
       setTimeout(() => {
-        slideshow.style.transition = 'none';
-        slideshow.appendChild(firstSlide);
-        slideshow.style.transform = 'translateX(0)';
-      }, 500);
+        slideshow.style.transition = "none";
+        currentIndex = totalOriginal;
+        goToSlide(currentIndex, true);
+      }, 510);
     }
 
-    function next() {
-      const slides = slideshow.querySelectorAll('.post');
-      const lastSlide = slides[slides.length - 1];
-      slideshow.style.transition = 'none';
-      slideshow.insertBefore(lastSlide, slideshow.firstChild);
-      slideshow.style.transform = 'translateX(-12.5%)';
-
-      void slideshow.offsetWidth;
-
-      slideshow.style.transition = 'all .5s ease-in-out';
-      slideshow.style.transform = 'translateX(0)';
+    if (index === totalOriginal + 1) {
+      setTimeout(() => {
+        slideshow.style.transition = "none";
+        currentIndex = 1;
+        goToSlide(currentIndex, true);
+      }, 510);
     }
 
-    // Botones
-    document.querySelector('.backward-button')?.addEventListener('click', next);
-    document.querySelector('.forward-button')?.addEventListener('click', prev);
+    updateBullets();
+    updateAnimations();
+  }
 
-    // Soporte para dispositivos táctiles
-    let startX = 0;
-    let endX = 0;
+  function next() {
+    goToSlide(currentIndex + 1);
+  }
 
-    slideshow.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    }, { passive: true });
+  function prev() {
+    goToSlide(currentIndex - 1);
+  }
 
-    slideshow.addEventListener('touchmove', (e) => {
-      endX = e.touches[0].clientX;
-    }, { passive: true });
+  navNext.addEventListener("click", next);
+  navPrev.addEventListener("click", prev);
 
-    slideshow.addEventListener('touchend', () => {
-      const deltaX = endX - startX;
-      if (Math.abs(deltaX) > 50) {
-        if (deltaX < 0) {
-          prev(); // Swipe izquierda: siguiente
-        } else {
-          next(); // Swipe derecha: anterior
-        }
-      }
-      startX = 0;
-      endX = 0;
-    });
 
-    setInterval(prev, 10000);
-  }, 1000);
+  // =============================
+  // BULLETS
+  // =============================
+  bulletsContainer.querySelectorAll(".bullet").forEach(b =>
+    b.addEventListener("click", () => {
+      const realIndex = parseInt(b.dataset.index, 10) + 1;
+      goToSlide(realIndex);
+    })
+  );
+
+
+  // =============================
+  // AUTO-SLIDE
+  // =============================
+  function startAuto() {
+    stopAuto();
+    autoInterval = setInterval(next, AUTO_TIME);
+  }
+  function stopAuto() {
+    if (autoInterval) clearInterval(autoInterval);
+  }
+
+  wrapper.addEventListener("mouseenter", stopAuto);
+  wrapper.addEventListener("mouseleave", startAuto);
+
+
+  // =============================
+  // RESIZE
+  // =============================
+  window.addEventListener("resize", updateItemsPerView);
+  window.addEventListener("orientationchange", updateItemsPerView);
+
+
+  // =============================
+  // INICIALIZACIÓN
+  // =============================
+  updateItemsPerView();
+  goToSlide(1, true);
+  startAuto();
 });

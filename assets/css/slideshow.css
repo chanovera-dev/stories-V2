@@ -1,3 +1,28 @@
+section.block.posts--body {
+    &.container--related-posts {
+        .content {
+            &.slideshow-wrapper {
+                & .slideshow {
+                    & .post:not(:has(header.block.entry-header)) {
+                        &:hover {
+                            box-shadow: none;
+                            border-color: var(--wp--preset--color--main);
+                        }
+
+                        & .post-body__footer {
+                            &::after {
+                                background: linear-gradient(to left, light-dark(var(--wp--preset--color--secondary), var(--contrast--darker)) 0%, transparent 100%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*
 .block {
     & .content.container {
         position: relative;

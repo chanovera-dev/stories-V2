@@ -75,12 +75,13 @@ function stories_get_assets() {
             'single'             => "$assets_path/css/single.css",
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
-            'slideshow'          => "$assets_path/css/slideshow.css",
+            'slideshow-styles'   => "$assets_path/css/slideshow.css",
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
             'gallery'            => "$assets_path/js/gallery.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
+            'animate-in'         => "$assets_path/js/animate-in.js",
         ]
     ];
 }
@@ -113,25 +114,28 @@ function page_template() {
 
         if ( is_single() ) {
             stories_enqueue_style( 'single', $a['css']['single'] );
-            stories_enqueue_style( 'slideshow', $a['css']['slideshow'] );
+            stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
             stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
-            
-            global $wp_query;
+            stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+            require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
+            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
 
-            $has_gallery = false;
+            // global $wp_query;
 
-            foreach ( $wp_query->posts as $post ) {
-                if ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) {
-                    $has_gallery = true;
-                    break;
-                }
-            }
+            // $has_gallery = false;
+
+            // foreach ( $wp_query->posts as $post ) {
+            //     if ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) {
+            //         $has_gallery = true;
+            //         break;
+            //     }
+            // }
             
-            if ( $has_gallery ) {
-                require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
-                stories_enqueue_script( 'gallery', $a['js']['gallery'] );
-            }
-            
+            // if ( $has_gallery ) {
+            //     require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
+            //     stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+            // }
+
             // $related_posts = get_posts( [
             //     'post__not_in' => [ $post_id ],
             //     'posts_per_page' => 1,
@@ -185,6 +189,7 @@ function posts_styles() {
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
         stories_enqueue_style( 'posts', $a['css']['posts'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
     }
 }
 add_action( 'wp_enqueue_scripts', 'posts_styles' );
