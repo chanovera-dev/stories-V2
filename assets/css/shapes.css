@@ -9,52 +9,111 @@
     opacity: 0;
     transform: translateY(60px);
     display: grid;
+    overflow: hidden;
+    border-radius: 1.6rem 1.6rem 1rem 1rem;
     transition: opacity .3s ease, transform .3s ease;
 
     &.animate-in {
         opacity: 1;
         transform: translateY(0);
     }
-    
+
+    &:is(.format-video,.format-image,.format-gallery) {
+        & .post-body {
+            grid-template-rows: 1fr auto auto;
+
+            & .post-body__header {
+                height: 100%;
+            }
+        }
+    }
+
+    &:is(.format-aside,.format-quote) {
+        & .post-body {
+            grid-template-rows: 1fr auto;
+            padding-top: 0;
+
+            & .post-body__content {
+                grid-template-rows: 1fr auto;
+
+                & .post--content {
+                    p {
+                        font-size: clamp(2rem, 5vw, 2.2rem) !important;
+                        line-height: 1.4;
+                        font-weight: 500;
+
+                        &:not(:last-child) {
+                            margin-bottom: 1rem;
+                        }
+
+                        &.has-medium-font-size {
+                            font-size: var(--wp--preset--font-size--medium) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     & .post-body {
+        border-radius: inherit;
         display: grid;
         grid-template-rows: auto 1fr auto;
         border: 1px solid light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6));
         padding-top: .5rem;
-        border-radius: 1.6rem 1.6rem 1rem 1rem;
         overflow: hidden;
         transition: box-shadow .3s ease;
 
+        &:hover {
+            box-shadow: 0 0 0 1px var(--wp--preset--color--main);
+        }
+
         & .post-body__header {
+            position: relative;
             width: calc(100% - 1rem);
             margin-inline: auto;
             padding: .5rem;
             border-radius: 1rem;
             overflow: hidden;
+            aspect-ratio: 3 / 2;
 
-            &:has(.wp-post-image) {
-                border-radius: 1rem;
-                overflow: hidden;
-                aspect-ratio: 3 / 2;
-                position: relative;
-                padding: .5rem;
+            & :is(.wp-post-image,.post-video-wrapper video,.gallery-wrapper) {
+                position: absolute;
+                top: 50%; left: 50%; transform: translate(-50%, -50%);
+                width: 100%;
                 height: 100%;
-
-                & .wp-post-image {
-                    position: absolute;
-                    z-index: 0;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: filter .3s ease;
-                }
+                object-fit: cover;
+                border-radius: inherit;
+                z-index: 0;
+                transition: filter .3s ease;
 
                 &:hover {
-                    & .wp-post-image {
-                        filter: brightness(1.1);
+                    filter: brightness(1.05);
+                }
+
+                & .gallery {
+                    display: flex;
+                    height: 100%;
+
+                    & img {
+                        object-fit: cover;
+                    }
+                }
+
+                & .gallery-navigation {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+
+                    & .gallery-prev,
+                    & .gallery-next {
+                        & svg {
+                            fill: var(--wp--preset--color--base);
+                        }
+
+                        &:hover {
+                            background-color: var(--wp--preset--color--contrast-alpha-50);
+                        }
                     }
                 }
             }
@@ -64,12 +123,27 @@
                 z-index: 1;
             }
 
-            & > .post--permalink {
-                border-top-right-radius: 1rem;
+            & .post--permalink {
+                position: absolute;
+                z-index: 2;
+                top: 0;
+                right: 0;
+                transition: background-color .3s ease-in-out, backdrop-filter .3s ease-in-out;
+                
+                & svg {
+                    fill: var(--wp--preset--color--base);
+                }
+
+                &:hover {
+                    backdrop-filter: blur(7px);
+                    background-color: var(--wp--preset--color--contrast-alpha-50);
+                }
             }
         }
 
         & .post-body__content {
+            padding: .5rem;
+            overflow: hidden;
             display: grid;
             grid-template-rows: auto 1fr auto;
             padding: .5rem;
@@ -130,12 +204,8 @@
                 gap: 3px;
                 flex-wrap: nowrap;
                 overflow-x: auto;
+                scrollbar-gutter: stable;
 
-                /* 🔥 Aquí el truco */
-                scrollbar-gutter: stable; /* mantiene el espacio de la barra */
-
-
-                /* Chrome / Safari */
                 &::-webkit-scrollbar {
                     height: 6px;
                     background: transparent;
@@ -166,182 +236,6 @@
                 );
                 z-index: 1;
                 border-radius: 1rem;
-            }
-        }
-
-        &:hover {
-            box-shadow: 0 0 0 1px var(--wp--preset--color--main);
-        }
-    }
-
-    &.format-video,
-    &.format-image,
-    &.format-gallery {
-        & .post-body {
-            grid-template-rows: 1fr auto auto;
-
-            & .post-body__header {
-                position: relative;
-
-                &:has(.post-video-wrapper) {
-                    padding: .5rem;
-
-                    & .post--tags {
-                        position: relative;
-                        z-index: 1;
-                    }
-                }
-
-                & .post-video-wrapper {
-                    & video {
-                        position: absolute;
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        transform: translate(-50%, -50%);
-                        top: 50%;
-                        left: 50%;
-                        border-radius: 1rem;
-                        z-index: 0;
-                        transition: box-shadow .3s ease;
-
-                        &:focus-visible {
-                            outline: none;
-                            box-shadow: 0 0 0 1px orangered,
-                                        0 0 0 .2rem #ff44007e;
-                        }
-                    }
-                }
-
-                & .gallery-wrapper {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                    border-radius: 1rem;
-                    z-index: 0;
-                    opacity: .5;
-                    background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
-                    animation: animation-gallery-wrapper 1.3s forwards;
-
-                    & .gallery { 
-                        display: flex;
-                        height: 100%;
-                        opacity: 0;
-                        animation: animation-gallery .3s ease 1s forwards;
-
-                        & img {
-                            height: 100%;
-                            object-fit: cover;
-                        }
-                    }
-                    
-
-                    & .gallery-navigation {
-                        position: absolute;
-                        bottom: 0;
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        width: 100%;
-
-                        & button {
-                            & svg {
-                                fill: var(--wp--preset--color--base);
-                            }
-
-                            &:hover {
-                                backdrop-filter: blur(7px);
-                                background-color: var(--wp--preset--color--contrast-alpha-50);
-                            }
-
-                            &.gallery-prev {
-                                border-bottom-left-radius: 1rem;
-                            }
-
-                            &.gallery-next {
-                                border-bottom-right-radius: 1rem;
-                            }
-                        }
-
-                        & .gallery-bullets { 
-                            padding-left: 0;
-                            background-color:transparent;
-                            display: flex; 
-                            gap: 20px; 
-                            margin-inline: auto; 
-                            list-style: none; 
-                            border-radius: 9px;
-                            
-                            & .gallery-bullet {
-                                width: 13px; 
-                                height: 13px; 
-                                border-radius: 50%; 
-                                background-color: transparent;
-                                border: 2px solid var(--wp--preset--color--white);
-                                cursor:pointer;
-
-                                &.active { 
-                                    background: var(--wp--preset--color--main);
-                                    border-color: var(--wp--preset--color--main);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                & .post--permalink {
-                    position: absolute;
-                    z-index: 2;
-                    top: 0;
-                    right: 0;
-                    transition: background-color .3s ease-in-out, backdrop-filter .3s ease-in-out;
-                    
-                    & svg {
-                        fill: var(--wp--preset--color--base);
-                    }
-
-                    &:hover {
-                        backdrop-filter: blur(7px);
-                        background-color: var(--wp--preset--color--contrast-alpha-50);
-                    }
-                }
-            }
-
-            & .post-body__content {
-                & .post--date {
-                    margin-top: 0;
-                }
-            }
-        }
-    }
-
-    &.format-quote,
-    &.format-aside {
-        & .post-body {
-            padding-top: 0;
-            grid-template-rows: 1fr auto;
-
-            & .post-body__content {
-                grid-template-rows: 1fr auto;
-
-                & .post--content {
-                    p {
-                        font-size: clamp(2rem, 5vw, 2.2rem) !important;
-                        line-height: 1.4;
-                        font-weight: 500;
-
-                        &:not(:last-child) {
-                            margin-bottom: 1rem;
-                        }
-
-                        &.has-medium-font-size {
-                            font-size: var(--wp--preset--font-size--medium) !important;
-                        }
-                    }
-                }
             }
         }
     }
@@ -508,12 +402,14 @@ ul {
     }
 }
 
+.gallery-navigation,
 .slideshow-navigation {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 
+    & .gallery-bullets,
     & .bullets { 
             padding-left: 0;
             background-color:transparent;
@@ -523,6 +419,7 @@ ul {
             list-style: none; 
             border-radius: 9px;
             
+            & .gallery-bullet,
             & .bullet {
                 width: 13px; 
                 height: 13px; 
@@ -606,14 +503,14 @@ ul {
 }
 
 @media (width < 600px) {
-    .post {
-        &.format-gallery:not(:has(header.block.entry-header)),
-        &.format-video:not(:has(header.block.entry-header)),
-        &.format-image:not(:has(header.block.entry-header)) {
-            & header.post-body__header {
-                aspect-ratio: 4 / 5;
+    .post:not(:has(header.block.entry-header)) {
+        &:is(.format-video, .format-image, .format-gallery) {
+            & .post-body {
+                & .post-body__header {
+                    aspect-ratio: 4 / 5;
+                }
             }
-        }
+        } 
     }
 
     .slideshow-navigation {
@@ -624,54 +521,32 @@ ul {
 }
 
 @media (width >= 600px) {
-    .post {
-        &.format-gallery:not(:has(header.block.entry-header)),
-        &.format-video:not(:has(header.block.entry-header)),
-        &.format-image:not(:has(header.block.entry-header)) {
-            & header.post-body__header {
-                min-height: 350px;
+    .post:not(:has(header.block.entry-header)) {
+        &:is(.format-video, .format-image, .format-gallery) {
+            & .post-body {
+                & .post-body__header {
+                    min-height: 350px;
+                }
             }
-        }
+        } 
     }
 }
 
 body.is-chromium {
     .post:not(:has(header.block.entry-header)) {
-        .post-body {
-            border-radius: 2.7rem 2.7rem 1.5rem 1.5rem;
+        border-radius: 2.7rem 2.7rem 1.5rem 1.5rem;
+        corner-shape: squircle;
+
+        & .post-body {
             corner-shape: squircle;
 
             & .post-body__header {
                 border-radius: 2rem;
                 corner-shape: squircle;
 
-                &:has(.wp-post-image) {
-                    border-radius: 2rem;
+                & :is(.wp-post-image,.post-video-wrapper video) {
+                    border-radius: inherit;
                     corner-shape: squircle;
-                }
-
-                & .post-video-wrapper {
-                    & video {
-                        border-radius: 2rem;
-                        corner-shape: squircle;
-                    }
-                }
-
-                & .gallery-wrapper {
-                    border-radius: 2rem;
-                    corner-shape: squircle;
-
-                    & .gallery-navigation {
-                        button {
-                            &.gallery-prev {
-                                border-bottom-left-radius: 2.7rem;
-                            }
-
-                            &.gallery-next {
-                                border-bottom-right-radius: 2.7rem;
-                            }
-                        }
-                    }
                 }
 
                 & > .post--permalink {
@@ -702,17 +577,4 @@ body.is-chromium {
             border-radius: 1rem;
         }
     }
-}
-
-@keyframes animation-gallery-wrapper {
-    0%   {opacity: .25;}
-    25%  {opacity: 1;}
-    50%  {opacity: .25;}
-    75%  {opacity: 1;}
-    100% {opacity: 1;}
-}
-
-@keyframes animation-gallery {
-    0%   {opacity: 0;}
-    100% {opacity: 1;}
 }
