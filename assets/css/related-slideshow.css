@@ -1,0 +1,23 @@
+section.block.posts--body {
+    &.container--related-posts {
+        .content {
+            &.slideshow-wrapper {
+                width: var(--max-width--content);
+                
+                & .slideshow {
+                    & .post:not(:has(header.block.entry-header)) {
+                        padding: .1rem;
+                        
+                        & .post-body {
+                            & .post-body__footer {
+                                &::after {
+                                    background: linear-gradient(to left, light-dark(var(--wp--preset--color--secondary), var(--contrast--darker)) 0%, transparent 100%);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

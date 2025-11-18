@@ -26,12 +26,12 @@ if ( have_posts() ) {
         if ( $post_format ) {
             $maybe = 'single-' . $post_format;
 
-            if ( locate_template( "template-parts/content-{$maybe}.php" ) ) {
+            if ( locate_template( "template-parts/single/content-{$maybe}.php" ) ) {
                 $suffix = $maybe;
             }
         }
 
-        get_template_part( 'template-parts/content', $suffix );
+        get_template_part( 'template-parts/single/content', $suffix );
     }
 
 }

@@ -1,43 +1,39 @@
-<?php get_header(); ?>
-<div id="main" class="site-main" role="main">
-    <article class="article single-post" id="<?php the_ID(); ?>">
-        <header class="block">
-            <div class="content">
-                <?php
-                    if ( has_post_thumbnail() ) {
-                        echo get_the_post_thumbnail( null, 'full', [ 'class' => 'background-hero', 'alt'   => get_the_title(), 'loading' => 'lazy', 'data-speed' => '0.25' ] );
-                    }
+<?php
+/**
+ * Single Detrás del espejo Template
+ *
+ * This template is used to display individual blog posts.
+ * It loads the header, runs the main WordPress loop to display
+ * the post content using the 'template-parts/content-single.php' template part,
+ * and then loads the footer.
+ *
+ * Typically used for standard blog posts, news articles, or custom post types
+ * that do not have a dedicated template.
+ *
+ * @package stories
+ * @since 2.0.0
+ */
+get_header();
 
-                    the_title( '<h1 class="page-title">', '</h1>' );
-                    echo '<div class="metadata"><div class="date">' . get_the_date() . '</div>';
-                    if ( get_comments_number() > 0 ) :
-                        echo '<div class="comments">';
-                                if ( get_comments_number() == 1 ) {
-                                    echo get_comments_number(); echo '<span></span>' . esc_html( 'Comentario', 'stories' );
-                                } else {
-                                    echo get_comments_number(); echo '<span></span>' . esc_html( 'Comentarios', 'stories' );
-                                }
-                        echo '</div>';
-                    endif;
-                ?>
-            </div>
-        </header>
-        <section class="block">
-            <?php
-                foreach ( [ 'content', 'author', 'single-post-pagination' ] as $part ) {
-                    get_template_part( 'templates/single/' . $part );
-                }
-            ?>
-        </section>
-        <?php 
-            if ( comments_open() ): 
-        ?>
-        <section class="block">
-            <div class="content content-comments">
-                <?php comments_template(); ?>
-            </div>
-        </section>
-        <?php endif; ?>
-    </article>
-</div>
-<?php get_footer(); ?>
+if ( have_posts() ) {
+
+    while ( have_posts() ) {
+        the_post();
+        
+        $post_format = get_post_format();
+        $suffix = 'single';
+
+        if ( $post_format ) {
+            $maybe = 'single-' . $post_format;
+
+            if ( locate_template( "template-parts/single/content-{$maybe}.php" ) ) {
+                $suffix = $maybe;
+            }
+        }
+
+        get_template_part( 'template-parts/single/content', $suffix );
+    }
+
+}
+
+get_footer();

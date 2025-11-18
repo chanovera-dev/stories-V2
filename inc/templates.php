@@ -75,16 +75,18 @@ function stories_get_assets() {
             'single'             => "$assets_path/css/single.css",
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
-            'slideshow'          => "$assets_path/css/slideshow.css",
+            'slideshow-styles'   => "$assets_path/css/related-slideshow.css",
             'home-slideshow'     => "$assets_path/css/home-slideshow.css",
             'clouds-styles'      => "$assets_path/css/clouds.css"
         ],
         'js' => [
-            'slideshow-script'   => "$assets_path/js/slideshow.js",
+            'slideshow-script'   => "$assets_path/js/related-slideshow.js",
             'home-slideshow-js'  => "$assets_path/js/home-slideshow.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
             'clouds-script'      => "$assets_path/js/clouds.js",
             'blur-typing'        => "$assets_path/js/blur-typing.js",
+            'animate-in'         => "$assets_path/js/animate-in.js",
+            'gallery'            => "$assets_path/js/gallery.js",
         ]
     ];
 }
@@ -103,7 +105,7 @@ function stories_get_assets() {
 function page_template() {
     $assets_path = '/assets';
 
-    if ( is_page() or is_single() ) {
+    if ( is_page() || is_single() || is_singular( 'detras-del-espejo' ) ) {
         $a = stories_get_assets();
 
         stories_enqueue_style( 'page', $a['css']['page'] );
@@ -115,22 +117,13 @@ function page_template() {
             stories_enqueue_script( 'parallax-hero', $a['js']['parallax-hero'] );
         }
 
-        if ( is_single() ) {
+        if ( is_single() || is_singular( 'detras-del-espejo' ) ) {
             stories_enqueue_style( 'single', $a['css']['single'] );
-            stories_enqueue_style( 'slideshow', $a['css']['slideshow'] );
+            stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
             stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
-            
-            $related_posts = get_posts( [
-                'post__not_in' => [ $post_id ],
-                'posts_per_page' => 1,
-                'category__in' => wp_get_post_categories( $post_id ),
-                'tag__in' => wp_get_post_tags( $post_id, [ 'fields' => 'ids' ] ),
-            ] );
-
-            // if ( ! empty( $related_posts ) ) {
-            //     stories_enqueue_style( 'slideshow', $a['css']['slideshow'] );
-            //     stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
-            // }
+            stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+            require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
+            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
 
             if ( comments_open() ) {
                 stories_enqueue_style( 'custom-comments', $a['css']['comments'] );
@@ -154,6 +147,22 @@ function posts_styles() {
     if ( is_home() || is_archive() || is_search() || is_page_template( 'archive-detras-del-espejo.php' ) ) {
         $a = stories_get_assets();
 
+        global $wp_query;
+
+        $has_gallery = false;
+
+        foreach ( $wp_query->posts as $post ) {
+            if ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) {
+                $has_gallery = true;
+                break;
+            }
+        }
+        
+        if ( $has_gallery ) {
+            require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
+            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+        }
+
         if ( is_home() && is_main_query() && !is_paged() ) {
             stories_enqueue_style( 'clouds-styles', $a['css']['clouds-styles'] );
             stories_enqueue_style( 'home-slideshow', $a['css']['home-slideshow'] );
@@ -165,6 +174,7 @@ function posts_styles() {
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
         stories_enqueue_style( 'posts', $a['css']['posts'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
     }
 }
 add_action( 'wp_enqueue_scripts', 'posts_styles' );

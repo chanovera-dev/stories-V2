@@ -46,19 +46,10 @@ function openCustomSearchform() {
     const button = document.querySelector('.search-mobile__button')
     const searchform = document.querySelector('#custom-searchform')
     const nav = document.querySelector('#menu-primary')
-
-    // const customSearchform = document.querySelector( '#custom-searchform' );
-    // const primaryMenu = document.querySelector( '#primary .menu' );
-    // const iconSearchBtn = document.querySelector( '#search-mobile__button .bi-search' );
-    // const iconCloseBtn = document.querySelector( '#search-mobile__button .bi-x-circle' );
    
     if (button) button.classList.toggle('active')
     if (searchform) searchform.classList.toggle('show')
     if (nav) nav.classList.toggle('hide')
-    // if (customSearchform) customSearchform.classList.toggle('show');
-    // if (primaryMenu) primaryMenu.classList.toggle('hide');
-    // if (iconSearchBtn) iconSearchBtn.classList.toggle('hide');
-    // if (iconCloseBtn) iconCloseBtn.classList.toggle('show');
 }
 
 function closeCustomSearchform() {
