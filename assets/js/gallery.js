@@ -11,6 +11,9 @@ function initGallery(wrapper) {
 
     if (!gallery || originalSlides.length === 0 || !bulletsWrapper) return;
 
+    gallery.style.display = "flex";
+    gallery.style.height = "calc(100% - 48px)";
+
     // Clonar para efecto infinito
     const firstClone = originalSlides[0].cloneNode(true);
     const lastClone = originalSlides[originalSlides.length - 1].cloneNode(true);

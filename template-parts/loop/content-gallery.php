@@ -19,7 +19,9 @@
 
                             if ( ! empty( $ids ) ) {
                                 foreach ( $ids as $id ) {
-                                    echo wp_get_attachment_image( $id, 'large' );
+                                    echo '<div class="slide">';
+                                    echo wp_get_attachment_image( $id, 'post-header-thumbnail' );
+                                    echo '</div>';
                                 }
                             }
 
