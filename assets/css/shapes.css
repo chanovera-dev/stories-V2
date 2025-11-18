@@ -181,7 +181,7 @@
                 align-items: baseline;
                 gap: .5rem;
                 font-size: var(--wp--preset--font-size--small);
-                opacity: .5;
+                opacity: .7;
 
                 & svg {
                     width: 13px;
