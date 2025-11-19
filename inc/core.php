@@ -150,3 +150,38 @@ function footer_components() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'footer_components' );
+
+/**
+ * Register widgets areas
+ */
+function widgets_areas() {
+
+    register_sidebar(
+        array(
+            'name'          => __( 'Posts sidebar', 'stories' ),
+            'id'            => 'sidebar-1',
+            'before_widget' => '',
+            'after_widget'  => '',
+        )
+    );
+
+    register_sidebar(
+        array(
+            'name'          => __( 'Post sidebar', 'stories' ),
+            'id'            => 'sidebar-2',
+            'before_widget' => '',
+            'after_widget'  => '',
+        )
+    );
+
+    register_sidebar(
+        array(
+            'name'          => __( 'Page sidebar', 'stories' ),
+            'id'            => 'sidebar-3',
+            'before_widget' => '',
+            'after_widget'  => '',
+        )
+    );
+
+}
+add_action( 'widgets_init', 'widgets_areas' );

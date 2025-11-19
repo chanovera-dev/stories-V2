@@ -76,6 +76,7 @@ function stories_get_assets() {
             'comments'           => "$assets_path/css/comments.css",
             'error404'           => "$assets_path/css/error404.css",
             'slideshow-styles'   => "$assets_path/css/slideshow.css",
+            'sidebar'            => "$assets_path/css/sidebar.css",
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
@@ -190,6 +191,10 @@ function posts_styles() {
         stories_enqueue_style( 'posts', $a['css']['posts'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
         stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+
+        if ( is_active_sidebar( 'sidebar-1' ) ) {
+            stories_enqueue_style( 'sidebar', $a['css']['sidebar'] );
+        }
     }
 }
 add_action( 'wp_enqueue_scripts', 'posts_styles' );

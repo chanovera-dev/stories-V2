@@ -58,12 +58,12 @@
 					"name": "Main Alpha 25",
 					"slug": "main-alpha-25"
 				},
-                {
+				{
 					"color": "color-mix(in srgb, currentColor 20%, transparent)",
 					"name": "Accent 6",
 					"slug": "accent-6"
 				},
-				                {
+				{
 					"color": "color-mix(in srgb, currentColor 10%, transparent)",
 					"name": "Accent 7",
 					"slug": "accent-7"
@@ -396,12 +396,12 @@
 				}
 			},
 			"core/post-date": {
-				"color":{
+				"color": {
 					"text": "var:preset|color|accent-4"
 				},
 				"elements": {
 					"link": {
-						"color" : {
+						"color": {
 							"text": "var:preset|color|accent-4"
 						},
 						":hover": {
@@ -538,10 +538,10 @@
 						},
 						"spacing": {
 							"margin": {
-								"left": "1.125rem"
+								"left": "0.5rem"
 							}
 						},
-						":hover" : {
+						":hover": {
 							"border": {
 								"color": "transparent"
 							}
@@ -737,7 +737,6 @@
 			"area": "header",
 			"name": "header-large-title",
 			"title": "Header with large title"
-
 		},
 		{
 			"area": "footer",
@@ -763,7 +762,9 @@
 	"customTemplates": [
 		{
 			"name": "page-no-title",
-			"postTypes": ["page"],
+			"postTypes": [
+				"page"
+			],
 			"title": "Page No Title"
 		}
 	]
