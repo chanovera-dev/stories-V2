@@ -34,7 +34,7 @@ function initGallery(wrapper) {
         slide.style.width = `${100 / totalSlides}%`;
         slide.style.transition = "transform 0.5s ease, opacity 0.5s ease";
         slide.style.transform = "scale(0.5)";
-        slide.style.opacity = "0.25";
+        slide.style.opacity = "0.5";
     });
 
     gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
@@ -55,7 +55,7 @@ function initGallery(wrapper) {
         slides.forEach(slide => {
             slide.classList.remove("active");
             slide.style.transform = "scale(0.5)";
-            slide.style.opacity = "0.25";
+            slide.style.opacity = "0.5";
         });
 
         if (shouldGrow && slides[index]) {
