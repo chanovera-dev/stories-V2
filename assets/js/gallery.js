@@ -32,6 +32,9 @@ function initGallery(wrapper) {
     gallery.style.width = `${100 * totalSlides}%`;
     slides.forEach(slide => {
         slide.style.width = `${100 / totalSlides}%`;
+        slide.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+        slide.style.transform = "scale(0.5)";
+        slide.style.opacity = "0.25";
     });
 
     gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
@@ -48,12 +51,23 @@ function initGallery(wrapper) {
 
     const bullets = bulletsWrapper.querySelectorAll(".gallery-bullet");
 
-    function updateActiveClasses() {
-        originalSlides.forEach(slide => slide.classList.remove("active"));
-        const realIndex = currentSlide - 1;
-        if (realIndex >= 0 && realIndex < visibleSlides) {
-            originalSlides[realIndex].classList.add("active");
+    function updateActiveClasses(index = currentSlide, shouldGrow = true) {
+        slides.forEach(slide => {
+            slide.classList.remove("active");
+            slide.style.transform = "scale(0.5)";
+            slide.style.opacity = "0.25";
+        });
+
+        if (shouldGrow && slides[index]) {
+            slides[index].classList.add("active");
+            slides[index].style.transform = "scale(1)";
+            slides[index].style.opacity = "1";
         }
+
+        let realIndex = index - 1;
+        if (realIndex < 0) realIndex = visibleSlides - 1;
+        if (realIndex >= visibleSlides) realIndex = 0;
+
         bullets.forEach((btn, i) => {
             btn.classList.toggle("active", i === realIndex);
         });
@@ -63,43 +77,55 @@ function initGallery(wrapper) {
         if (isAnimating) return;
         isAnimating = true;
 
-        const from = (100 / totalSlides) * currentSlide;
-        const to = (100 / totalSlides) * targetIndex;
-        const distance = to - from;
-        const duration = 400;
-        const startTime = performance.now();
+        updateActiveClasses(targetIndex, false);
 
-        function animate(time) {
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const current = from + distance * progress;
-            gallery.style.transform = `translateX(-${current}%)`;
+        setTimeout(() => {
+            const from = (100 / totalSlides) * currentSlide;
+            const to = (100 / totalSlides) * targetIndex;
+            const distance = to - from;
+            const duration = 400;
+            const startTime = performance.now();
 
-            if (progress < 1) {
-                animationFrame = requestAnimationFrame(animate);
-            } else {
-                cancelAnimationFrame(animationFrame);
-                currentSlide = targetIndex;
+            function animate(time) {
+                const elapsed = time - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = from + distance * progress;
+                gallery.style.transform = `translateX(-${current}%)`;
 
-                if (currentSlide === 0) {
-                    currentSlide = visibleSlides;
-                    gallery.style.transition = "none";
-                    gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                    requestAnimationFrame(() => gallery.style.transition = "");
-                } else if (currentSlide === totalSlides - 1) {
-                    currentSlide = 1;
-                    gallery.style.transition = "none";
-                    gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                    requestAnimationFrame(() => gallery.style.transition = "");
+                if (progress < 1) {
+                    animationFrame = requestAnimationFrame(animate);
+                } else {
+                    cancelAnimationFrame(animationFrame);
+                    currentSlide = targetIndex;
+
+                    if (currentSlide === 0) {
+                        currentSlide = visibleSlides;
+                        gallery.style.transition = "none";
+                        slides.forEach(s => s.style.transition = "none");
+                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+                        requestAnimationFrame(() => {
+                            gallery.style.transition = "";
+                            slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
+                        });
+                    } else if (currentSlide === totalSlides - 1) {
+                        currentSlide = 1;
+                        gallery.style.transition = "none";
+                        slides.forEach(s => s.style.transition = "none");
+                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+                        requestAnimationFrame(() => {
+                            gallery.style.transition = "";
+                            slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
+                        });
+                    }
+
+                    updateActiveClasses();
+                    isAnimating = false;
                 }
-
-                updateActiveClasses();
-                isAnimating = false;
             }
-        }
 
-        cancelAnimationFrame(animationFrame);
-        animationFrame = requestAnimationFrame(animate);
+            cancelAnimationFrame(animationFrame);
+            animationFrame = requestAnimationFrame(animate);
+        }, 500);
     }
 
     bulletsWrapper.addEventListener("click", e => {
@@ -115,8 +141,8 @@ function initGallery(wrapper) {
     let endX = 0;
     const threshold = 50;
 
-    gallery.addEventListener("touchstart", e => startX = e.touches[0].clientX, {passive: true});
-    gallery.addEventListener("touchmove", e => endX = e.touches[0].clientX, {passive: true});
+    gallery.addEventListener("touchstart", e => startX = e.touches[0].clientX, { passive: true });
+    gallery.addEventListener("touchmove", e => endX = e.touches[0].clientX, { passive: true });
     gallery.addEventListener("touchend", () => {
         const deltaX = endX - startX;
         if (Math.abs(deltaX) > threshold) {
@@ -157,6 +183,9 @@ function initGallery(wrapper) {
             goToSlide(currentSlide + 1);
         }, 10000);
     }
+
+    wrapper.addEventListener("mouseenter", () => clearInterval(autoSlide));
+    wrapper.addEventListener("mouseleave", () => resetAutoSlide());
 }
 
 function initAllGalleries() {
