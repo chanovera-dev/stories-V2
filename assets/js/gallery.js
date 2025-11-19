@@ -106,6 +106,8 @@ function initGallery(wrapper) {
                         requestAnimationFrame(() => {
                             gallery.style.transition = "";
                             slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
+                            updateActiveClasses();
+                            isAnimating = false;
                         });
                     } else if (currentSlide === totalSlides - 1) {
                         currentSlide = 1;
@@ -115,11 +117,13 @@ function initGallery(wrapper) {
                         requestAnimationFrame(() => {
                             gallery.style.transition = "";
                             slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
+                            updateActiveClasses();
+                            isAnimating = false;
                         });
+                    } else {
+                        updateActiveClasses();
+                        isAnimating = false;
                     }
-
-                    updateActiveClasses();
-                    isAnimating = false;
                 }
             }
 
