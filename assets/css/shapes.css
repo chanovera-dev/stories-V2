@@ -190,14 +190,13 @@
         }
 
         & .post-body__footer {
-            display: flex;
-            align-items: center;
             overflow: hidden;
             height: 48px;
             position: relative;
             border-top: 1px dashed light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6));
 
             & .post--tags {
+                transform: translateY(.2rem);
                 display: flex;
                 padding: .5rem;
                 gap: 3px;
@@ -566,9 +565,7 @@ body.is-chromium {
 
             & .post-body__footer {
                 & .post--tags {
-                    &:has(:nth-child(3)) {
-                        padding-bottom: .1rem;
-                    }
+                    padding-bottom: .2rem;
                 }
             }
         }
