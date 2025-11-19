@@ -8,103 +8,123 @@ $title = get_the_title(); // Título por defecto
 $image = '';
 $date = ''; // Nueva variable para fecha externa
 
-if ($url) {
-    // Inicializar cURL
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+if ( $url && wp_http_validate_url( $url ) ) {
+    
+    // Intentar obtener datos de caché
+    $transient_key = 'stories_link_preview_' . md5( $url );
+    $cached_data   = get_transient( $transient_key );
 
-    $html = curl_exec($ch);
-    curl_close($ch);
+    if ( false !== $cached_data ) {
+        $title = $cached_data['title'];
+        $image = $cached_data['image'];
+        $date  = $cached_data['date'];
+    } else {
+        // Realizar petición segura con API HTTP de WP
+        $response = wp_remote_get( $url, array(
+            'timeout'     => 5,
+            'user-agent'  => 'Mozilla/5.0 (compatible; StoriesTheme/2.0; +' . home_url() . ')',
+            'redirection' => 5,
+        ) );
 
-    if ($html) {
+        if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
+            $html = wp_remote_retrieve_body( $response );
 
-        /**
-         * ===================================
-         *  TÍTULO EXTERNO
-         * ===================================
-         */
+            if ( $html ) {
 
-        // og:title
-        if (preg_match('/<meta property="og:title" content="([^"]+)"/i', $html, $og_title)) {
-            $title = $og_title[1];
-        }
-        // <title>
-        elseif (preg_match('/<title>(.*?)<\/title>/i', $html, $fallback_title)) {
-            $title = strip_tags($fallback_title[1]);
-        }
+                /**
+                 * ===================================
+                 *  TÍTULO EXTERNO
+                 * ===================================
+                 */
 
-        // Limpieza opcional
-        $title = preg_replace('/\s*-\s*La Voz de la Región$/i', '', $title);
-
-
-        /**
-         * ===================================
-         *  IMAGEN EXTERNA
-         * ===================================
-         */
-
-        // og:image
-        if (preg_match('/<meta property="og:image" content="([^"]+)"/i', $html, $og_image)) {
-            $image = $og_image[1];
-        } else {
-            // Buscar manualmente imágenes del contenido principal
-            libxml_use_internal_errors(true);
-            $doc = new DOMDocument();
-            $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-            $xpath = new DOMXPath($doc);
-
-            $nodes = $xpath->query("//div[contains(@class, 'post-body')]//img");
-
-            if ($nodes->length > 0) {
-                foreach ($nodes as $img) {
-                    $image = $img->getAttribute('src') ?: $img->getAttribute('data-src');
-                    if ($image) break;
+                // og:title
+                if (preg_match('/<meta property="og:title" content="([^"]+)"/i', $html, $og_title)) {
+                    $title = $og_title[1];
                 }
-            }
+                // <title>
+                elseif (preg_match('/<title>(.*?)<\/title>/i', $html, $fallback_title)) {
+                    $title = strip_tags($fallback_title[1]);
+                }
 
-            libxml_clear_errors();
-        }
+                // Limpieza opcional
+                $title = preg_replace('/\s*-\s*La Voz de la Región$/i', '', $title);
 
 
-        /**
-         * ===================================
-         *  FECHA EXTERNA
-         * ===================================
-         */
+                /**
+                 * ===================================
+                 *  IMAGEN EXTERNA
+                 * ===================================
+                 */
 
-        // 1. JSON-LD datePublished
-        if (preg_match('/"datePublished"\s*:\s*"([^"]+)"/i', $html, $json_date)) {
-            $date = $json_date[1];
-        }
+                // og:image
+                if (preg_match('/<meta property="og:image" content="([^"]+)"/i', $html, $og_image)) {
+                    $image = $og_image[1];
+                } else {
+                    // Buscar manualmente imágenes del contenido principal
+                    libxml_use_internal_errors(true);
+                    $doc = new DOMDocument();
+                    // Suppress warnings for malformed HTML
+                    $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_NOWARNING | LIBXML_NOERROR);
+                    $xpath = new DOMXPath($doc);
 
-        // 2. <meta property="article:published_time">
-        elseif (preg_match('/<meta[^>]+property=["\']article:published_time["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $meta_date)) {
-            $date = $meta_date[1];
-        }
+                    $nodes = $xpath->query("//div[contains(@class, 'post-body')]//img");
 
-        // 3. meta name="date"
-        elseif (preg_match('/<meta[^>]+name=["\']date["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $meta2_date)) {
-            $date = $meta2_date[1];
-        }
+                    if ($nodes->length > 0) {
+                        foreach ($nodes as $img) {
+                            $image = $img->getAttribute('src') ?: $img->getAttribute('data-src');
+                            if ($image) break;
+                        }
+                    }
 
-        // 4. <time datetime="">
-        elseif (preg_match('/<time[^>]+datetime=["\']([^"\']+)["\']/i', $html, $time_date)) {
-            $date = $time_date[1];
-        }
+                    libxml_clear_errors();
+                }
 
-        // 5. Fecha simple YYYY-MM-DD
-        elseif (preg_match('/\b(20\d{2}-\d{2}-\d{2})\b/', $html, $simple_date)) {
-            $date = $simple_date[1];
-        }
 
-        // Formateo de fecha a "January 1, 2025"
-        if ($date) {
-            $timestamp = strtotime($date);
-            if ($timestamp) {
-                $date = date_i18n( 'F j, Y', $timestamp );
+                /**
+                 * ===================================
+                 *  FECHA EXTERNA
+                 * ===================================
+                 */
+
+                // 1. JSON-LD datePublished
+                if (preg_match('/"datePublished"\s*:\s*"([^"]+)"/i', $html, $json_date)) {
+                    $date = $json_date[1];
+                }
+
+                // 2. <meta property="article:published_time">
+                elseif (preg_match('/<meta[^>]+property=["\']article:published_time["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $meta_date)) {
+                    $date = $meta_date[1];
+                }
+
+                // 3. meta name="date"
+                elseif (preg_match('/<meta[^>]+name=["\']date["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $meta2_date)) {
+                    $date = $meta2_date[1];
+                }
+
+                // 4. <time datetime="">
+                elseif (preg_match('/<time[^>]+datetime=["\']([^"\']+)["\']/i', $html, $time_date)) {
+                    $date = $time_date[1];
+                }
+
+                // 5. Fecha simple YYYY-MM-DD
+                elseif (preg_match('/\b(20\d{2}-\d{2}-\d{2})\b/', $html, $simple_date)) {
+                    $date = $simple_date[1];
+                }
+
+                // Formateo de fecha a "January 1, 2025"
+                if ($date) {
+                    $timestamp = strtotime($date);
+                    if ($timestamp) {
+                        $date = date_i18n( 'F j, Y', $timestamp );
+                    }
+                }
+
+                // Guardar en caché por 24 horas
+                set_transient( $transient_key, array(
+                    'title' => $title,
+                    'image' => $image,
+                    'date'  => $date,
+                ), DAY_IN_SECONDS );
             }
         }
     }
