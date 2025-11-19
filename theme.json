@@ -58,12 +58,12 @@
 					"name": "Main Alpha 25",
 					"slug": "main-alpha-25"
 				},
-                {
+				{
 					"color": "color-mix(in srgb, currentColor 20%, transparent)",
 					"name": "Accent 6",
 					"slug": "accent-6"
 				},
-				                {
+				{
 					"color": "color-mix(in srgb, currentColor 10%, transparent)",
 					"name": "Accent 7",
 					"slug": "accent-7"
@@ -396,12 +396,12 @@
 				}
 			},
 			"core/post-date": {
-				"color":{
+				"color": {
 					"text": "var:preset|color|accent-4"
 				},
 				"elements": {
 					"link": {
-						"color" : {
+						"color": {
 							"text": "var:preset|color|accent-4"
 						},
 						":hover": {
@@ -526,22 +526,22 @@
 				}
 			},
 			"core/search": {
-				"css": "& .wp-block-search__input{border-radius:3.125rem;padding-left:1.5625rem;padding-right:1.5625rem;border-color:var(--wp--preset--color--accent-6);}",
+				"css": "& .wp-block-search__input{border-radius:0.375rem;padding-left:0.625rem;padding-right:0.625rem;border-color:var(--wp--preset--color--accent-6); transition: all .3s ease;}",
 				"typography": {
 					"fontSize": "var:preset|font-size|medium",
-					"lineHeight": "1.6"
+					"lineHeight": "1"
 				},
 				"elements": {
 					"button": {
 						"border": {
-							"radius": "3.125rem"
+							"radius": "0.375rem"
 						},
 						"spacing": {
 							"margin": {
-								"left": "1.125rem"
+								"left": "0.5rem"
 							}
 						},
-						":hover" : {
+						":hover": {
 							"border": {
 								"color": "transparent"
 							}
@@ -630,7 +630,7 @@
 		"elements": {
 			"button": {
 				"color": {
-					"background": "var:preset|color|contrast",
+					"background": "var:preset|color|main",
 					"text": "var:preset|color|base"
 				},
 				":focus": {
@@ -641,7 +641,7 @@
 				},
 				":hover": {
 					"color": {
-						"background": "color-mix(in srgb, var(--wp--preset--color--contrast) 85%, transparent)",
+						"background": "color-mix(in srgb, var(--wp--preset--color--main) 85%, transparent)",
 						"text": "var:preset|color|base"
 					},
 					"border": {
@@ -650,14 +650,17 @@
 				},
 				"spacing": {
 					"padding": {
-						"bottom": "1rem",
-						"left": "2.25rem",
-						"right": "2.25rem",
-						"top": "1rem"
+						"bottom": "0.625rem",
+						"left": "1rem",
+						"right": "1rem",
+						"top": "0.625rem"
 					}
 				},
 				"typography": {
-					"fontSize": "var:preset|font-size|medium"
+					"fontSize": "var:preset|font-size|medium",
+					"fontWeight": "600",
+					"textTransform": "uppercase",
+					"letterSpacing": "0.188rem"
 				}
 			},
 			"caption": {
@@ -737,7 +740,6 @@
 			"area": "header",
 			"name": "header-large-title",
 			"title": "Header with large title"
-
 		},
 		{
 			"area": "footer",
@@ -763,7 +765,9 @@
 	"customTemplates": [
 		{
 			"name": "page-no-title",
-			"postTypes": ["page"],
+			"postTypes": [
+				"page"
+			],
 			"title": "Page No Title"
 		}
 	]

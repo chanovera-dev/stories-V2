@@ -77,7 +77,8 @@ function stories_get_assets() {
             'error404'           => "$assets_path/css/error404.css",
             'slideshow-styles'   => "$assets_path/css/related-slideshow.css",
             'home-slideshow'     => "$assets_path/css/home-slideshow.css",
-            'clouds-styles'      => "$assets_path/css/clouds.css"
+            'clouds-styles'      => "$assets_path/css/clouds.css",
+            'sidebar'            => "$assets_path/css/sidebar.css",
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/related-slideshow.js",
@@ -175,6 +176,10 @@ function posts_styles() {
         stories_enqueue_style( 'posts', $a['css']['posts'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
         stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+
+        if ( is_active_sidebar( 'sidebar-1' ) ) {
+            stories_enqueue_style( 'sidebar', $a['css']['sidebar'] );
+        }
     }
 }
 add_action( 'wp_enqueue_scripts', 'posts_styles' );

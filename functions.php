@@ -35,10 +35,11 @@ if ( ! defined( 'STORIES_VERSION' ) ) {
  * Note: files are included only if they exist.
  */
 $inc_files = array(
-    'core'       => 'inc/core.php',
-    'extended'   => 'inc/extended.php',
-    'templates'  => 'inc/templates.php',
-    'customizer' => 'inc/customizer.php',
+    'core'           => 'inc/core.php',
+    'extended'       => 'inc/extended.php',
+    'custom-widgets' => 'inc/custom-widgets.php',
+    'templates'      => 'inc/templates.php',
+    'customizer'     => 'inc/customizer.php',
 );
 
 foreach ( $inc_files as $key => $relative_path ) {
