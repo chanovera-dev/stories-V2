@@ -419,6 +419,11 @@ ul {
         list-style: none;
         border-radius: 9px;
 
+        &:has(svg) {
+            gap: .5rem;
+            color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+        }
+
         & .gallery-bullet,
         & .bullet {
             width: 13px;
@@ -427,11 +432,6 @@ ul {
             background-color: light-dark(var(--wp--preset--color--main-alpha-25), var(--wp--preset--color--main-alpha-25));
             border: none;
             cursor: pointer;
-
-            &:has(svg) {
-                gap: .5rem;
-                color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
-            }
 
             &.active {
                 background-color: var(--wp--preset--color--main);
