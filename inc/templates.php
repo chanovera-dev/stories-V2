@@ -87,7 +87,7 @@ function stories_get_assets() {
             'clouds-script'      => "$assets_path/js/clouds.js",
             'blur-typing'        => "$assets_path/js/blur-typing.js",
             'animate-in'         => "$assets_path/js/animate-in.js",
-            'gallery'            => "$assets_path/js/gallery.js",
+            'loop-gallery'       => "$assets_path/js/loop-gallery.js",
         ]
     ];
 }
@@ -124,7 +124,7 @@ function page_template() {
             stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
             stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
             require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
-            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+            stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
 
             if ( comments_open() ) {
                 stories_enqueue_style( 'custom-comments', $a['css']['comments'] );
@@ -161,7 +161,7 @@ function posts_styles() {
         
         if ( $has_gallery ) {
             require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
-            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+            stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
         }
 
         if ( is_home() && is_main_query() && !is_paged() ) {
