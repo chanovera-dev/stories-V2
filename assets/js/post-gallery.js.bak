@@ -1,0 +1,397 @@
+// post-gallery-full.js
+// Galería de posts + thumbs infinito con 3 visibles + drag + lightbox
+(function () {
+
+    const initialized = new WeakSet();
+
+    function initPostGallery(wrapper) {
+        if (initialized.has(wrapper)) return;
+        initialized.add(wrapper);
+
+        const gallery = wrapper.querySelector(".post-gallery");
+        const slides = Array.from(gallery.querySelectorAll(".post-gallery-slide"));
+        const thumbsWrapper = wrapper.querySelector(".post-gallery-thumbs");
+        const prevBtn = wrapper.querySelector(".btn-pagination:first-of-type");
+        const nextBtn = wrapper.querySelector(".btn-pagination:last-of-type");
+
+        if (!slides.length || !thumbsWrapper) return;
+
+        // --- Clonar para infinito en galería grande ---
+        const firstClone = slides[0].cloneNode(true);
+        const lastClone = slides[slides.length - 1].cloneNode(true);
+        gallery.prepend(lastClone);
+        gallery.appendChild(firstClone);
+
+        const allSlides = Array.from(gallery.querySelectorAll(".post-gallery-slide"));
+
+        const originalCount = slides.length;
+        const totalSlides = allSlides.length;
+
+        let current = 1;
+        let isAnimating = false;
+        let autoInterval;
+
+        // Widths
+        gallery.style.display = "flex";
+        gallery.style.width = `${100 * totalSlides}%`;
+
+        allSlides.forEach(s => {
+            s.style.width = `${100 / totalSlides}%`;
+            s.style.transition = "transform .5s ease, opacity .5s ease";
+            s.style.transform = "scale(.5)";
+            s.style.opacity = "0.5";
+        });
+
+        gallery.style.transform = `translateX(-${(100 / totalSlides) * current}%)`;
+
+        // --- THUMBS: obtener originales ---
+        let originalThumbs = Array.from(thumbsWrapper.querySelectorAll(".post-gallery-thumb"));
+        const ORIGINAL_COUNT = originalThumbs.length;
+        const VISIBLE = 3;
+        const GAP_PX = 8;
+
+        thumbsWrapper.style.display = "flex";
+        thumbsWrapper.style.gap = GAP_PX + "px";
+        thumbsWrapper.style.overflow = "hidden";
+        thumbsWrapper.style.padding = "0";
+        thumbsWrapper.style.margin = "0";
+        thumbsWrapper.style.listStyle = "none";
+        thumbsWrapper.style.alignItems = "center";
+        thumbsWrapper.style.boxSizing = "border-box";
+
+        // --- Construir clones del thumb infinito ---
+        function buildThumbClones() {
+            originalThumbs = Array.from(thumbsWrapper.querySelectorAll(".post-gallery-thumb")).slice(0, ORIGINAL_COUNT);
+
+            // append: 2 bloques
+            originalThumbs.forEach(t => thumbsWrapper.appendChild(t.cloneNode(true)));
+            originalThumbs.forEach(t => thumbsWrapper.appendChild(t.cloneNode(true)));
+
+            // prepend: 2 bloques
+            const clones = [];
+            originalThumbs.forEach(t => clones.push(t.cloneNode(true)));
+            originalThumbs.forEach(t => clones.push(t.cloneNode(true)));
+            clones.reverse().forEach(c => thumbsWrapper.prepend(c));
+        }
+        buildThumbClones();
+
+        let allThumbs = Array.from(thumbsWrapper.querySelectorAll(".post-gallery-thumb"));
+
+        // --- Medir anchuras ---
+        function updateThumbWidths() {
+            const containerW = thumbsWrapper.clientWidth;
+            const totalGaps = GAP_PX * (VISIBLE - 1);
+            const itemW = Math.floor((containerW - totalGaps) / VISIBLE);
+
+            allThumbs = Array.from(thumbsWrapper.querySelectorAll(".post-gallery-thumb"));
+            allThumbs.forEach(t => {
+                t.style.flex = `0 0 ${itemW}px`;
+                t.style.width = `${itemW}px`;
+                t.style.boxSizing = "border-box";
+            });
+        }
+        updateThumbWidths();
+        window.addEventListener("resize", () => {
+            updateThumbWidths();
+            requestAnimationFrame(() => centerActiveThumb());
+        });
+
+        // --- Posición inicial (al centro de los clones) ---
+        function initialThumbScroll() {
+            allThumbs = Array.from(thumbsWrapper.querySelectorAll(".post-gallery-thumb"));
+            const w = allThumbs[0].getBoundingClientRect().width + GAP_PX;
+            const clonesBefore = ORIGINAL_COUNT * 2;
+            thumbsWrapper.scrollLeft = clonesBefore * w;
+        }
+        initialThumbScroll();
+
+        function getRealIndex(i = current) {
+            return ((i - 1) % ORIGINAL_COUNT + ORIGINAL_COUNT) % ORIGINAL_COUNT;
+        }
+
+        function centerActiveThumb() {
+            const real = getRealIndex();
+            const candidates = Array.from(
+                thumbsWrapper.querySelectorAll(`.post-gallery-thumb[data-index="${real}"]`)
+            );
+            if (!candidates.length) return;
+
+            const centerX = thumbsWrapper.getBoundingClientRect().left + thumbsWrapper.clientWidth / 2;
+
+            let best = candidates[0];
+            let bestDist = Infinity;
+
+            candidates.forEach(c => {
+                const rect = c.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const d = Math.abs(cx - centerX);
+                if (d < bestDist) {
+                    bestDist = d;
+                    best = c;
+                }
+            });
+
+            const rect = best.getBoundingClientRect();
+            const wrapper = thumbsWrapper.getBoundingClientRect();
+            const rel = rect.left - wrapper.left + rect.width / 2;
+            const desired = thumbsWrapper.scrollLeft + (rel - wrapper.width / 2);
+
+            thumbsWrapper.scrollTo({ left: desired, behavior: "smooth" });
+
+            // aplicar .active a todos los clones correctos
+            allThumbs.forEach(t => {
+                t.classList.toggle("active", t.dataset.index === String(real));
+            });
+        }
+
+        // --- Manejo de scroll infinito (thumbs) ---
+        thumbsWrapper.addEventListener("scroll", () => {
+            if (thumbsWrapper._raf) return;
+            thumbsWrapper._raf = requestAnimationFrame(() => {
+                thumbsWrapper._raf = null;
+
+                const maxScroll = thumbsWrapper.scrollWidth - thumbsWrapper.clientWidth;
+                const cur = thumbsWrapper.scrollLeft;
+
+                const itemFull = allThumbs[0].getBoundingClientRect().width + GAP_PX;
+                const block = ORIGINAL_COUNT * 2 * itemFull;
+
+                if (cur <= itemFull) {
+                    thumbsWrapper.scrollLeft = cur + block;
+                } else if (cur >= maxScroll - itemFull) {
+                    thumbsWrapper.scrollLeft = cur - block;
+                }
+            });
+        }, { passive: true });
+
+        // --- Drag + Touch para thumbs ---
+        (function () {
+            let down = false, startX = 0, startScroll = 0, isDragging = false;
+
+            thumbsWrapper.addEventListener("mousedown", e => {
+                down = true;
+                startX = e.pageX;
+                startScroll = thumbsWrapper.scrollLeft;
+                thumbsWrapper.classList.add("is-dragging");
+            });
+
+            document.addEventListener("mousemove", e => {
+                if (!down) return;
+                const walk = startX - e.pageX;
+                if (Math.abs(walk) > 3) isDragging = true;
+                thumbsWrapper.scrollLeft = startScroll + walk;
+            });
+
+            document.addEventListener("mouseup", () => {
+                down = false;
+                thumbsWrapper.classList.remove("is-dragging");
+                setTimeout(() => isDragging = false, 50);
+            });
+
+            // Touch
+            let tStart = 0, tScroll = 0;
+            thumbsWrapper.addEventListener("touchstart", e => {
+                tStart = e.touches[0].pageX;
+                tScroll = thumbsWrapper.scrollLeft;
+            }, { passive: true });
+
+            thumbsWrapper.addEventListener("touchmove", e => {
+                const walk = tStart - e.touches[0].pageX;
+                thumbsWrapper.scrollLeft = tScroll + walk;
+            }, { passive: true });
+
+            thumbsWrapper.addEventListener("click", e => {
+                if (isDragging) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+        })();
+
+        // --- Update de active en slides + thumbs ---
+        function updateActiveClasses(target = current) {
+            allSlides.forEach(s => {
+                s.classList.remove("active");
+
+                s.style.transition = "transform .45s ease, opacity .45s ease";
+                s.style.transitionDelay = "0s";
+                s.style.transform = "scale(.5)";
+                s.style.opacity = "0.5";
+            });
+
+            const active = allSlides[target];
+            if (active) {
+                active.classList.add("active");
+
+                active.style.transition = "transform .45s ease, opacity .45s ease";
+                active.style.transitionDelay = "0s";
+
+                requestAnimationFrame(() => {
+                    active.style.transitionDelay = ".5s";
+                    active.style.transform = "scale(1)";
+                    active.style.opacity = "1";
+                });
+            }
+
+            centerActiveThumb();
+        }
+
+        // --- Loop infinito grande ---
+        function handleLoop() {
+            if (current === 0) {
+                current = originalCount;
+            } else if (current === totalSlides - 1) {
+                current = 1;
+            } else return false;
+
+            gallery.style.transition = "none";
+            allSlides.forEach(s => s.style.transition = "none");
+
+            gallery.style.transform = `translateX(-${(100 / totalSlides) * current}%)`;
+
+            requestAnimationFrame(() => {
+                gallery.style.transition = "";
+                allSlides.forEach(s =>
+                    s.style.transition = "transform .5s ease, opacity .5s ease"
+                );
+                updateActiveClasses();
+                isAnimating = false;
+            });
+
+            return true;
+        }
+
+        // --- Navegación principal ---
+        function goToSlide(target) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            updateActiveClasses(target, false);
+
+            const from = (100 / totalSlides) * current;
+            const to = (100 / totalSlides) * target;
+            const distance = to - from;
+            const duration = 400;
+            const start = performance.now();
+
+            function anim(time) {
+                const prog = Math.min((time - start) / duration, 1);
+                const value = from + distance * prog;
+                setTimeout(() => {
+                    gallery.style.transform = `translateX(-${value}%)`;
+                }, 500);
+
+
+                if (prog < 1) {
+                    requestAnimationFrame(anim);
+                } else {
+                    current = target;
+                    if (!handleLoop()) {
+                        updateActiveClasses();
+                        isAnimating = false;
+                    }
+                }
+            }
+
+            requestAnimationFrame(anim);
+        }
+
+        // --- Click en thumbs ---
+        thumbsWrapper.addEventListener("click", e => {
+            const t = e.target.closest(".post-gallery-thumb");
+            if (!t) return;
+            const index = parseInt(t.dataset.index, 10);
+            goToSlide(index + 1);
+            resetAuto();
+        });
+
+        // --- Swipe en slides ---
+        let sx = 0, ex = 0;
+        const threshold = 50;
+        gallery.addEventListener("touchstart", e => sx = e.touches[0].clientX, { passive: true });
+        gallery.addEventListener("touchmove", e => ex = e.touches[0].clientX, { passive: true });
+        gallery.addEventListener("touchend", () => {
+            const d = ex - sx;
+            if (Math.abs(d) > threshold) {
+                goToSlide(d < 0 ? current + 1 : current - 1);
+                resetAuto();
+            }
+        });
+
+        // --- Botones ---
+        prevBtn.addEventListener("click", () => { goToSlide(current - 1); resetAuto(); });
+        nextBtn.addEventListener("click", () => { goToSlide(current + 1); resetAuto(); });
+
+        // --- Auto slide ---
+        function startAuto() {
+            autoInterval = setInterval(() => goToSlide(current + 1), 10000);
+        }
+        function resetAuto() {
+            clearInterval(autoInterval);
+            startAuto();
+        }
+        startAuto();
+
+        wrapper.addEventListener("mouseenter", () => clearInterval(autoInterval));
+        wrapper.addEventListener("mouseleave", resetAuto);
+
+        updateActiveClasses();
+
+        // --- LIGHTBOX ---
+        (function () {
+            const lb = document.createElement("div");
+            lb.className = "pg-lightbox";
+            lb.style.cssText = `
+                position:fixed; inset:0; background:rgba(0,0,0,.85);
+                display:none; align-items:center; justify-content:center;
+                z-index:999999;
+            `;
+
+            const img = document.createElement("img");
+            img.style.cssText = `
+                max-width:95%; max-height:95%; object-fit:contain;
+            `;
+
+            const close = document.createElement("button");
+            close.textContent = "✕";
+            close.style.cssText = `
+                position:fixed; top:20px; right:20px;
+                background:none; border:none; color:white;
+                font-size:28px; cursor:pointer;
+            `;
+
+            lb.appendChild(img);
+            lb.appendChild(close);
+            document.body.appendChild(lb);
+
+            function open(i) {
+                const s = slides[i];
+                if (!s) return;
+                const im = s.querySelector("img");
+                if (!im) return;
+                img.src = im.src;
+                lb.style.display = "flex";
+            }
+
+            allSlides.forEach((s, i) => {
+                s.addEventListener("click", () => open(getRealIndex(i - 1)));
+            });
+
+            close.addEventListener("click", () => lb.style.display = "none");
+            lb.addEventListener("click", e => {
+                if (e.target === lb) lb.style.display = "none";
+            });
+
+            document.addEventListener("keydown", e => {
+                if (lb.style.display === "flex" && e.key === "Escape")
+                    lb.style.display = "none";
+            });
+        })();
+    }
+
+    // Init automático para todas las galerías PHP renderizadas
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".post-gallery-wrapper").forEach(initPostGallery);
+    });
+
+})();

@@ -1,8 +1,8 @@
-// Usamos WeakSet para marcar wrappers ya inicializados (no se clona)
+// Usamos WeakSet para marcar wrappers ya inicializados
 const initializedGalleries = new WeakSet();
 
 function initGallery(wrapper) {
-    if (initializedGalleries.has(wrapper)) return; // ya inicializada
+    if (initializedGalleries.has(wrapper)) return;
     initializedGalleries.add(wrapper);
 
     const gallery = wrapper.querySelector(".gallery");
@@ -28,7 +28,7 @@ function initGallery(wrapper) {
     let animationFrame;
     let isAnimating = false;
 
-    // Ajustar anchos
+    // Configurar dimensiones y estilos iniciales
     gallery.style.width = `${100 * totalSlides}%`;
     slides.forEach(slide => {
         slide.style.width = `${100 / totalSlides}%`;
@@ -41,16 +41,22 @@ function initGallery(wrapper) {
 
     // Crear bullets
     bulletsWrapper.innerHTML = "";
-    originalSlides.forEach((_, index) => {
-        const bullet = document.createElement("li");
-        bullet.classList.add("gallery-bullet");
-        if (index === 0) bullet.classList.add("active");
-        bullet.dataset.index = index;
-        bulletsWrapper.appendChild(bullet);
-    });
+    if (originalSlides.length > 5) {
+        bulletsWrapper.style.display = "none";
+    } else {
+        bulletsWrapper.style.display = ""; // Reset display just in case
+        originalSlides.forEach((_, index) => {
+            const bullet = document.createElement("li");
+            bullet.classList.add("gallery-bullet");
+            if (index === 0) bullet.classList.add("active");
+            bullet.dataset.index = index;
+            bulletsWrapper.appendChild(bullet);
+        });
+    }
 
     const bullets = bulletsWrapper.querySelectorAll(".gallery-bullet");
 
+    // Actualizar clases activas y estilos
     function updateActiveClasses(index = currentSlide, shouldGrow = true) {
         slides.forEach(slide => {
             slide.classList.remove("active");
@@ -64,15 +70,37 @@ function initGallery(wrapper) {
             slides[index].style.opacity = "1";
         }
 
-        let realIndex = index - 1;
-        if (realIndex < 0) realIndex = visibleSlides - 1;
-        if (realIndex >= visibleSlides) realIndex = 0;
-
-        bullets.forEach((btn, i) => {
-            btn.classList.toggle("active", i === realIndex);
-        });
+        // Calcular índice real para bullets
+        const realIndex = ((index - 1) % visibleSlides + visibleSlides) % visibleSlides;
+        bullets.forEach((btn, i) => btn.classList.toggle("active", i === realIndex));
     }
 
+    // Manejar salto instantáneo en bucle infinito
+    function handleInfiniteLoop() {
+        if (currentSlide === 0) {
+            currentSlide = visibleSlides;
+        } else if (currentSlide === totalSlides - 1) {
+            currentSlide = 1;
+        } else {
+            return false; // No hay salto
+        }
+
+        // Salto instantáneo sin transición
+        gallery.style.transition = "none";
+        slides.forEach(s => s.style.transition = "none");
+        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
+
+        requestAnimationFrame(() => {
+            gallery.style.transition = "";
+            slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
+            updateActiveClasses();
+            isAnimating = false;
+        });
+
+        return true; // Hubo salto
+    }
+
+    // Función principal de navegación
     function goToSlide(targetIndex) {
         if (isAnimating) return;
         isAnimating = true;
@@ -98,29 +126,7 @@ function initGallery(wrapper) {
                     cancelAnimationFrame(animationFrame);
                     currentSlide = targetIndex;
 
-                    if (currentSlide === 0) {
-                        currentSlide = visibleSlides;
-                        gallery.style.transition = "none";
-                        slides.forEach(s => s.style.transition = "none");
-                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                        requestAnimationFrame(() => {
-                            gallery.style.transition = "";
-                            slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
-                            updateActiveClasses();
-                            isAnimating = false;
-                        });
-                    } else if (currentSlide === totalSlides - 1) {
-                        currentSlide = 1;
-                        gallery.style.transition = "none";
-                        slides.forEach(s => s.style.transition = "none");
-                        gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`;
-                        requestAnimationFrame(() => {
-                            gallery.style.transition = "";
-                            slides.forEach(s => s.style.transition = "transform 0.5s ease, opacity 0.5s ease");
-                            updateActiveClasses();
-                            isAnimating = false;
-                        });
-                    } else {
+                    if (!handleInfiniteLoop()) {
                         updateActiveClasses();
                         isAnimating = false;
                     }
@@ -132,6 +138,7 @@ function initGallery(wrapper) {
         }, 500);
     }
 
+    // Event listeners para bullets
     bulletsWrapper.addEventListener("click", e => {
         if (e.target.classList.contains("gallery-bullet")) {
             const index = parseInt(e.target.dataset.index, 10);
@@ -140,7 +147,7 @@ function initGallery(wrapper) {
         }
     });
 
-    // Swipe
+    // Swipe gestures
     let startX = 0;
     let endX = 0;
     const threshold = 50;
@@ -150,8 +157,7 @@ function initGallery(wrapper) {
     gallery.addEventListener("touchend", () => {
         const deltaX = endX - startX;
         if (Math.abs(deltaX) > threshold) {
-            if (deltaX < 0) goToSlide(currentSlide + 1);
-            else goToSlide(currentSlide - 1);
+            goToSlide(deltaX < 0 ? currentSlide + 1 : currentSlide - 1);
         }
         startX = 0;
         endX = 0;
@@ -177,19 +183,16 @@ function initGallery(wrapper) {
 
     updateActiveClasses();
 
-    let autoSlide = setInterval(() => {
-        goToSlide(currentSlide + 1);
-    }, 14000);
+    // Auto-slide
+    let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 14000);
 
     function resetAutoSlide() {
         clearInterval(autoSlide);
-        autoSlide = setInterval(() => {
-            goToSlide(currentSlide + 1);
-        }, 10000);
+        autoSlide = setInterval(() => goToSlide(currentSlide + 1), 10000);
     }
 
     wrapper.addEventListener("mouseenter", () => clearInterval(autoSlide));
-    wrapper.addEventListener("mouseleave", () => resetAutoSlide());
+    wrapper.addEventListener("mouseleave", resetAutoSlide);
 }
 
 function initAllGalleries() {
@@ -197,11 +200,7 @@ function initAllGalleries() {
 }
 
 // Observador: cuando aparezcan nodos nuevos, re-intenta inicializar
-const observer = new MutationObserver((mutations) => {
-    // Llamamos a initAllGalleries — initGallery ignora ya inicializadas por WeakSet
-    initAllGalleries();
-});
-
+const observer = new MutationObserver(() => initAllGalleries());
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Inicial al cargar

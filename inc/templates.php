@@ -77,10 +77,12 @@ function stories_get_assets() {
             'error404'           => "$assets_path/css/error404.css",
             'slideshow-styles'   => "$assets_path/css/slideshow.css",
             'sidebar'            => "$assets_path/css/sidebar.css",
+            'post-gallery'       => "$assets_path/css/post-gallery.css",
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/slideshow.js",
-            'gallery'            => "$assets_path/js/gallery.js",
+            'loop-gallery'       => "$assets_path/js/loop-gallery.js",
+            'post-gallery'       => "$assets_path/js/post-gallery.js",
             'parallax-hero'      => "$assets_path/js/parallax-hero.js",
             'animate-in'         => "$assets_path/js/animate-in.js",
         ]
@@ -118,8 +120,13 @@ function page_template() {
             stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
             stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
             stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
-            require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
-            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+            
+            // Enqueue post gallery for WordPress gallery blocks
+            $post = get_post( $post_id );
+            if ( $post && ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) ) {
+                stories_enqueue_style( 'post-gallery', $a['css']['post-gallery'] );
+                stories_enqueue_script( 'post-gallery', $a['js']['post-gallery'] );
+            }
 
             // global $wp_query;
 
@@ -184,7 +191,7 @@ function posts_styles() {
         
         if ( $has_gallery ) {
             require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
-            stories_enqueue_script( 'gallery', $a['js']['gallery'] );
+            stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
         }
 
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
