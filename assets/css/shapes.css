@@ -413,6 +413,7 @@ ul {
         padding-left: 0;
         background-color: transparent;
         display: flex;
+        align-items: center;
         gap: 20px;
         margin-inline: auto;
         list-style: none;
@@ -426,6 +427,11 @@ ul {
             background-color: light-dark(var(--wp--preset--color--main-alpha-25), var(--wp--preset--color--main-alpha-25));
             border: none;
             cursor: pointer;
+
+            &:has(svg) {
+                gap: .5rem;
+                color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+            }
 
             &.active {
                 background-color: var(--wp--preset--color--main);
