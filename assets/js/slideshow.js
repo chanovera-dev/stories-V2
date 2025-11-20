@@ -72,9 +72,9 @@ function createSlideshow({
       const w = wrapper.clientWidth;
 
       if (w < 600) itemsPerView = 1;
-      else if (w < 983) itemsPerView = 2;
-      else if (w < 1326) itemsPerView = 3;
-      else if (w < 1440) itemsPerView = 4;
+      else if (w < 809) itemsPerView = 2;
+      else if (w < 1065) itemsPerView = 3;
+      else if (w < 1481) itemsPerView = 4;
       else itemsPerView = 5;
 
       updateSlideWidth();
