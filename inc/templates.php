@@ -79,6 +79,7 @@ function stories_get_assets() {
             'home-slideshow'     => "$assets_path/css/home-slideshow.css",
             'clouds-styles'      => "$assets_path/css/clouds.css",
             'sidebar'            => "$assets_path/css/sidebar.css",
+            'post-gallery-styles'=> "$assets_path/css/post-gallery.css",
         ],
         'js' => [
             'slideshow-script'   => "$assets_path/js/related-slideshow.js",
@@ -88,6 +89,7 @@ function stories_get_assets() {
             'blur-typing'        => "$assets_path/js/blur-typing.js",
             'animate-in'         => "$assets_path/js/animate-in.js",
             'loop-gallery'       => "$assets_path/js/loop-gallery.js",
+            'post-gallery-script' => "$assets_path/js/post-gallery.js",
         ]
     ];
 }
@@ -116,6 +118,12 @@ function page_template() {
         if ( $post_id && has_post_thumbnail( $post_id ) ) {
             stories_enqueue_style( 'page-thumbnail', $a['css']['page-thumbnail'] );
             stories_enqueue_script( 'parallax-hero', $a['js']['parallax-hero'] );
+        }
+
+        $post = get_post( $post_id );
+        if ( $post && ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) ) {
+            stories_enqueue_style( 'post-gallery-styles', $a['css']['post-gallery-styles'] );
+            stories_enqueue_script( 'post-gallery-script', $a['js']['post-gallery-script'] );
         }
 
         if ( is_single() || is_singular( 'detras-del-espejo' ) ) {
