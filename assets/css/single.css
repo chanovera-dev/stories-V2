@@ -204,18 +204,9 @@ section.block {
                 & section.block {
                     & .content {
                         & .is-layout-constrained {
-                            & > * {
-                                max-width: 100% !important;
-                                margin-left: 0 !important;
-                                margin-right: 0 !important;
-                            }
-
                             & .wp-block-video video,
                             & .attachment-full.size-full.wp-post-image {
-                                float: left;
-                                max-width: 500px !important;
-                                margin-right: 2rem !important;
-                                margin-bottom: 2rem !important;
+                                width: min(100% - 2.5rem, 40.313rem) !important
                             }
                         }
                     }
