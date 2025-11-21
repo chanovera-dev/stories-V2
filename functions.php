@@ -38,6 +38,7 @@ $inc_files = array(
     'core'           => 'inc/core.php',
     'extended'       => 'inc/extended.php',
     'custom-widgets' => 'inc/custom-widgets.php',
+    'custom-blocks'  => 'inc/custom-blocks.php',
     'templates'      => 'inc/templates.php',
     'customizer'     => 'inc/customizer.php',
 );
