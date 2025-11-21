@@ -27,6 +27,10 @@
             display: flex;
             border-radius: inherit;
 
+            &:hover {
+                cursor: url('https://relatosycartas.com/wp-content/themes/stories-V2/assets/icons/zoom-in.svg'), auto;
+            }
+
             & .post-gallery-slide {
                 flex-shrink: 0;
                 display: flex;
@@ -91,6 +95,7 @@
                             box-shadow: 0 0 0 1px var(--wp--preset--color--main),
                                 0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
                             opacity: .75;
+                            cursor: pointer;
                         }
                     }
                 }
@@ -112,10 +117,6 @@ body.is-chromium {
             corner-shape: squircle;
 
             & .post-gallery {
-                &:hover {
-                    cursor: url('https://relatosycartas.com/wp-content/themes/stories-V2/assets/icons/zoom-in.svg'), auto;
-                }
-
                 & .post-gallery-slide {
                     & img  {
                         border-radius: inherit;
