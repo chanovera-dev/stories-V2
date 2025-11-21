@@ -67,24 +67,24 @@ function stories_get_assets() {
 
     return [
         'css' => [
-            'breadcrumbs'        => "$assets_path/css/breadcrumbs.css",
-            'posts'              => "$assets_path/css/posts.css",
-            'pagination'         => "$assets_path/css/pagination.css",
-            'page-thumbnail'     => "$assets_path/css/page-thumbnail.css",
-            'page'               => "$assets_path/css/page.css",
-            'single'             => "$assets_path/css/single.css",
-            'comments'           => "$assets_path/css/comments.css",
-            'error404'           => "$assets_path/css/error404.css",
-            'slideshow-styles'   => "$assets_path/css/slideshow.css",
-            'sidebar'            => "$assets_path/css/sidebar.css",
-            'post-gallery'       => "$assets_path/css/post-gallery.css",
+            'breadcrumbs'         => "$assets_path/css/breadcrumbs.css",
+            'posts'               => "$assets_path/css/posts.css",
+            'pagination'          => "$assets_path/css/pagination.css",
+            'page-thumbnail'      => "$assets_path/css/page-thumbnail.css",
+            'page'                => "$assets_path/css/page.css",
+            'single'              => "$assets_path/css/single.css",
+            'comments'            => "$assets_path/css/comments.css",
+            'error404'            => "$assets_path/css/error404.css",
+            'slideshow-styles'    => "$assets_path/css/slideshow.css",
+            'sidebar'             => "$assets_path/css/sidebar.css",
+            'post-gallery-styles' => "$assets_path/css/post-gallery.css",
         ],
         'js' => [
-            'slideshow-script'   => "$assets_path/js/slideshow.js",
-            'loop-gallery'       => "$assets_path/js/loop-gallery.js",
-            'post-gallery'       => "$assets_path/js/post-gallery.js",
-            'parallax-hero'      => "$assets_path/js/parallax-hero.js",
-            'animate-in'         => "$assets_path/js/animate-in.js",
+            'slideshow-script'    => "$assets_path/js/slideshow.js",
+            'loop-gallery'        => "$assets_path/js/loop-gallery.js",
+            'post-gallery-script' => "$assets_path/js/post-gallery.js",
+            'parallax-hero'       => "$assets_path/js/parallax-hero.js",
+            'animate-in'          => "$assets_path/js/animate-in.js",
         ]
     ];
 }
@@ -117,8 +117,8 @@ function page_template() {
 
         $post = get_post( $post_id );
         if ( $post && ( has_block( 'core/gallery', $post ) || has_shortcode( $post->post_content, 'gallery' ) ) ) {
-            // stories_enqueue_style( 'post-gallery', $a['css']['post-gallery'] );
-            // stories_enqueue_script( 'post-gallery', $a['js']['post-gallery'] );
+            stories_enqueue_style( 'post-gallery-styles', $a['css']['post-gallery-styles'] );
+            stories_enqueue_script( 'post-gallery-script', $a['js']['post-gallery-script'] );
         }
 
         if ( is_single() ) {

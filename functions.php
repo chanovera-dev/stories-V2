@@ -38,7 +38,7 @@ $inc_files = array(
     'core'           => 'inc/core.php',
     'extended'       => 'inc/extended.php',
     'custom-widgets' => 'inc/custom-widgets.php',
-    // 'custom-blocks'  => 'inc/custom-blocks.php', se ha de activar cuando se mejore el nuevo script de post-gallery
+    'custom-blocks'  => 'inc/custom-blocks.php',
     'templates'      => 'inc/templates.php',
     'customizer'     => 'inc/customizer.php',
 );
