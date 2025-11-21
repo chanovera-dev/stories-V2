@@ -112,6 +112,10 @@ body.is-chromium {
             corner-shape: squircle;
 
             & .post-gallery {
+                &:hover {
+                    cursor: url('https://relatosycartas.com/wp-content/themes/stories-V2/assets/icons/zoom-in.svg'), auto;
+                }
+
                 & .post-gallery-slide {
                     & img  {
                         border-radius: inherit;
