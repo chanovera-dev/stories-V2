@@ -9,7 +9,6 @@
     opacity: 0;
     transform: translateY(60px);
     display: grid;
-    overflow: hidden;
     border-radius: 1.6rem 1.6rem 1rem 1rem;
     transition: opacity .3s ease, transform .3s ease;
 
