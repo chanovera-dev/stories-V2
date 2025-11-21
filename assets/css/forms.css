@@ -174,8 +174,8 @@ textarea {
 #submit,
 .wpcf7-submit,
 .wp-element-button {
-  color: var(--wp--preset--color--base);
-  background-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+  color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+  background-color: light-dark(var(--wp--preset--color--main), var(--main-dark));
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
 
   & svg {

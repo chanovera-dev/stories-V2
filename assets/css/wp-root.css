@@ -9,6 +9,8 @@
     --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
     --main--lighter-plus: oklch(from var(--wp--preset--color--main-alpha-50) calc(l + .3) c calc(h * .88));
     --contrast--darker: oklch(from var(--wp--preset--color--contrast) calc(l - .2) c h);
+    --main-dark: #4f3900;
+    --secondary-dark: #271c00;
 
     /* lines */
     --line-1: #abb8c3;

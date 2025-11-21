@@ -76,7 +76,7 @@
             border-radius: 1rem;
             overflow: hidden;
             aspect-ratio: 3 / 2;
-            background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+            background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
 
             & :is(.wp-post-image, .post-video-wrapper video, .gallery-wrapper) {
                 position: absolute;

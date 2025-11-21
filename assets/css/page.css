@@ -2,7 +2,7 @@ header.block {
     position: relative;
     overflow: hidden;
     text-align: center;
-    background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+    background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
 
     & .content {   
         padding: 3rem 0;
