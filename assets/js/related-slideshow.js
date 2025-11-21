@@ -69,13 +69,12 @@ function createSlideshow({
     // RESPONSIVE
     // -------------------------------
     function updateItemsPerView() {
-      const w = wrapper.clientWidth;
+      const w = window.innerWidth; // ancho de ventana
 
       if (w < 600) itemsPerView = 1;
       else if (w < 809) itemsPerView = 2;
       else if (w < 1065) itemsPerView = 3;
-      else if (w < 1481) itemsPerView = 4;
-      else itemsPerView = 5;
+      else itemsPerView = 4;
 
       updateSlideWidth();
       updateBullets();
@@ -95,6 +94,12 @@ function createSlideshow({
         s.style.maxWidth = slideWidth + "px";
       });
     }
+
+    // Ejecutar al cargar
+    updateItemsPerView();
+
+    // Escuchar cambios de tamaño de ventana
+    window.addEventListener("resize", updateItemsPerView);
 
     // -------------------------------
     // ANIMACIONES
