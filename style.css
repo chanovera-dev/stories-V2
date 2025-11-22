@@ -522,59 +522,6 @@ img {
                                 }
                             }
                         }
-                        /*
-                        & .section {
-                            display: flex;
-                            position: relative;
-                            z-index: 3;
-
-                            input[type="text"] {
-                                width: 350px;
-                                height: 42px;
-                                border-radius: 8px;
-                                border: none;
-                                box-shadow: rgba(17, 12, 46, 0.15) 0px 6px 12px 0px;
-
-                                &:focus {
-                                    outline: none;
-                                }
-                            }
-
-                            & .buttons-container {
-                                position: absolute;
-                                top: 50%;
-                                right: -59px;
-                                transform: translateY(-50%);
-                                display: flex;
-                                gap: 21px;
-                                align-items: center;
-
-                                & #searchsubmit {
-                                    display: grid;
-                                    place-content: center;
-                                    width: 56px;
-                                    height: 36px;
-                                    border: 1px solid var(--wp--preset--color--main-alpha-50);
-                                    background-color: var(--wp--preset--color--main-alpha-50);
-                                    border-radius: 6px;
-                                }
-
-                                & .close-custom-searchform {
-                                    display: grid;
-                                    place-content: center;
-                                    width: 42px;
-                                    height: 42px;
-                                    border: 1px solid transparent;
-                                    border-radius: 6px;
-                                    transition: border-color .3s ease;
-
-                                    &:hover {
-                                        border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main));
-                                    }
-                                }
-                            }
-                        }
-                        */
                     }
                 }
             }
