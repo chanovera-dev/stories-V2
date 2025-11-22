@@ -11,7 +11,7 @@
         border-radius: 1rem;
         opacity: 0;
         transform: translateY(60px);
-        animation: post-gallery-entrance .3s ease .2s forwards;
+        animation: post-gallery-entrance .3s ease forwards;
 
         & .total-images {
             position: absolute;
@@ -44,7 +44,7 @@
             }
         }
 
-            & .post-gallery-thumbs-container {
+        & .post-gallery-thumbs-container {
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -56,6 +56,8 @@
                 list-style: none;
                 margin: 0;
                 padding: .5rem 0;
+                opacity: 0;
+                animation: post-gallery-entrance .3s ease .3s forwards;
 
                 & .post-gallery-thumb {
                     border: 1px solid transparent;
