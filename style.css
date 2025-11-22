@@ -648,12 +648,8 @@ img {
                                 &:focus {
                                     border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
                                     outline: none;
-                                }
-
-                                &:focus-visible {
-                                    outline: none;
-                                    border-color: light-dark(orangered, orangered);
-                                    box-shadow: 0 0 0 .2rem #ff44007e;
+                                    box-shadow: 0 0 0 1px var(--wp--preset--color--main),
+                                                0 0 0 .2rem var(--wp--preset--color--main-alpha-50); 
                                 }
                             }
 
@@ -668,14 +664,13 @@ img {
                                     place-content: center;
                                     width: 56px;
                                     height: 36px;
-                                    border: 1px solid var(--wp--preset--color--main);
-                                    background-color: var(--wp--preset--color--main);
+                                    border: none;
+                                    background-color: var(--wp--preset--color--main-alpha-25);
                                     border-radius: 6px;
-                                    color: var(--wp--preset--color--base);
                                     transition: background-color .3s ease, border-color .3s ease;
 
                                     &:hover {
-                                        background-color: var(--wp--preset--color--main-alpha-25);
+                                        background-color: var(--wp--preset--color--main-alpha-50);
                                     }
 
                                     &:focus-visible {
