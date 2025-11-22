@@ -530,51 +530,39 @@ img {
 
                         & .section {
                             display: flex;
-                            position: relative;
-                            z-index: 3;
+                            width: 100%;
+                            max-width: 500px;
+                            gap: .5rem;
 
-                            input[type="text"] {
-                                width: 350px;
-                                height: 42px;
-                                border-radius: 8px;
-                                border: none;
-                                box-shadow: rgba(17, 12, 46, 0.15) 0px 6px 12px 0px;
-
-                                &:focus {
-                                    outline: none;
-                                }
+                            & .wp-block-search__input {
+                                height: 46px;
                             }
 
                             & .buttons-container {
-                                position: absolute;
-                                top: 50%;
-                                right: -59px;
-                                transform: translateY(-50%);
                                 display: flex;
-                                gap: 21px;
-                                align-items: center;
+                                position: relative;
 
                                 & #searchsubmit {
-                                    display: grid;
-                                    place-content: center;
-                                    width: 56px;
-                                    height: 36px;
-                                    border: 1px solid var(--wp--preset--color--main-alpha-50);
-                                    background-color: var(--wp--preset--color--main-alpha-50);
+                                    position: absolute;
+                                    top: 3px;
+                                    left: 0;
+                                    transform: translateX(calc(-100% - 3px - .5rem));
+                                    height: 2.46rem;
+                                    background-color: var(--wp--preset--color--main-alpha-25);
+                                    border: none;
                                     border-radius: 6px;
+                                    width: 3rem;
+                                    transition: background-color .3s ease, color .3s ease;
+
+                                    &:hover {
+                                        background-color: var(--wp--preset--color--main-alpha-50);
+                                    }
                                 }
 
                                 & .close-custom-searchform {
-                                    display: grid;
-                                    place-content: center;
-                                    width: 42px;
-                                    height: 42px;
-                                    border: 1px solid transparent;
-                                    border-radius: 6px;
-                                    transition: border-color .3s ease;
-
-                                    &:hover {
-                                        border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main));
+                                    & svg {
+                                        width: 1rem;
+                                        height: 1rem;
                                     }
                                 }
                             }
