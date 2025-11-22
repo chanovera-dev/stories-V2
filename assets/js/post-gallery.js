@@ -56,7 +56,6 @@ function postGalleries() {
       endX = e.touches[0].clientX
       const diff = endX - startX
 
-      // Se bloquea para evitar múltiples disparos
       if (Math.abs(diff) > 40) {
         touchLocked = true
         if (diff < 0) {
