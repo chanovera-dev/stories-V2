@@ -329,7 +329,10 @@ img {
             position: relative;
 
             & .content {
-                display: flex; 
+                width: 100%;
+                display: flex;
+                padding-left: 1.25rem;
+                padding-right: .5rem;
                 gap: 10px;
                 align-items: center;
                 justify-content: space-between;
