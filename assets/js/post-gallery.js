@@ -41,6 +41,38 @@ function postGalleries() {
     gallery.style.transform = `translateX(-${(100 / totalSlides) * currentSlide}%)`
     totalImages.innerHTML = `${bigGalleryIcon} ${totalSlides - 2}`
 
+    let startX = 0
+    let endX = 0
+    let touchLocked = false
+
+    gallery.addEventListener("touchstart", e => {
+      if (isAnimating) return
+      startX = e.touches[0].clientX
+      touchLocked = false
+    }, { passive: true })
+
+    gallery.addEventListener("touchmove", e => {
+      if (isAnimating || touchLocked) return
+      endX = e.touches[0].clientX
+      const diff = endX - startX
+
+      if (Math.abs(diff) > 40) {
+        touchLocked = true
+        if (diff < 0) {
+          goToSlide(currentSlide + 1)
+        } else {
+          goToSlide(currentSlide - 1)
+        }
+        resetAuto()
+      }
+    }, { passive: true })
+
+    gallery.addEventListener("touchend", () => {
+      startX = 0
+      endX = 0
+      touchLocked = false
+    })
+
     thumbsWrapper.innerHTML = ""
     slides.forEach((slide, index) => {
       const t = slide.cloneNode(true)
