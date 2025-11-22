@@ -679,8 +679,6 @@ img {
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
-                            opacity: 0;
-                            transition: opacity .3s ease-in-out .7s;
 
                             input[type="text"] {
                                 width: 350px;
@@ -692,12 +690,15 @@ img {
                                 transition: border-color .3s ease, box-shadow .3s ease;
 
                                 &:hover {
-                                    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+                                    border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main-alpha-50));
                                     box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
                                 }
 
                                 &:focus {
+                                    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
                                     outline: none;
+                                    box-shadow: 0 0 0 1px var(--wp--preset--color--main),
+                                                0 0 0 .2rem var(--wp--preset--color--main-alpha-50); 
                                 }
                             }
 
@@ -712,14 +713,13 @@ img {
                                     place-content: center;
                                     width: 56px;
                                     height: 36px;
-                                    border: 1px solid var(--wp--preset--color--main);
-                                    background-color: var(--wp--preset--color--main);
+                                    border: none;
+                                    background-color: var(--wp--preset--color--main-alpha-25);
                                     border-radius: 6px;
-                                    color: var(--wp--preset--color--base);
                                     transition: background-color .3s ease, border-color .3s ease;
 
                                     &:hover {
-                                        background-color: var(--wp--preset--color--main-alpha-25);
+                                        background-color: var(--wp--preset--color--main-alpha-50);
                                     }
 
                                     &:focus-visible {
