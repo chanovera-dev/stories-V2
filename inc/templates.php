@@ -85,6 +85,12 @@ function stories_get_assets() {
             'post-gallery-script' => "$assets_path/js/post-gallery.js",
             'parallax-hero'       => "$assets_path/js/parallax-hero.js",
             'animate-in'          => "$assets_path/js/animate-in.js",
+
+            // REAL ESTATE TOOLS
+            'filters'             => "$assets_path/js/filters.js",
+            'reset'               => "$assets_path/js/reset-properties-filter.js",
+            'ajax-properties'    => "$assets_path/js/ajax-properties.js",
+            'ajax-search'        => "$assets_path/js/ajax-search-properties.js",
         ]
     ];
 }
@@ -221,3 +227,52 @@ function page404_styles() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'page404_styles' );
+
+/**
+ * Enqueues specific styles and scripts for property-related templates.
+ *
+ * This function loads custom CSS and JavaScript files for:
+ * - Property archive pages (archive-property.php), including filters,
+ *   pagination, and AJAX-powered property loading.
+ * - Single property pages (single-property.php), including gallery,
+ *   related property slideshow, and parallax effects.
+ *
+ * It uses custom enqueue helpers (stories_enqueue_style/script)
+ * and localizes the AJAX script with the admin-ajax URL.
+ *
+ * @since 1.0.0
+ * @package stories
+ */
+function properties_templates() {
+    if ( is_page_template( 'archive-property.php' ) ) {
+        $a  = stories_get_assets();
+
+        stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
+        stories_enqueue_style( 'sidebar', $a['css']['sidebar'] );
+        stories_enqueue_style( 'posts', $a['css']['posts'] );
+
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
+        stories_enqueue_style( 'pagination', $a['css']['pagination'] );
+        stories_enqueue_script( 'filters', $a['js']['filters'] );
+        stories_enqueue_script( 'reset', $a['js']['reset'] );
+        stories_enqueue_script( 'ajax-search-from-other-page', $a['js']['ajax-search'] );
+
+        wp_enqueue_script('ajax-properties', get_template_directory_uri() . '/assets/js/ajax-properties.js', ['jquery'], null, true);
+        wp_localize_script('ajax-properties', 'ajax_object', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('filter_properties_nonce')
+        ]);
+    }
+
+    // if ( is_singular( 'property' ) ) {
+    //     $a  = stories_get_assets();
+
+    //     stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
+    //     stories_enqueue_style( 'property', $a['css']['property'] );
+    //     stories_enqueue_script( 'galery', $a['js']['galery'] );
+    //     stories_enqueue_script( 'slideshow-related-product', $a['js']['slideshow'] );
+    //     stories_enqueue_script( 'parallax', $a['css']['parallax'] );
+    // }
+}
+add_action( 'wp_enqueue_scripts', 'properties_templates' );

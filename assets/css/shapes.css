@@ -17,7 +17,7 @@
         transform: translateY(0);
     }
 
-    &:is(.format-video, .format-image, .format-gallery) {
+    &:is(.format-video, .format-image, .format-gallery, .type-property) {
         & .post-body {
             grid-template-rows: 1fr auto auto;
 
@@ -49,6 +49,23 @@
                             font-size: var(--wp--preset--font-size--medium) !important;
                         }
                     }
+                }
+            }
+        }
+    }
+
+    &.type-property {
+        & .post-body {
+            & .post-body__content {
+                grid-template-columns: 1fr auto;
+                
+                & .post--permalink {
+                    grid-column: 1 / -1;
+                }
+
+                & .price {
+                    font-weight: 700;
+                    align-self: end;
                 }
             }
         }
@@ -142,6 +159,19 @@
                     background-color: var(--wp--preset--color--contrast-alpha-50);
                 }
             }
+
+            & .location {
+                position: absolute;
+                z-index: 2;
+                bottom: calc(48px + .5rem);
+                left: .5rem;
+                color: var(--wp--preset--color--base);
+                text-shadow: var(--modern-text-shadow);
+
+                & svg {
+                    filter: drop-shadow(2px 3px 5px #000000b3);
+                }
+            }
         }
 
         & .post-body__content {
@@ -218,6 +248,22 @@
                     background-color: transparent;
                     border-radius: 3px;
                     transition: background-color .3s ease;
+                }
+            }
+
+            & .post--metadata {
+                & ul {
+                    padding-left: .5rem;
+                    list-style: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    & li {
+                        display: inline-flex;
+                        align-items: baseline;
+                        gap: .5rem;
+                    }
                 }
             }
 
@@ -532,10 +578,11 @@ ul {
 
 @media (width >=600px) {
     .post:not(:has(header.block.entry-header)) {
-        &:is(.format-video, .format-image, .format-gallery) {
+        &:is(.format-video, .format-image, .format-gallery, .type-property) {
             & .post-body {
                 & .post-body__header {
                     min-height: 350px;
+                    max-height: 350px;
                 }
             }
         }

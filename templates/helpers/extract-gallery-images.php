@@ -17,13 +17,12 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
             // --- 1) core/gallery con attrs.ids ---
             if ( ! empty( $block['blockName'] ) && $block['blockName'] === 'core/gallery' ) {
 
-                // Caso normal: gallery con "ids"
                 if ( ! empty( $block['attrs']['ids'] ) && is_array( $block['attrs']['ids'] ) ) {
                     foreach ( $block['attrs']['ids'] as $id ) {
                         $ids[] = (int) $id;
                     }
+
                 } else {
-                    // Gallery sin IDs → revisar innerBlocks
                     if ( ! empty( $block['innerBlocks'] ) ) {
                         foreach ( $block['innerBlocks'] as $ib ) {
                             if ( ! empty( $ib['blockName'] ) && $ib['blockName'] === 'core/image' ) {
@@ -31,7 +30,6 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
                                     $ids[] = (int) $ib['attrs']['id'];
                                     continue;
                                 }
-                                // Extrae src desde innerHTML
                                 if ( ! empty( $ib['innerHTML'] ) &&
                                     preg_match( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/', $ib['innerHTML'], $m )
                                 ) {
@@ -39,13 +37,11 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
                                     if ( $aid ) $ids[] = (int) $aid;
                                 }
                             } else {
-                                // Recursivo
                                 $ids = array_merge( $ids, stories_collect_image_ids_from_blocks( array( $ib ) ) );
                             }
                         }
                     }
 
-                    // Último recurso: imágenes en innerHTML del gallery
                     if ( empty( $ids ) && ! empty( $block['innerHTML'] ) ) {
                         if ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/', $block['innerHTML'], $matches ) ) {
                             foreach ( $matches[1] as $src ) {
@@ -61,9 +57,11 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
             if ( ! empty( $block['blockName'] ) && $block['blockName'] === 'core/image' ) {
                 if ( ! empty( $block['attrs']['id'] ) ) {
                     $ids[] = (int) $block['attrs']['id'];
+
                 } elseif ( ! empty( $block['attrs']['url'] ) ) {
                     $aid = attachment_url_to_postid( $block['attrs']['url'] );
                     if ( $aid ) $ids[] = (int) $aid;
+
                 } elseif (
                     ! empty( $block['innerHTML'] ) &&
                     preg_match( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/', $block['innerHTML'], $m )
@@ -75,7 +73,10 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
 
             // --- 3) Recursividad general ---
             if ( ! empty( $block['innerBlocks'] ) ) {
-                $ids = array_merge( $ids, stories_collect_image_ids_from_blocks( $block['innerBlocks'] ) );
+                $ids = array_merge(
+                    $ids,
+                    stories_collect_image_ids_from_blocks( $block['innerBlocks'] )
+                );
             }
         }
 
@@ -83,9 +84,46 @@ if ( ! function_exists( 'stories_collect_image_ids_from_blocks' ) ) {
     }
 }
 
+
+/**
+ * 🔥 EXTRA: Recorre cualquier valor de ACF y extrae IDs de imágenes
+ */
+function stories_collect_images_from_acf_value( $value ) {
+    $ids = [];
+
+    if ( empty( $value ) ) return $ids;
+
+    // Es un ID
+    if ( is_numeric( $value ) ) {
+        return [ (int) $value ];
+    }
+
+    // Es URL → convertir a ID
+    if ( is_string( $value ) && filter_var( $value, FILTER_VALIDATE_URL ) ) {
+        $aid = attachment_url_to_postid( $value );
+        return $aid ? [ $aid ] : [];
+    }
+
+    // Array → puede ser image field, gallery, repeater, flexible, etc.
+    if ( is_array( $value ) ) {
+
+        // ACF image field → array con ['ID']
+        if ( isset( $value['ID'] ) ) {
+            return [ (int) $value['ID'] ];
+        }
+
+        // ACF gallery field → array de arrays/IDs
+        foreach ( $value as $item ) {
+            $ids = array_merge( $ids, stories_collect_images_from_acf_value( $item ) );
+        }
+    }
+
+    return $ids;
+}
+
+
 /**
  * FUNCIÓN PRINCIPAL
- * Devuelve array de image IDs de un post
  */
 if ( ! function_exists( 'stories_extract_gallery_images' ) ) {
 
@@ -93,27 +131,25 @@ if ( ! function_exists( 'stories_extract_gallery_images' ) ) {
         $content = get_post_field( 'post_content', $post_id );
         $image_ids = array();
 
-        // 1) Bloques
+        // 1) Bloques del editor
         if ( function_exists( 'parse_blocks' ) && ! empty( $content ) ) {
             $blocks = parse_blocks( $content );
             $image_ids = stories_collect_image_ids_from_blocks( $blocks );
         }
 
-        // 2) Shortcode [gallery ids="..."]
+        // 2) Shortcode tradicional [gallery ids="1,2,3"]
         if ( empty( $image_ids ) && ! empty( $content ) ) {
             if ( preg_match_all( '/\[gallery[^\]]*ids=[\'"]?([^\'"\]]+)[\'"]?/', $content, $m ) ) {
                 foreach ( $m[1] as $ids_str ) {
-                    $parts = array_map( 'intval', array_filter( array_map( 'trim', explode( ',', $ids_str ) ) ) );
-                    if ( ! empty( $parts ) ) {
-                        $image_ids = array_merge( $image_ids, $parts );
-                        break;
-                    }
+                    $parts = array_map( 'intval', explode( ',', $ids_str ) );
+                    $image_ids = array_merge( $image_ids, $parts );
+                    break;
                 }
             }
         }
 
-        // 3) get_post_galleries
-        if ( empty( $image_ids ) && function_exists( 'get_post_galleries' ) ) {
+        // 3) get_post_galleries()
+        if ( empty( $image_ids ) ) {
             $galleries = get_post_galleries( $post_id, false );
             if ( ! empty( $galleries ) ) {
                 foreach ( $galleries as $gal ) {
@@ -121,12 +157,27 @@ if ( ! function_exists( 'stories_extract_gallery_images' ) ) {
                         $aid = attachment_url_to_postid( $src );
                         if ( $aid ) $image_ids[] = (int) $aid;
                     }
-                    if ( ! empty( $image_ids ) ) break;
                 }
             }
         }
 
-        // 4) Adjuntos del post (por si usaron “subidos a este post”)
+        /**
+         * 🔥 4) NUEVO: Extraer imágenes desde todos los ACF del CPT property
+         */
+        if ( get_post_type( $post_id ) === 'property' && function_exists( 'get_fields' ) ) {
+            $fields = get_fields( $post_id );
+
+            if ( ! empty( $fields ) ) {
+                foreach ( $fields as $field_value ) {
+                    $acf_ids = stories_collect_images_from_acf_value( $field_value );
+                    if ( ! empty( $acf_ids ) ) {
+                        $image_ids = array_merge( $image_ids, $acf_ids );
+                    }
+                }
+            }
+        }
+
+        // 5) Adjuntos del post
         if ( empty( $image_ids ) ) {
             $attachments = get_posts( array(
                 'post_parent'    => $post_id,
@@ -143,7 +194,7 @@ if ( ! function_exists( 'stories_extract_gallery_images' ) ) {
             }
         }
 
-        // 5) Fallback a imagen destacada
+        // 6) Imagen destacada
         if ( empty( $image_ids ) && has_post_thumbnail( $post_id ) ) {
             $image_ids[] = (int) get_post_thumbnail_id( $post_id );
         }
