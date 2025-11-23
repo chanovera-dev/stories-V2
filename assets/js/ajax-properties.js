@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // reattach handlers
       bindPaginationLinks();
 
+      // Re-run animate-in for new properties
+      if (typeof animateIn === 'function') {
+        animateIn('.post');
+      }
+
       // update URL
       if (pushState) {
         const url = new URL(window.location);
