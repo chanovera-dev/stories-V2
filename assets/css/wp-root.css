@@ -16,10 +16,10 @@
 
     --secondary-darker: oklch(from var(--wp--preset--color--secondary) .15 c h);
 
-    --hover-gallery-button: oklch(from var(--wp--preset--color--main) calc(l + 0.4) calc(c - 0.1) calc(h + 0.1));
+    --hover-gallery-button: oklch(from var(--wp--preset--color--main) l calc(c - 0.075) calc(h + 0.1));
     --dark-hover-gallery-button: oklch(from var(--hover-gallery-button) .35 c h);
 
-    --gallery-bullet: oklch(from var(--wp--preset--color--main) calc(l + 0.3) calc(c - 0.075) calc(h + 0.1));
+    --gallery-bullet: oklch(from var(--wp--preset--color--main) calc(l - 0.01) calc(c - 0.075) calc(h + 0.1));
     --dark-gallery-bullet: oklch(from var(--hover-gallery-button) .35 c h);
 
     /* lines */

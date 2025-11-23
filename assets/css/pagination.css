@@ -43,7 +43,7 @@
                     transform: translateX(-50%);
                     width: 0;
                     height: 4px;
-                    background-color: var(--main-lighter);
+                    background-color: light-dark(var(--hover-gallery-button), var(--dark-hover-gallery-button));
                     animation: mark-pagination .3s ease forwards;
                 }
             }

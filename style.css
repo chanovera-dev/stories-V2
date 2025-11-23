@@ -259,10 +259,10 @@ img {
         & li {
             & a {
                 &:hover {
-                    color: var(--main--lighter);
+                    color: var(--wp--preset--color--main);
 
                     &::before {
-                        background-color: var(--main--lighter);
+                        background-color: var(--wp--preset--color--main);
                     }
                 }
             }

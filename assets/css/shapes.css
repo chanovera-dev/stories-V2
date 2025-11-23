@@ -426,7 +426,7 @@ ul {
 
         &:has(svg) {
             gap: .5rem;
-            color: light-dark(var(--wp--preset--color--main), var(--main-light));
+            color: light-dark(var(--main-dark), var(--main-light));
         }
 
         & .gallery-bullet,
