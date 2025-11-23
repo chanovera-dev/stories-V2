@@ -138,7 +138,7 @@ section.block {
     }
 
     &.container--related-posts {
-        background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+        background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
         display: grid;
         gap: 2rem;
         padding: 3rem 0;
@@ -252,7 +252,7 @@ body.is-chromium {
     & .site-main {
         & .single-post {
             & .block:has(.content.content-comments) {
-                background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+                background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
             }
         }
     }

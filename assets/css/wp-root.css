@@ -6,11 +6,21 @@
     --max-width--content: min(100% - 2.5rem, 85.375rem);
 
     /* colors */
-    --main--lighter: oklch(from var(--wp--preset--color--main) calc(l + .2) c h);
-    --main--lighter-plus: oklch(from var(--wp--preset--color--main-alpha-50) calc(l + .3) c calc(h * .88));
-    --contrast--darker: oklch(from var(--wp--preset--color--contrast) calc(l - .2) c h);
-    --main-dark: #4f3900;
-    --secondary-dark: #271c00;
+    --base-dark: oklch(from var(--wp--preset--color--base) .1 c h);
+    --secondary-dark: oklch(from var(--wp--preset--color--secondary) .25 c h);
+
+    --main-dark: oklch(from var(--wp--preset--color--main) .2 c h);
+    --main-darker: oklch(from var(--wp--preset--color--main) .15 c h);
+    --main-light: oklch(from var(--wp--preset--color--main) calc(l + 0.1) calc(c - 0.075) calc(h + 0.1));
+    --main-lighter: oklch(from var(--main-light) calc(l + 0.08) calc(c + 0.02) calc(h + 0.02));
+
+    --secondary-darker: oklch(from var(--wp--preset--color--secondary) .15 c h);
+
+    --hover-gallery-button: oklch(from var(--wp--preset--color--main) calc(l + 0.4) calc(c - 0.1) calc(h + 0.1));
+    --dark-hover-gallery-button: oklch(from var(--hover-gallery-button) .35 c h);
+
+    --gallery-bullet: oklch(from var(--wp--preset--color--main) calc(l + 0.3) calc(c - 0.075) calc(h + 0.1));
+    --dark-gallery-bullet: oklch(from var(--hover-gallery-button) .35 c h);
 
     /* lines */
     --line-1: #abb8c3;
@@ -18,6 +28,7 @@
 
     /* shadows */
     --modern-text-shadow: 0px 2px 3px rgba(0,0,0,0.4), 0px 4px 13px rgba(0,0,0,0.1), 0px 9px 23px rgba(0,0,0,0.1);
+    --input-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
 }
 
 

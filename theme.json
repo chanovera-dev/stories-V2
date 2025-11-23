@@ -9,7 +9,7 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#f5f7f5",
+					"color": "oklch(0.9741 0.0034 145.55)",
 					"name": "Base",
 					"slug": "base"
 				},
@@ -24,7 +24,7 @@
 					"slug": "base-alpha-25"
 				},
 				{
-					"color": "#3D4651",
+					"color": "oklch(0.4 0.0221 253.54)",
 					"name": "Contrast",
 					"slug": "contrast"
 				},
@@ -39,12 +39,12 @@
 					"slug": "contrast-alpha-25"
 				},
 				{
-					"color": "#eaeeea",
+					"color": "oklch(0.945 0.0068 145.52)",
 					"name": "Secondary",
 					"slug": "secondary"
 				},
 				{
-					"color": "#2c7b2c",
+					"color": "oklch(0.5164 0.138 143.25)",
 					"name": "Main",
 					"slug": "main"
 				},

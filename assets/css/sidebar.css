@@ -39,7 +39,8 @@
                             transition: background-color .3s ease;
 
                             &:hover {
-                                background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+                                color: light-dark(var(--main-darker), var(--main-lighter));
+                                background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
                             }
                         }
 
@@ -81,6 +82,31 @@
                     &:hover {
                         &>li:not(:hover) {
                             opacity: .25;
+                        }
+                    }
+                }
+
+                & .wp-block-tag-cloud {
+                    &:hover {
+                        & a {
+                            transition: color .3s ease;
+
+                            &:not(:hover) {
+                                opacity: .5;
+                            }
+
+                            &:hover {
+                                color: light-dark(var(--main-darker), var(--main-lighter)) !important;
+                                opacity: 1;
+                            }
+                        }
+                    }
+
+                    & a {
+                        &:focus-visible {
+                            outline: none;
+                            color: light-dark(orangered, orangered) !important;
+                            opacity: 1;
                         }
                     }
                 }

@@ -89,8 +89,14 @@
                 z-index: 0;
                 transition: filter .3s ease;
 
+                & img {
+                    transition: filter .3s ease;
+                }
+
                 &:hover {
-                    filter: brightness(1.05);
+                    & img {
+                        filter: brightness(1.05);
+                    }
                 }
 
                 & .gallery {
@@ -320,13 +326,13 @@
 
     &:hover {
         border-color: var(--wp--preset--color--main);
-        box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
+        box-shadow: var(--input-shadow);
     }
 
     &:focus {
         border-color: var(--wp--preset--color--main);
         box-shadow: 0 0 0 1px var(--wp--preset--color--main),
-            0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+                    var(--input-shadow);
     }
 
     &:focus-visible {
@@ -339,7 +345,7 @@
     &:active {
         transform: translateY(1px);
         box-shadow: 0 0 0 1px var(--wp--preset--color--main),
-            0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+                    var(--input-shadow);
     }
 }
 
@@ -420,7 +426,7 @@ ul {
 
         &:has(svg) {
             gap: .5rem;
-            color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+            color: light-dark(var(--wp--preset--color--main), var(--main-light));
         }
 
         & .gallery-bullet,
@@ -428,7 +434,7 @@ ul {
             width: 13px;
             height: 13px;
             border-radius: 50%;
-            background-color: light-dark(var(--wp--preset--color--main-alpha-25), var(--wp--preset--color--main-alpha-25));
+            background-color: light-dark(var(--gallery-bullet), var(--dark-gallery-bullet));
             border: none;
             cursor: pointer;
 
@@ -468,7 +474,7 @@ ul {
 
     &:hover {
         cursor: pointer;
-        background-color: var(--main--lighter-plus);
+        background-color: light-dark(var(--hover-gallery-button), var(--dark-hover-gallery-button));
     }
 
     & svg {

@@ -16,7 +16,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px var(--base) inset, 0 0 0 .2rem rgba(0, 123, 255, .25) !important;
+  box-shadow: 0 0 0px 1000px light-dark(var(--wp--preset--color--base), var(--base-dark)) inset, 0 0 0 1px var(--wp--preset--color--main), var(--input-shadow) !important;
   -webkit-text-fill-color: var(--text);
   transition: border-color .3s ease-in-out;
 }
@@ -38,7 +38,7 @@ select {
   font-size: var(--wp--preset--font-size--medium);
   font-weight: 400;
   line-height: 1.25;
-  color: light-dark(var(--wp--preset--color--contrast), var(--contrast-dark));
+  color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
   background-color: transparent;
   background-clip: padding-box;
   border: 0.063rem solid var(--wp--preset--color--accent-6);
@@ -46,8 +46,8 @@ select {
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
   &:hover {
-    border-color: light-dark(var(--main--lighter), var(--main--lighter));
-    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
+    border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+    box-shadow: var(--input-shadow);
   }
 
   &:focus-visible {
@@ -60,7 +60,7 @@ select {
     outline: 0;
     border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
     box-shadow: 0 0 0 1px var(--wp--preset--color--main),
-      0 0 0 .2rem var(--wp--preset--color--main-alpha-50);
+                var(--input-shadow);
   }
 
   &::placeholder {
@@ -123,10 +123,6 @@ textarea {
   &:hover {
     filter: brightness(1.1);
     cursor: pointer;
-
-    & svg {
-      transform: translateX(-5px);
-    }
   }
 
   &.without-line.go-to-properties {
@@ -175,7 +171,7 @@ textarea {
 .wpcf7-submit,
 .wp-element-button {
   color: var(--wp--preset--color--base);
-  background-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
+  background-color: light-dark(var(--wp--preset--color--main), var(--main-dark));
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
 
   & svg {

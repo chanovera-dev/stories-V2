@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 body {
-    background-color: light-dark(var(--wp--preset--color--base), #0c0e10);
+    background-color: light-dark(var(--wp--preset--color--base), var(--base-dark));
     color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -141,6 +141,8 @@ img {
                     }
 
                     &.active {
+                        background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+
                         & .icon--wrapper {
                             border-color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
                             
@@ -246,7 +248,7 @@ img {
 }
 
 #main-footer {
-    background-color: var(--contrast--darker);
+    background-color: var(--secondary-darker);
     color: var(--wp--preset--color--base);
     font-weight: 300;
 
@@ -635,15 +637,6 @@ img {
                                 width: 350px;
                                 height: 42px;
                                 padding-right: 60px;
-                                border-radius: 8px;
-                                border: 1px solid light-dark(var(--wp--preset--color--accent-7), var(--wp--preset--color--accent-6));
-                                background-color: light-dark(var(--wp--preset--color--base-alpha-25), var(--wp--preset--color--contrast-alpha-25));
-                                transition: border-color .3s ease, box-shadow .3s ease;
-
-                                &:hover {
-                                    border-color: light-dark(var(--wp--preset--color--main-alpha-50), var(--wp--preset--color--main-alpha-50));
-                                    box-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
-                                }
 
                                 &:focus {
                                     border-color: light-dark(var(--wp--preset--color--main), var(--wp--preset--color--main));
@@ -662,15 +655,15 @@ img {
                                 & #searchsubmit {
                                     display: grid;
                                     place-content: center;
-                                    width: 56px;
+                                    width: 36px;
                                     height: 36px;
                                     border: none;
-                                    background-color: var(--wp--preset--color--main-alpha-25);
+                                    background-color: transparent;
                                     border-radius: 6px;
                                     transition: background-color .3s ease, border-color .3s ease;
 
                                     &:hover {
-                                        background-color: var(--wp--preset--color--main-alpha-50);
+                                        background-color: light-dark(var(--hover-gallery-button), var(--dark-hover-gallery-button));
                                     }
 
                                     &:focus-visible {
