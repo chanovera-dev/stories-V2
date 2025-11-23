@@ -67,30 +67,31 @@ function stories_get_assets() {
 
     return [
         'css' => [
-            'breadcrumbs'         => "$assets_path/css/breadcrumbs.css",
-            'posts'               => "$assets_path/css/posts.css",
-            'pagination'          => "$assets_path/css/pagination.css",
-            'page-thumbnail'      => "$assets_path/css/page-thumbnail.css",
-            'page'                => "$assets_path/css/page.css",
-            'single'              => "$assets_path/css/single.css",
-            'comments'            => "$assets_path/css/comments.css",
-            'error404'            => "$assets_path/css/error404.css",
-            'slideshow-styles'    => "$assets_path/css/slideshow.css",
-            'sidebar'             => "$assets_path/css/sidebar.css",
-            'post-gallery-styles' => "$assets_path/css/post-gallery.css",
+            'breadcrumbs'             => "$assets_path/css/breadcrumbs.css",
+            'posts'                   => "$assets_path/css/posts.css",
+            'pagination'              => "$assets_path/css/pagination.css",
+            'page-thumbnail'          => "$assets_path/css/page-thumbnail.css",
+            'page'                    => "$assets_path/css/page.css",
+            'single'                  => "$assets_path/css/single.css",
+            'comments'                => "$assets_path/css/comments.css",
+            'error404'                => "$assets_path/css/error404.css",
+            'slideshow-styles'        => "$assets_path/css/slideshow.css",
+            'sidebar'                 => "$assets_path/css/sidebar.css",
+            'post-gallery-styles'     => "$assets_path/css/post-gallery.css",
         ],
         'js' => [
-            'slideshow-script'    => "$assets_path/js/slideshow.js",
-            'loop-gallery'        => "$assets_path/js/loop-gallery.js",
-            'post-gallery-script' => "$assets_path/js/post-gallery.js",
-            'parallax-hero'       => "$assets_path/js/parallax-hero.js",
-            'animate-in'          => "$assets_path/js/animate-in.js",
+            'slideshow-script'        => "$assets_path/js/slideshow.js",
+            'loop-gallery'            => "$assets_path/js/loop-gallery.js",
+            'post-gallery-script'     => "$assets_path/js/post-gallery.js",
+            'parallax-hero'           => "$assets_path/js/parallax-hero.js",
+            'animate-in'              => "$assets_path/js/animate-in.js",
 
             // REAL ESTATE TOOLS
-            'filters'             => "$assets_path/js/filters.js",
-            'reset'               => "$assets_path/js/reset-properties-filter.js",
-            'ajax-properties'    => "$assets_path/js/ajax-properties.js",
-            'ajax-search'        => "$assets_path/js/ajax-search-properties.js",
+            'filters'                 => "$assets_path/js/filters.js",
+            'filter-listeners'        => "$assets_path/js/filter-listeners.js",
+            'reset-properties-filter' => "$assets_path/js/reset-properties-filter.js",
+            'ajax-properties'         => "$assets_path/js/ajax-properties.js",
+            'ajax-search'             => "$assets_path/js/ajax-search-properties.js",
         ]
     ];
 }
@@ -255,10 +256,11 @@ function properties_templates() {
         stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
         stories_enqueue_script( 'filters', $a['js']['filters'] );
-        stories_enqueue_script( 'reset', $a['js']['reset'] );
+        stories_enqueue_script( 'filter-listeners', $a['js']['filter-listeners'] );
+        stories_enqueue_script( 'reset', $a['js']['reset-properties-filter'] );
         stories_enqueue_script( 'ajax-search-from-other-page', $a['js']['ajax-search'] );
+        stories_enqueue_script( 'ajax-properties', $a['js']['ajax-properties'] );
 
-        wp_enqueue_script('ajax-properties', get_template_directory_uri() . '/assets/js/ajax-properties.js', ['jquery'], null, true);
         wp_localize_script('ajax-properties', 'ajax_object', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('filter_properties_nonce')

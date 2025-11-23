@@ -1,5 +1,5 @@
 function propertiesSubmenusToggle() {
-  document.querySelectorAll(".properties--sidebar .property-filter-form .filter-navigation.menu  > .menu-item-has-children > .sub-menu .menu-item-has-children .wrapper-for-title .button-for-submenu").forEach(button => {
+  document.querySelectorAll(".properties--filter .property-filter-form .filter-navigation.menu  > .menu-item-has-children > .sub-menu .menu-item-has-children .wrapper-for-title .button-for-submenu").forEach(button => {
     button.addEventListener("click", () => {
       const menuItem = button.closest("li");
       const subMenu = menuItem?.querySelector(".sub-menu");
@@ -19,7 +19,7 @@ function propertiesSubmenusToggle() {
 document.addEventListener("DOMContentLoaded", propertiesSubmenusToggle);
 
 function propertiesPrimaryMenusToggle() {
-  document.querySelectorAll(".properties--sidebar .property-filter-form .filter-navigation.menu  > .menu-item-has-children > .button-for-submenu").forEach(button => {
+  document.querySelectorAll(".properties--filter .property-filter-form .filter-navigation.menu  > .menu-item-has-children > .button-for-submenu").forEach(button => {
     button.addEventListener("click", () => {
       const menuItem = button.closest("li");
       const subMenu = menuItem?.querySelector(".sub-menu");

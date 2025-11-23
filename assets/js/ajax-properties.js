@@ -117,8 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       fetchProperties(1, true);
     });
-    // optional: auto submit on change if you want
-    // form.addEventListener('change', () => fetchProperties(1, true));
+    // Auto submit on change for filters
+    form.addEventListener('change', () => fetchProperties(1, true));
   }
 
   // Handle browser back/forward

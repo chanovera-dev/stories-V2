@@ -111,6 +111,182 @@
                     }
                 }
             }
+            
+            &:has(.properties--filter) {
+                & .properties--filter {
+                    & ul {
+                        padding-left: 0;
+                        list-style: none;
+                        font-size: var(--wp--preset--font-size--small);
+
+                        & li {
+                            & p.checkbox-filter-properties {
+                                position: relative;
+                                display: flex;
+                                align-items: center;
+                                height: 27px;
+                                padding: 0 10px;
+                                border-radius: 6px;
+                                transition: background-color .2s ease-in-out;
+
+                                & input[type="checkbox"]:not(:checked) + label:after, [type="checkbox"]:checked + label:after {
+                                    top: 0.48em;
+                                    left: 0.19em;
+                                }
+
+                                &:hover {
+                                    background-color: light-dark(var(--green--lighter-plus), var(--wp--preset--color--green));
+                                }
+                            }
+                        }
+                    }
+
+                    input[type=number] {
+                        background-color: light-dark(var(--wp--preset--color--base), var(--base-dark)) !important;
+                        font-size: var(--wp--preset--font-size--small);
+
+                        &::placeholder {
+                            font-size: var(--wp--preset--font-size--small);
+                        }
+                    }
+
+                    & .property-filter-form {
+                        display: grid;
+                        gap: 1.5rem;
+
+                        & .filter-navigation.menu {
+                            display: grid;
+                            gap: 1rem;
+
+                            & > .menu-item-has-children {
+                                & > .button-for-submenu {
+                                    width: 100%;
+                                    color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--contrast));
+
+                                    & svg {
+                                        transition: transform .3s ease-in-out;
+                                    }
+
+                                    &.rotate {
+                                        & svg {
+                                            transform: rotate(180deg);
+                                        }
+                                    }
+                                }
+
+                                & > .sub-menu {
+                                    margin-top: 1rem;
+                                    padding: 10px;
+                                    border: 1px solid light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6));
+                                    background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+                                    border-radius: 8px;
+                                    max-height: 10000px;
+                                    overflow: hidden;
+
+                                    &.close {
+                                        max-height: 0;
+                                        padding: 0 10px;
+                                        border-color: transparent;
+                                    }
+
+                                    & > .menu-item-has-children {
+                                        & .wrapper-for-title {
+                                            width: 100%;
+                                            padding: 0;
+                                            padding-right: 7px;
+                                            box-shadow: none;
+                                            
+                                            & .checkbox-filter-properties {
+                                                &:hover {
+                                                    background-color: transparent;
+                                                }
+                                            }
+
+                                            & .button-for-submenu {
+                                                display: grid;
+                                                width: 13px;
+                                                height: 13px;
+                                                place-content: center;
+                                                background-color: transparent;
+                                                border: none;
+                                                transition: transform .3s ease-in-out;
+
+                                                &.rotate {
+                                                    transform: rotate(45deg);
+                                                }
+                                            }
+                                        }
+
+                                        & > .sub-menu {
+                                            padding-left: 1rem;
+                                        }
+                                    }
+                                }
+
+                                &.state {
+                                    & > .sub-menu {
+                                        & li {
+                                            & .sub-menu {
+                                                padding: 0;
+                                                padding-left: 1rem;
+                                                max-height: 0;
+                                                overflow: hidden;
+
+                                                &.open {
+                                                    padding: 10px 0;
+                                                    padding-left: 1rem;
+                                                    max-height: 10000px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &:is(.price,.size) {
+                                    & .sub-menu {
+                                        & li {
+                                            display: grid;
+                                            grid-template-columns: 1fr 1fr;
+                                            gap: 0 .5rem;
+
+                                            & label {
+                                                grid-column: 1 / -1;
+                                            }
+
+                                            &:not(:last-child) {
+                                                margin-bottom: 1rem;
+                                            }
+                                        }
+                                    }
+                                    & :is(.price-range,.land-range,.construction-range) {
+                                        display: none;
+                                    }
+                                }
+
+                                &.rooms {
+                                    & .backdrop {
+                                        display: none;
+                                    }
+
+                                    & .sub-menu {
+                                        display: grid !important;
+                                        grid-template-columns: 1fr 1fr;
+                                        gap: 0 .5rem;
+                                    }
+                                }
+                            }
+                        }
+
+                        & .filter-buttons {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 10px;
+
+                            & .btn {justify-content: center;}
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -123,6 +299,11 @@
 
                 & .sidebar {
                     max-width: 370px;
+                }
+
+                &:has(.properties--filter) {
+                    grid-template-columns: 300px 1fr;
+                    gap: 1rem;
                 }
             }
         }

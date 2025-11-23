@@ -22,10 +22,8 @@ get_header(); ?>
     <section class="block posts--body">
         <div class="content">
             <?php     
-                get_template_part('templates/archive-property/filter', 'properties');
-                echo '<div class="loop">';
-                get_template_part('templates/archive-property/properties', 'list');
-                echo '</div>';
+                get_template_part('templates/archive-property/filter-properties');
+                get_template_part('templates/archive-property/properties-list');
             ?>
         </div>
     </section>
