@@ -170,28 +170,67 @@ function wp_breadcrumbs() {
     echo '<section class="block breadcrumbs--wrapper"><div class="content"><div class="breadcrumbs">';
     echo '<a class="go-home" href="' . $homeLink . '">' . $icon_home . $home . '</a>' . $separator;
 
-    if (is_category()) {
+    // ARCHIVO FORMATO IMAGE
+    if ( is_tax( 'post_format', 'post-format-image' ) ) {
+        echo $current . 'Dibujos';
+    }
+
+    // ARCHIVO FORMATO VIDEO
+    elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+        echo $current . 'Videos';
+    }
+
+    // ARCHIVO FORMATO GALERÍA
+    elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+        echo $current . 'Galerías';
+    }
+
+    // ARCHIVO FORMATO ENLACES
+    elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+        echo $current . 'Artículos externos';
+    }
+
+    // ARCHIVO FORMATO CITAS
+    elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+        echo $current . 'Citas';
+    }
+
+    // ARCHIVO FORMATO MINIENTRADA
+    elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
+        echo $current . 'Minientradas';
+    }
+
+    // 2. CATEGORÍA
+    elseif ( is_category() ) {
         if ($paged === 1) {
-            echo 'Últimos artículos de la'; the_archive_title( '<h1 class="page-title">', '</h1>' );
+            echo 'Últimos artículos de la'; 
+            the_archive_title( '<h1 class="page-title">', '</h1>' );
         } else {
-            echo esc_html('Página ' . $paged . ' de '); the_archive_title('<h1 class="page-title">', '</h1>');
+            echo esc_html('Página ' . $paged . ' de '); 
+            the_archive_title('<h1 class="page-title">', '</h1>');
         } 
     }
-     elseif ( is_archive() ) {
+    // 3. OTROS ARCHIVOS GENÉRICOS
+    elseif ( is_archive() ) {
         if ($paged === 1) {
-            echo 'Últimos artículos de la'; the_archive_title( '<h1 class="page-title">', '</h1>' );
+            echo 'Últimos artículos de la'; 
+            the_archive_title( '<h1 class="page-title">', '</h1>' );
         } else {
-            echo esc_html('Página ' . $paged . ' de '); the_archive_title('<h1 class="page-title">', '</h1>');
+            echo esc_html('Página ' . $paged . ' de '); 
+            the_archive_title('<h1 class="page-title">', '</h1>');
         } 
-    } elseif (is_home()) {
+    }
+    elseif ( is_home() ) {
         if ($paged === 1) {
-            echo '<h1 class="page-title">' . esc_html_e( 'Últimos artículos', 'stories' ) . '</h1>';
+            echo '<h1 class="page-title">' . esc_html__( 'Mi contenido más reciente', 'stories' ) . '</h1>';
         } else {
-            echo esc_html('Página ' . $paged . ' de ') . '<h1 class="page-title">todos los artículos</h1>';
+            echo esc_html('Página ' . $paged . ' de ') . '<h1 class="page-title">todo mi contenido</h1>';
         }
-    } elseif (is_page_template('archivo-detras-del-espejo.php')) {
+    }
+    elseif ( is_page_template('archivo-detras-del-espejo.php') ) {
         echo $current . 'Capítulos de "Detrás del Espejo"';
-    } elseif (is_page()) {
+    }
+    elseif ( is_page() ) {
         if ($post->post_parent) {
             $ancestors = get_post_ancestors($post->ID);
             foreach ($ancestors as $ancestor) {
@@ -202,37 +241,51 @@ function wp_breadcrumbs() {
         } else {
             if ($showCurrent == 1) echo $current . ' ' . get_the_title();
         }
-    } elseif (is_search()) {
+    }
+    elseif ( is_search() ) {
         if ($paged === 1) {
-            echo '<h1 class="page-title">'; esc_html_e('Resultados de búsqueda de "', 'stories'); echo the_search_query(); esc_html_e('"', 'stories') . '</h1>';
+            echo '<h1 class="page-title">';
+            esc_html_e('Resultados de búsqueda de "', 'stories'); 
+            echo get_search_query();
+            esc_html_e('"', 'stories');
+            echo '</h1>';
         } else {
             echo '<h1 class="page-title">' . esc_html('Página ' . $paged) . '</h1>';
         }
-    } elseif (is_day()) {
+    }
+    elseif ( is_day() ) {
         echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a>' . $separator;
         echo '<a href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '">' . get_the_time('F') . '</a>' . $separator;
         echo get_the_time('d') . $separator;
         echo $current . ' ' . get_the_time('l');
-    } elseif (is_month()) {
+    }
+    elseif ( is_month() ) {
         echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a>' . $separator;
         echo $current . ' ' . get_the_time('F');
-    } elseif (is_year()) {
+    }
+    elseif ( is_year() ) {
         echo $current . ' ' . get_the_time('Y');
-    } elseif (is_single() && !is_attachment()) {
-        if (get_post_type() != 'post') {
+    }
+    elseif ( is_single() && !is_attachment() ) {
+        if ( get_post_type() != 'post' ) {
             $post_type = get_post_type_object(get_post_type());
             $slug = $post_type->rewrite;
             echo '<a href="' . $homeLink . '/' . $slug['slug'] . '/">' . $post_type->labels->singular_name . '</a>' . $separator;
             if ($showCurrent == 1) echo $current . ' ';
-        } else
-        {
+        } else {
             $cat = get_the_category();
-            $cat = $cat[0];
-            $cats = get_category_parents($cat, TRUE, $separator);
-            if ($showCurrent == 0) $cats = preg_replace("#^(.+)$separator$#", "$1", $cats);
-            echo $cats;
+            if ( $cat ) {
+                $cat = $cat[0];
+                $cats = get_category_parents($cat, TRUE, $separator);
+                if ($showCurrent == 0) $cats = preg_replace("#^(.+)$separator$#", "$1", $cats);
+                echo $cats;
+            }
             echo $current . ' ';
         }
-    } elseif (!is_single() && !is_page() && get_post_type() != 'post' && !is_404()) {}
+    }
+    elseif (!is_single() && !is_page() && get_post_type() != 'post' && !is_404()) {
+        // Aquí podrías manejar archivos de CPT si quisieras
+    }
+
     echo '</div></div></section>';
 }
