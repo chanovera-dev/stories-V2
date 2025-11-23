@@ -18,6 +18,8 @@
     }
 
     &:is(.format-video, .format-image, .format-gallery) {
+        height: fit-content;
+        
         & .post-body {
             grid-template-rows: 1fr auto auto;
 
@@ -536,6 +538,7 @@ ul {
             & .post-body {
                 & .post-body__header {
                     min-height: 350px;
+                    max-height: 350px;
                 }
             }
         }
