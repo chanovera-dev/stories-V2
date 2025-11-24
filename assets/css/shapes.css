@@ -253,8 +253,13 @@
             }
 
             & .post--metadata {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding-left: .5rem;
+
                 & ul {
-                    padding-left: .5rem;
+                    padding-left: 0;
                     list-style: none;
                     display: flex;
                     align-items: center;

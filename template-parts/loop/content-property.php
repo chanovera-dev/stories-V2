@@ -95,10 +95,10 @@
                         //     echo format_numeric($lot); 
                         //     echo ' m²</li>';
                         // }
-                        // $parking = get_post_meta(get_the_ID(), 'eb_parking_spaces', true);
-                        // if (!empty($parking) && $parking != 0) {
-                        //     echo "<li>🚗 {$parking}</li>";
-                        // }
+                        $parking = get_post_meta(get_the_ID(), 'eb_parking_spaces', true);
+                        if (!empty($parking) && $parking != 0) {
+                            echo "<li>🚗 {$parking}</li>";
+                        }
                     ?>
                 </ul>
             </div>
