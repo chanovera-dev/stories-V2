@@ -274,7 +274,7 @@ textarea {
   position: absolute;
   top: 0.44em;
   left: 0.2em;
-  background-color: light-dark(var(--main--lighter), var(--main--lighter));
+  background-color: light-dark(var(--gallery-bullet), var(--dark-gallery-bullet));
   transition: all 0.2s;
 }
 
