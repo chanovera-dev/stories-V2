@@ -22,5 +22,14 @@ function animateIn(selectors, animationClasses = ['animate-in'], options = {}) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  animateIn('.post');
+  // Check if we're on the properties page (has .properties--list element)
+  const isPropertiesPage = !!document.querySelector('.properties--list');
+  
+  // Add delay only on properties page to allow ajax-properties.js to set up
+  // This prevents race condition between animate-in observers and AJAX loading
+  if (isPropertiesPage) {
+    setTimeout(() => animateIn('.post'), 700);
+  } else {
+    animateIn('.post');
+  }
 });
