@@ -224,7 +224,7 @@ function wp_breadcrumbs() {
         if ($paged === 1) {
             echo '<h1 class="page-title">' . esc_html__( 'Mi contenido más reciente', 'stories' ) . '</h1>';
         } else {
-            echo esc_html('Página ' . $paged . ' de ') . '<h1 class="page-title">todos mi contenido</h1>';
+            echo esc_html('Página ' . $paged . ' de ') . '<h1 class="page-title">todo mi contenido</h1>';
         }
     }
     elseif ( is_page_template('archivo-detras-del-espejo.php') ) {
