@@ -4,10 +4,9 @@
             <div class="category post--tags">
                 <?php
                     $type = get_post_meta(get_the_ID(), 'eb_property_type', true) ?: 'Sin tipo';
-                    echo '<span class="post-tag small glass-backdrop glass-bright">';
-                    echo $type;
-                    echo ' ';
                     $operation = get_post_meta( get_the_ID(), 'eb_operation', true );
+
+                    echo '<span class="post-tag small glass-backdrop glass-bright">' . $type . ' ';
                     echo $operation === 'sale' ? 'en venta' : ( $operation === 'rental' ? 'en renta' : '' );
                     echo '</span>';
                 ?>
