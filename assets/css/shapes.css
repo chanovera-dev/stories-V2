@@ -255,8 +255,22 @@
             & .post--metadata {
                 display: flex;
                 align-items: center;
+                flex-wrap: nowrap;
                 gap: 1rem;
                 padding-left: .5rem;
+                overflow-y: scroll;
+                scrollbar-gutter: stable;
+
+                &::-webkit-scrollbar {
+                    height: 6px;
+                    background: transparent;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: transparent;
+                    border-radius: 3px;
+                    transition: background-color .3s ease;
+                }
 
                 & ul {
                     padding-left: 0;
@@ -268,6 +282,7 @@
                     & li {
                         display: inline-flex;
                         align-items: baseline;
+                        text-wrap-mode: nowrap;
                         gap: .5rem;
                     }
                 }
