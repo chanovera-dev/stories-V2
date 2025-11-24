@@ -394,3 +394,24 @@ add_action('wp_ajax_toggle_featured', function() {
     update_field('featured', $value, $post_id); // ACF actualiza el campo
     wp_send_json_success();
 });
+
+/****************************************************************************************************************
+ * P R O P E R T Y   M E T A D A T A
+ ****************************************************************************************************************/
+/**
+ * Format numeric values with thousand separators
+ * 
+ * Formats numbers with ' (apostrophe) for thousands and , (comma) for decimals.
+ * Example: 1500000 becomes "1'500'000"
+ *
+ * @param int|float $number The number to format
+ * @return string Formatted number
+ */
+function format_numeric($number) {
+    if (empty($number) || !is_numeric($number)) {
+        return $number;
+    }
+    
+    // Convert to number and format with ' for thousands and , for decimals
+    return number_format((float) $number, 0,  "'", ',');
+}

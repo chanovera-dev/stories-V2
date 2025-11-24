@@ -43,6 +43,7 @@ $inc_files = array(
     'customizer'        => 'inc/customizer.php',
     'easybroker'        => 'inc/easybroker-sync.php',
     'real-estate-tools' => 'inc/real-estate-tools.php',
+    'metadata'          => 'inc/metadata.php',
 );
 
 foreach ( $inc_files as $key => $relative_path ) {
