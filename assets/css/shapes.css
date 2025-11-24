@@ -258,7 +258,7 @@
                 flex-wrap: nowrap;
                 gap: 1rem;
                 padding-left: .5rem;
-                overflow-y: scroll;
+                overflow-x: auto;
                 scrollbar-gutter: stable;
 
                 &::-webkit-scrollbar {
@@ -645,6 +645,10 @@ body.is-chromium {
                     &:has(:nth-child(3)) {
                         padding-bottom: .1rem;
                     }
+                }
+
+                & .post--metadata {
+                    padding-bottom: .1rem;
                 }
             }
         }
