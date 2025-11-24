@@ -286,6 +286,38 @@ function wp_breadcrumbs() {
     elseif (!is_single() && !is_page() && get_post_type() != 'post' && !is_404()) {
         // Aquí podrías manejar archivos de CPT si quisieras
     }
+    // Para el template archive-property.php
+    elseif ( is_page_template('archive-property.php') || is_post_type_archive('property') ) {
+        if ($paged === 1) {
+            echo '<h1 class="page-title">' . esc_html($current) . '</h1>';
+        } else {
+            echo '<h1 class="page-title">' . esc_html('Página ' . $paged) . '</h1>';
+        }
+    }
+    if ( is_singular('property') ) {
+        global $post;
+
+        $operation = get_post_meta($post->ID, 'eb_operation', true);
+        $operation_label = ($operation === 'rental') ? 'En renta' : 'En venta';
+        $operation_link  = ($operation === 'rental') ? home_url('/propiedades-en-renta/') : home_url('/propiedades-en-venta/');
+
+        echo '<a href="' . esc_url($operation_link) . '">' . esc_html($operation_label) . '</a>' . $separator;
+
+        $type = get_post_meta($post->ID, 'eb_property_type', true);
+        if ( !empty($type) ) {
+            $type_slug = sanitize_title($type);
+            echo '<a href="' . esc_url(home_url('/propiedades/' . $type_slug)) . '">' . esc_html($type) . '</a>' . $separator;
+        }
+
+        // Ubicación
+        $location = get_post_meta($post->ID, 'eb_location', true); // Ajusta el meta key si tu ubicación tiene otro nombre
+        if ( !empty($location) ) {
+            echo '<span>' . esc_html($location) . '</span>' . $separator;
+        }
+
+        // Título de la propiedad
+        echo '<h3 class="property-title">' . get_the_title() . '</h3>';
+    }
 
     echo '</div></div></section>';
 }

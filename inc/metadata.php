@@ -64,7 +64,7 @@ function stories_render_metadata_item($type, $value, $args = []) {
 }
 
 /**
- * Display property metadata
+ * Display property metadata with singular/plural support
  * 
  * Renders all available metadata for a property:
  * - Bedrooms
@@ -72,13 +72,26 @@ function stories_render_metadata_item($type, $value, $args = []) {
  * - Construction size
  * - Lot size
  * - Parking spaces
+ * - Property type
+ * - Property ID
  * 
  * @param int $post_id Post ID (defaults to current post)
+ * @param array $args Additional options (show_id, show_type, show_construction_label, show_lot_label, etc.)
  */
-function stories_display_property_metadata($post_id = null) {
+function stories_display_property_metadata($post_id = null, $args = []) {
     if (!$post_id) {
         $post_id = get_the_ID();
     }
+
+    // Default options
+    $defaults = [
+        'show_id' => false,
+        'show_type' => false,
+        'show_construction_label' => false, // Show "m² de construcción" instead of just "m²"
+        'show_lot_label' => false,          // Show "m² de terreno" instead of just "m²"
+        'show_plural' => false,              // Show "recámara/recámaras", "baño/baños", etc.
+    ];
+    $args = wp_parse_args($args, $defaults);
 
     $metadata = [
         'bedrooms' => [
@@ -87,6 +100,8 @@ function stories_display_property_metadata($post_id = null) {
             'class' => 'bedroom',
             'unit' => '',
             'format' => false,
+            'singular' => 'recámara',
+            'plural' => 'recámaras',
         ],
         'bathrooms' => [
             'key' => 'eb_bathrooms',
@@ -94,19 +109,21 @@ function stories_display_property_metadata($post_id = null) {
             'class' => '',
             'unit' => '',
             'format' => false,
+            'singular' => 'baño',
+            'plural' => 'baños',
         ],
         'construction' => [
             'key' => 'eb_construction_size',
             'type' => 'construction',
             'class' => '',
-            'unit' => 'm²',
+            'unit' => $args['show_construction_label'] ? 'm² de construcción' : 'm²',
             'format' => true,
         ],
         'lot' => [
             'key' => 'eb_lot_size',
             'type' => 'lot',
             'class' => 'lot',
-            'unit' => 'm²',
+            'unit' => $args['show_lot_label'] ? 'm² de terreno' : 'm²',
             'format' => true,
         ],
         'parking' => [
@@ -115,27 +132,40 @@ function stories_display_property_metadata($post_id = null) {
             'class' => '',
             'unit' => '',
             'format' => false,
+            'singular' => 'estacionamiento',
+            'plural' => 'estacionamientos',
         ],
     ];
 
     $items = [];
 
-    foreach ($metadata as $meta) {
+    foreach ($metadata as $key => $meta) {
         $value = get_post_meta($post_id, $meta['key'], true);
         
-        $item = stories_render_metadata_item(
-            $meta['type'],
-            $value,
-            [
-                'unit' => $meta['unit'],
-                'class' => $meta['class'],
-                'format' => $meta['format'],
-            ]
-        );
-
-        if ($item) {
-            $items[] = $item;
+        if (empty($value) || $value == 0) {
+            continue;
         }
+
+        // Format value if needed
+        $display_value = $value;
+        if ($meta['format'] && function_exists('format_numeric')) {
+            $display_value = format_numeric($value);
+        }
+
+        // Add singular/plural suffix for bedroom, bathroom, parking
+        if ($args['show_plural'] && isset($meta['singular'], $meta['plural'])) {
+            $unit = ' ' . ($value < 2 ? $meta['singular'] : $meta['plural']);
+        } else {
+            $unit = !empty($meta['unit']) ? " {$meta['unit']}" : '';
+        }
+
+        // Get icon
+        $icon = stories_get_metadata_icon($meta['type']);
+
+        // Build class attribute
+        $class = !empty($meta['class']) ? "class=\"{$meta['class']}\"" : '';
+
+        $items[] = "<li {$class}>{$icon}{$display_value}{$unit}</li>";
     }
 
     if (empty($items)) {

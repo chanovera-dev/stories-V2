@@ -267,14 +267,14 @@ function properties_templates() {
         ]);
     }
 
-    // if ( is_singular( 'property' ) ) {
-    //     $a  = stories_get_assets();
+    if ( is_singular( 'property' ) ) {
+        $a  = stories_get_assets();
 
-    //     stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
-    //     stories_enqueue_style( 'property', $a['css']['property'] );
-    //     stories_enqueue_script( 'galery', $a['js']['galery'] );
-    //     stories_enqueue_script( 'slideshow-related-product', $a['js']['slideshow'] );
-    //     stories_enqueue_script( 'parallax', $a['css']['parallax'] );
-    // }
+        stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
+        stories_enqueue_style( 'post-gallery-styles', $a['css']['post-gallery-styles'] );
+        stories_enqueue_script( 'post-gallery-script', $a['js']['post-gallery-script'] );
+        // stories_enqueue_script( 'slideshow-related-product', $a['js']['slideshow'] );
+        // stories_enqueue_script( 'parallax', $a['css']['parallax'] );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'properties_templates' );

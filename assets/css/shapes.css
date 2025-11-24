@@ -255,7 +255,7 @@
             & .post--metadata {
                 display: flex;
                 padding: .5rem;
-                padding-right: 1rem;
+                padding-right: 1.5rem;
                 gap: 3px;
                 flex-wrap: nowrap;
                 overflow-x: auto;
@@ -280,7 +280,7 @@
                     gap: 1rem;
 
                     & li {
-                        display: inline-flex;
+                        display: flex;
                         align-items: baseline;
                         text-wrap-mode: nowrap;
                         gap: .5rem;

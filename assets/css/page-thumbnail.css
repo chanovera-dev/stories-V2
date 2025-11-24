@@ -1,4 +1,4 @@
-header.block {
+header.block:not(.property--heading) {
     & .background-hero {
         width: 100%;
         height: 120%;
