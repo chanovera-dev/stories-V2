@@ -415,3 +415,568 @@ function format_numeric($number) {
     // Convert to number and format with ' for thousands and , for decimals
     return number_format((float) $number, 0,  "'", ',');
 }
+
+/****************************************************************************************************************
+ * M E T A D A T A   F O R   P R O P E R T I E S
+ ****************************************************************************************************************/
+
+/**
+ * Property Metadata Helpers
+ * 
+ * Functions for rendering property metadata items with consistent
+ * SVG icons and formatting across templates.
+ */
+
+/**
+ * Get SVG icon for metadata item
+ * 
+ * @param string $type Type of metadata (bedroom, bathroom, construction, lot, parking)
+ * @return string SVG markup
+ */
+function stories_get_metadata_icon($type) {
+    $icons = [
+        'id' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-heading" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/><path d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0-5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z"/></svg>',
+        'location' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16"><path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/><path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg>',
+        'bedroom' => '<svg width="19" height="19" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;"><path d="M13,9.5l-10,0l0,-3.25c0.002,-0.685 0.565,-1.248 1.25,-1.25l7.5,0c0.685,0.002 1.248,0.565 1.25,1.25l0,3.25Zm-11.5,5.5l0,-3.5c0.003,-1.096 0.904,-1.997 2,-2l9,0c1.096,0.003 1.997,0.904 2,2l0,3.5" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/><path d="M1.5,15l0,-0.25c0.001,-0.411 0.339,-0.749 0.75,-0.75l11.5,0c0.411,0.001 0.749,0.339 0.75,0.75l0,0.25m-11,-5.5l0,-0.5c0.002,-0.548 0.452,-0.998 1,-1l2.5,0c0.548,0.002 0.998,0.452 1,1l0,0.5m0,0l0,-0.5c0.002,-0.548 0.452,-0.998 1,-1l2.5,0c0.548,0.002 0.998,0.452 1,1l0,0.5" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/></svg>',
+        'bathroom' => '<svg fill="currentColor" width="16" height="16" viewBox="0 0 512 512" id="Layer_1" enable-background="new 0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m496 288c-38.154 0-437.487 0-448 0v-56h32c8.837 0 16-7.164 16-16v-40c0-8.836-7.163-16-16-16s-16 7.164-16 16v24h-16v-138.745c0-25.903 31.562-39.064 49.941-20.686l16.94 16.94c-13.424 23.401-10.164 53.835 9.805 73.805l8 8c6.247 6.248 16.379 6.249 22.627 0l64-64c6.249-6.248 6.249-16.379 0-22.627l-8-8c-20.35-20.351-50.837-23.06-73.817-9.817l-16.928-16.928c-11.57-11.57-26.952-17.942-43.313-17.942-33.776 0-61.255 27.479-61.255 61.255v226.745c-8.837 0-16 7.164-16 16s7.163 16 16 16v32c0 43.889 19.742 83.247 50.806 109.681l-22.338 23.229c-9.803 10.193-2.445 27.09 11.53 27.09 4.199 0 8.394-1.644 11.534-4.91l26.218-27.263c19.844 10.326 42.376 16.173 66.25 16.173h192c23.874 0 46.406-5.847 66.25-16.173l26.218 27.263c6.106 6.35 16.234 6.585 22.623.442 6.369-6.125 6.566-16.254.441-22.623l-22.338-23.229c31.064-26.433 50.806-65.791 50.806-109.68v-32c8.837 0 16-7.164 16-16s-7.163-16-16-16zm-310.89-223.738-40.845 40.845c-8.246-11.427-7.23-27.515 3.048-37.794 10.378-10.377 26.461-11.259 37.797-3.051zm278.89 287.738c0 61.757-50.243 112-112 112h-192c-61.757 0-112-50.243-112-112v-32h416z"/></g></svg>',
+        'construction' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16"><path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/><path d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/></svg>',
+        'lot' => '<svg width="20" height="20" fill="currentcolor" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M6.667,10.333l6.333,0c0.92,0 1.667,0.746 1.667,1.667l0,2c0,0.92 -0.746,1.667 -1.667,1.667l-10,0c-0.92,0 -1.667,-0.746 -1.667,-1.667l0,-10c0,-0.92 0.746,-1.667 1.667,-1.667l2,0c0.92,0 1.667,0.746 1.667,1.667l0,6.333Zm-0.724,4l-2.276,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.667,0l0,-1.333l-2.333,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.667,0l0,-1.333l-2.333,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.61,0c-0.137,-0.388 -0.508,-0.667 -0.943,-0.667l-2,0c-0.552,0 -1,0.448 -1,1l0,10c0,0.552 0.448,1 1,1l2,0c0.435,0 0.806,-0.278 0.943,-0.667Zm0.724,-3.333l0,3c0,0.375 -0.124,0.721 -0.333,1l6.667,0c0.552,0 1,-0.448 1,-1l0,-2c0,-0.552 -0.448,-1 -1,-1l-6.333,0Zm4.667,0.667l1.333,0c0.368,0 0.667,0.298 0.667,0.667l0,1.333c0,0.368 -0.298,0.667 -0.667,0.667l-1.333,0c-0.368,0 -0.667,-0.298 -0.667,-0.667l0,-1.333c0,-0.368 0.298,-0.667 0.667,-0.667Zm0,0.667l0,1.333l1.333,0l0,-1.333l-1.333,0Z" style="fill-rule:nonzero;"/></svg>',
+        'parking' => '<svg width="20" height="20" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.678,10.331c-0.229,-0.304 -1.08,-0.513 -1.44,-1.061c-0.36,-0.547 -0.655,-1.732 -1.571,-2.187c-0.916,-0.455 -2.668,-0.583 -3.668,-0.583c-1,0 -2.75,0.125 -3.668,0.582c-0.918,0.457 -1.211,1.641 -1.571,2.188c-0.36,0.546 -1.211,0.758 -1.44,1.062c-0.229,0.304 -0.39,2.226 -0.292,3.169c0.098,0.943 0.281,1.5 0.281,1.5l2.688,0c0.44,0 0.583,-0.165 1.483,-0.25c0.987,-0.094 1.956,-0.125 2.519,-0.125c0.562,0 1.562,0.031 2.549,0.125c0.9,0.085 1.048,0.25 1.483,0.25l2.656,0c0,0 0.183,-0.557 0.281,-1.5c0.098,-0.943 -0.064,-2.865 -0.292,-3.169Zm-2.178,4.669l1.75,0l0,0.5l-1.75,0l0,-0.5Zm-10.75,0l1.75,0l0,0.5l-1.75,0l0,-0.5Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/><path d="M11.39,12.661c-0.185,-0.213 -0.787,-0.392 -1.583,-0.511c-0.797,-0.119 -1.088,-0.15 -1.8,-0.15c-0.713,0 -1.037,0.051 -1.8,0.15c-0.764,0.099 -1.337,0.275 -1.583,0.511c-0.369,0.357 0.172,0.759 0.596,0.807c0.411,0.047 1.233,0.03 2.791,0.03c1.557,0 2.38,0.017 2.791,-0.03c0.424,-0.052 0.926,-0.425 0.589,-0.807Zm2.097,-2.066c-0.004,-0.051 -0.046,-0.092 -0.097,-0.094c-0.369,-0.013 -0.744,0.013 -1.408,0.209c-0.339,0.099 -0.658,0.258 -0.94,0.471c-0.071,0.056 -0.046,0.206 0.043,0.222c0.548,0.064 1.099,0.097 1.651,0.097c0.331,0 0.672,-0.094 0.736,-0.389c0.032,-0.17 0.038,-0.344 0.015,-0.516Zm-10.973,-0c0.004,-0.051 0.046,-0.092 0.097,-0.094c0.369,-0.013 0.744,0.013 1.408,0.209c0.339,0.099 0.658,0.258 0.94,0.471c0.071,0.056 0.046,0.206 -0.043,0.222c-0.548,0.064 -1.099,0.097 -1.651,0.097c-0.331,0 -0.672,-0.094 -0.736,-0.389c-0.032,-0.17 -0.038,-0.344 -0.015,-0.516Z" style="fill-rule:nonzero;"/><path d="M13.5,9l0.5,0m-12,0l0.5,0m-0.062,0.594c0,0 1.448,-0.375 5.562,-0.375c4.114,0 5.562,0.375 5.562,0.375" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/></svg>',
+    ];
+
+    return $icons[$type] ?? '';
+}
+
+/**
+ * Render property metadata item
+ * 
+ * @param string $type Type of metadata (bedroom, bathroom, construction, lot, parking)
+ * @param mixed $value The metadata value
+ * @param array $args Additional arguments (unit, class, etc.)
+ * @return string HTML <li> element
+ */
+function stories_render_metadata_item($type, $value, $args = []) {
+    // Defaults
+    $defaults = [
+        'unit' => '',
+        'class' => '',
+        'format' => true, // Whether to apply format_numeric()
+    ];
+    $args = wp_parse_args($args, $defaults);
+
+    // Validate value
+    if (empty($value) || $value == 0) {
+        return '';
+    }
+
+    // Format value if needed
+    if ($args['format'] && function_exists('format_numeric')) {
+        $value = format_numeric($value);
+    }
+
+    // Get icon
+    $icon = stories_get_metadata_icon($type);
+
+    // Build class attribute
+    $class = "class=\"{$args['class']}\"";
+
+    // Build unit suffix
+    $unit = !empty($args['unit']) ? " {$args['unit']}" : '';
+
+    return "<li {$class}>{$icon}{$value}{$unit}</li>";
+}
+
+/**
+ * Display property metadata with singular/plural support
+ * 
+ * Renders all available metadata for a property:
+ * - Bedrooms
+ * - Bathrooms
+ * - Construction size
+ * - Lot size
+ * - Parking spaces
+ * - Property type
+ * - Property ID
+ * 
+ * @param int $post_id Post ID (defaults to current post)
+ * @param array $args Additional options (show_id, show_type, show_construction_label, show_lot_label, etc.)
+ */
+function stories_display_property_metadata($post_id = null, $args = []) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+
+    // Default options
+    $defaults = [
+        'show_id' => false,
+        'show_type' => false,
+        'show_construction_label' => false, // Show "m² de construcción" instead of just "m²"
+        'show_lot_label' => false,          // Show "m² de terreno" instead of just "m²"
+        'show_plural' => false,              // Show "recámara/recámaras", "baño/baños", etc.
+    ];
+    $args = wp_parse_args($args, $defaults);
+
+    $metadata = [
+        'bedrooms' => [
+            'key' => 'eb_bedrooms',
+            'type' => 'bedroom',
+            'class' => 'bedroom',
+            'unit' => '',
+            'format' => false,
+            'singular' => 'recámara',
+            'plural' => 'recámaras',
+        ],
+        'bathrooms' => [
+            'key' => 'eb_bathrooms',
+            'type' => 'bathroom',
+            'class' => '',
+            'unit' => '',
+            'format' => false,
+            'singular' => 'baño',
+            'plural' => 'baños',
+        ],
+        'construction' => [
+            'key' => 'eb_construction_size',
+            'type' => 'construction',
+            'class' => '',
+            'unit' => $args['show_construction_label'] ? 'm² de construcción' : 'm²',
+            'format' => true,
+        ],
+        'lot' => [
+            'key' => 'eb_lot_size',
+            'type' => 'lot',
+            'class' => 'lot',
+            'unit' => $args['show_lot_label'] ? 'm² de terreno' : 'm²',
+            'format' => true,
+        ],
+        'parking' => [
+            'key' => 'eb_parking',
+            'type' => 'parking',
+            'class' => '',
+            'unit' => '',
+            'format' => false,
+            'singular' => 'estacionamiento',
+            'plural' => 'estacionamientos',
+        ],
+    ];
+
+    $items = [];
+
+    foreach ($metadata as $key => $meta) {
+        $value = get_post_meta($post_id, $meta['key'], true);
+        
+        if (empty($value) || $value == 0) {
+            continue;
+        }
+
+        // Format value if needed
+        $display_value = $value;
+        if ($meta['format'] && function_exists('format_numeric')) {
+            $display_value = format_numeric($value);
+        }
+
+        // Add singular/plural suffix for bedroom, bathroom, parking
+        if ($args['show_plural'] && isset($meta['singular'], $meta['plural'])) {
+            $unit = ' ' . ($value < 2 ? $meta['singular'] : $meta['plural']);
+        } else {
+            $unit = !empty($meta['unit']) ? " {$meta['unit']}" : '';
+        }
+
+        // Get icon
+        $icon = stories_get_metadata_icon($meta['type']);
+
+        // Build class attribute
+        $class = !empty($meta['class']) ? "class=\"{$meta['class']}\"" : '';
+
+        $items[] = "<li {$class}>{$icon}{$display_value}{$unit}</li>";
+    }
+
+    if (empty($items)) {
+        return;
+    }
+
+    echo '<div class="post--metadata">';
+    echo '<ul class="metadata-list">';
+    echo implode("\n", $items);
+    echo '</ul>';
+    echo '</div>';
+}
+
+/**
+ * Get property metadata variables for single property template
+ * 
+ * @param int $post_id Property post ID
+ * @return array Array with price, operation, location, gallery keys
+ */
+function stories_get_property_data($post_id = 0) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+
+    // Try to get gallery from ACF first (new system)
+    $gallery = [];
+    
+    if (function_exists('get_field')) {
+        $acf_gallery = get_field('eb_gallery', $post_id);
+        if (!empty($acf_gallery)) {
+            // ACF gallery returns array of image objects/IDs
+            foreach ($acf_gallery as $image) {
+                if (is_array($image)) {
+                    // If it's already an array with 'url', use it
+                    if (isset($image['url'])) {
+                        $gallery[] = $image;
+                    } else {
+                        // If it's an array with ID, get the URL
+                        $image_id = $image['id'] ?? $image;
+                        $image_url = wp_get_attachment_image_url($image_id, 'full');
+                        if ($image_url) {
+                            $gallery[] = ['url' => $image_url];
+                        }
+                    }
+                } else {
+                    // It's an image ID
+                    $image_url = wp_get_attachment_image_url($image, 'full');
+                    if ($image_url) {
+                        $gallery[] = ['url' => $image_url];
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback to EasyBroker format if ACF gallery is empty
+    if (empty($gallery)) {
+        $eb_gallery = get_post_meta($post_id, 'eb_gallery', true);
+        
+        if (is_string($eb_gallery)) {
+            $gallery = maybe_unserialize($eb_gallery);
+        } elseif (is_array($eb_gallery)) {
+            $gallery = $eb_gallery;
+        }
+    }
+
+    return [
+        'price'     => get_post_meta($post_id, 'eb_price', true),
+        'operation' => get_post_meta($post_id, 'eb_operation', true),
+        'location'  => get_post_meta($post_id, 'eb_location', true),
+        'gallery'   => is_array($gallery) ? $gallery : [],
+    ];
+}
+
+/**
+ * Get all detailed metadata for property details section
+ * 
+ * @param int $post_id Property post ID
+ * @return array Array with all metadata items (id, location, type, operation, price, bedrooms, bathrooms, parking, construction, lot)
+ */
+function stories_get_full_property_metadata($post_id = 0) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+
+    return [
+        'id'            => get_post_meta($post_id, 'eb_public_id', true),
+        'location'      => get_post_meta($post_id, 'eb_location', true),
+        'type'          => get_post_meta($post_id, 'eb_property_type', true),
+        'operation'     => get_post_meta($post_id, 'eb_operation', true),
+        'price'         => get_post_meta($post_id, 'eb_price', true),
+        'bedrooms'      => get_post_meta($post_id, 'eb_bedrooms', true),
+        'bathrooms'     => get_post_meta($post_id, 'eb_bathrooms', true),
+        'parking'       => get_post_meta($post_id, 'eb_parking', true),
+        'construction'  => get_post_meta($post_id, 'eb_construction_size', true),
+        'lot'           => get_post_meta($post_id, 'eb_lot_size', true),
+    ];
+}
+
+/**
+ * Render full property metadata list for details section
+ * 
+ * @param int $post_id Property post ID
+ * @return void Outputs HTML list items
+ */
+function stories_render_full_property_metadata($post_id = 0) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+
+    $metadata = stories_get_full_property_metadata($post_id);
+    
+    // ID
+    echo '<li>';
+    echo '<span>' . stories_get_metadata_icon('id') . '</span> ';
+    echo 'ID: ' . esc_html($metadata['id']);
+    echo '</li>';
+    
+    // Location
+    echo '<li>';
+    echo '<span>' . stories_get_metadata_icon('location') . '</span> ';
+    echo esc_html($metadata['location']);
+    echo '</li>';
+    
+    // Type
+    if (!empty($metadata['type'])) {
+        echo '<li>';
+        echo '<span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5391 8.67606V15.5524C20.5512 15.8014 20.4327 16.0559 20.1845 16.196L13.0531 20.2197C12.4152 20.5797 11.6357 20.5807 10.9969 20.2223L3.82016 16.1968C3.5659 16.0542 3.44711 15.7917 3.46487 15.5374V8.69449C3.44687 8.44374 3.56156 8.18452 3.80996 8.0397L10.9664 3.86752C11.6207 3.48606 12.4299 3.4871 13.0832 3.87025L20.1945 8.04063C20.4357 8.18211 20.5503 8.43167 20.5391 8.67606Z" stroke="currentColor"/><path d="M3.82019 9.25312C3.3487 8.98865 3.34307 8.31197 3.81009 8.03969L10.9665 3.86751C11.6209 3.48605 12.43 3.48709 13.0834 3.87024L20.1946 8.04062C20.6596 8.31329 20.6539 8.98739 20.1845 9.25227L13.0531 13.276C12.4152 13.636 11.6357 13.637 10.9969 13.2786L3.82019 9.25312Z" stroke="currentColor"/></svg></span> ';
+        echo 'Tipo: ' . esc_html($metadata['type']);
+        echo '</li>';
+    }
+    
+    // Operation
+    if (!empty($metadata['operation'])) {
+        echo '<li>';
+        echo '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16"><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg></span> ';
+        echo ($metadata['operation'] === 'sale' ? 'En venta' : ($metadata['operation'] === 'rental' ? 'En renta' : esc_html($metadata['operation'])));
+        echo '</li>';
+    }
+    
+    // Price
+    if (!empty($metadata['price'])) {
+        echo '<li>';
+        echo '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16"><path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/></svg></span> ';
+        echo 'Precio: ' . esc_html($metadata['price']);
+        echo '</li>';
+    }
+    
+    // Bedrooms
+    if (!empty($metadata['bedrooms']) && $metadata['bedrooms'] != 0) {
+        echo '<li class="bedroom">';
+        echo '<span>' . stories_get_metadata_icon('bedroom') . '</span> ';
+        echo esc_html($metadata['bedrooms']) . ' ' . ($metadata['bedrooms'] < 2 ? 'recámara' : 'recámaras');
+        echo '</li>';
+    }
+    
+    // Bathrooms
+    if (!empty($metadata['bathrooms']) && $metadata['bathrooms'] != 0) {
+        echo '<li>';
+        echo '<span>' . stories_get_metadata_icon('bathroom') . '</span> ';
+        echo esc_html($metadata['bathrooms']) . ' ' . ($metadata['bathrooms'] < 2 ? 'baño' : 'baños');
+        echo '</li>';
+    }
+    
+    // Parking
+    if (!empty($metadata['parking']) && $metadata['parking'] != 0) {
+        echo '<li class="parking">';
+        echo '<span>' . stories_get_metadata_icon('parking') . '</span> ';
+        echo esc_html($metadata['parking']) . ' ' . ($metadata['parking'] < 2 ? 'estacionamiento' : 'estacionamientos');
+        echo '</li>';
+    }
+    
+    // Construction size
+    if (!empty($metadata['construction']) && $metadata['construction'] != 0) {
+        echo '<li>';
+        echo '<span>' . stories_get_metadata_icon('construction') . '</span> ';
+        echo format_numeric($metadata['construction']) . ' m² de construcción';
+        echo '</li>';
+    }
+    
+    // Lot size
+    if (!empty($metadata['lot']) && $metadata['lot'] != 0) {
+        echo '<li class="lot">';
+        echo '<span>' . stories_get_metadata_icon('lot') . '</span> ';
+        echo format_numeric($metadata['lot']) . ' m² de terreno';
+        echo '</li>';
+    }
+}
+
+/****************************************************************************************************************
+ * A C F   F I E L D S   F O R   P R O P E R T I E S
+ ****************************************************************************************************************/
+
+/**
+ * ACF Fields Registration
+ * 
+ * Registers custom fields for the Property CPT using ACF (Advanced Custom Fields)
+ * Allows manual property creation and editing without depending on EasyBroker sync
+ * 
+ * @package stories-V2
+ * @since 1.0.0
+ */
+
+if (!function_exists('acf_add_local_field_group')) {
+    return;
+}
+
+/**
+ * Register ACF fields for Property CPT
+ */
+function stories_register_property_acf_fields() {
+    acf_add_local_field_group([
+        'key'                   => 'group_property_details',
+        'title'                 => 'Detalles de la Propiedad',
+        'fields'                => [
+            [
+                'key'           => 'field_property_id',
+                'label'         => 'ID Público',
+                'name'          => 'eb_public_id',
+                'type'          => 'text',
+                'instructions'  => 'Identificador único de la propiedad',
+                'required'      => 0,
+                'placeholder'   => 'P-12345',
+            ],
+            [
+                'key'           => 'field_property_price',
+                'label'         => 'Precio',
+                'name'          => 'eb_price',
+                'type'          => 'text',
+                'instructions'  => 'Formato: $1,500,000 o 1,500,000',
+                'required'      => 1,
+                'placeholder'   => '$1,500,000',
+            ],
+            [
+                'key'           => 'field_property_operation',
+                'label'         => 'Tipo de Operación',
+                'name'          => 'eb_operation',
+                'type'          => 'select',
+                'choices'       => [
+                    'sale'      => 'En Venta',
+                    'rental'    => 'En Renta',
+                ],
+                'required'      => 1,
+            ],
+            [
+                'key'           => 'field_property_location',
+                'label'         => 'Ubicación',
+                'name'          => 'eb_location',
+                'type'          => 'text',
+                'instructions'  => 'Dirección completa de la propiedad',
+                'required'      => 1,
+                'placeholder'   => 'Calle Principal 123, Ciudad, Estado',
+            ],
+            [
+                'key'           => 'field_property_type',
+                'label'         => 'Tipo de Propiedad',
+                'name'          => 'eb_property_type',
+                'type'          => 'select',
+                'choices'       => [
+                    'house'     => 'Casa',
+                    'apartment' => 'Departamento',
+                    'land'      => 'Terreno',
+                    'commercial' => 'Comercial',
+                    'office'    => 'Oficina',
+                    'other'     => 'Otro',
+                ],
+                'required'      => 1,
+            ],
+            [
+                'key'           => 'field_property_bedrooms',
+                'label'         => 'Recámaras',
+                'name'          => 'eb_bedrooms',
+                'type'          => 'number',
+                'required'      => 0,
+                'min'           => 0,
+                'placeholder'   => '3',
+            ],
+            [
+                'key'           => 'field_property_bathrooms',
+                'label'         => 'Baños',
+                'name'          => 'eb_bathrooms',
+                'type'          => 'number',
+                'required'      => 0,
+                'min'           => 0,
+                'placeholder'   => '2',
+            ],
+            [
+                'key'           => 'field_property_parking',
+                'label'         => 'Estacionamientos',
+                'name'          => 'eb_parking',
+                'type'          => 'number',
+                'required'      => 0,
+                'min'           => 0,
+                'placeholder'   => '2',
+            ],
+            [
+                'key'           => 'field_property_construction_size',
+                'label'         => 'Tamaño de Construcción (m²)',
+                'name'          => 'eb_construction_size',
+                'type'          => 'number',
+                'required'      => 0,
+                'min'           => 0,
+                'placeholder'   => '150',
+            ],
+            [
+                'key'           => 'field_property_lot_size',
+                'label'         => 'Tamaño de Terreno (m²)',
+                'name'          => 'eb_lot_size',
+                'type'          => 'number',
+                'required'      => 0,
+                'min'           => 0,
+                'placeholder'   => '250',
+            ],
+            [
+                'key'           => 'field_property_gallery',
+                'label'         => 'Galería de Imágenes',
+                'name'          => 'eb_gallery',
+                'type'          => 'gallery',
+                'instructions'  => 'Agrega imágenes a la galería de la propiedad',
+                'return_format' => 'array',
+            ],
+        ],
+        'location'              => [
+            [
+                [
+                    'param'     => 'post_type',
+                    'operator'  => '==',
+                    'value'     => 'property',
+                ],
+            ],
+        ],
+        'menu_order'            => 0,
+        'position'              => 'normal',
+        'style'                 => 'default',
+        'label_placement'       => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen'        => [],
+    ]);
+}
+
+add_action('acf/init', 'stories_register_property_acf_fields');
+
+/**
+ * Convert ACF gallery array to EasyBroker format
+ * 
+ * Converts ACF's gallery field format to the serialized format used by EasyBroker
+ * This ensures compatibility with existing template code and prevents duplicate gallery handling
+ * 
+ * @param int $post_id Post ID
+ */
+function stories_convert_acf_gallery_to_eb_format($post_id) {
+    // Get ACF gallery field (array of image IDs or objects)
+    $gallery = get_field('eb_gallery', $post_id);
+    
+    if (empty($gallery)) {
+        return;
+    }
+    
+    // Convert ACF gallery format to EasyBroker format (array of objects with 'url' key)
+    $eb_gallery = [];
+    foreach ($gallery as $image) {
+        $image_url = '';
+        
+        if (is_array($image)) {
+            // If it's already an array with 'url', use it
+            if (isset($image['url'])) {
+                $image_url = $image['url'];
+            } else {
+                // If it has 'id' key, get the URL
+                $image_id = $image['id'] ?? $image;
+                $image_url = wp_get_attachment_image_url($image_id, 'full');
+            }
+        } else {
+            // It's an image ID - get the full URL
+            $image_url = wp_get_attachment_image_url($image, 'full');
+        }
+        
+        if ($image_url) {
+            $eb_gallery[] = [
+                'url' => $image_url,
+            ];
+        }
+    }
+    
+    // Save in EasyBroker meta format for backwards compatibility
+    if (!empty($eb_gallery)) {
+        update_post_meta($post_id, 'eb_gallery', $eb_gallery);
+    }
+}
+
+add_action('acf/save_post', 'stories_convert_acf_gallery_to_eb_format', 20);
