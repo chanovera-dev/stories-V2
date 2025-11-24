@@ -581,7 +581,7 @@ ul {
 
 @media (width < 600px) {
     .post:not(:has(header.block.entry-header)) {
-        &:is(.format-video, .format-image, .format-gallery) {
+        &:is(.format-video, .format-image, .format-gallery, .type-property) {
             & .post-body {
                 & .post-body__header {
                     aspect-ratio: 4 / 5;
