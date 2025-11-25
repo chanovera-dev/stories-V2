@@ -132,3 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // here we always fetch so pagination markup is consistent with JS.
   fetchProperties(currentPage, false);
 });
+
+function togglePropertiesSidebar() {
+  const form = document.querySelector('.property-filter-form')
+  
+  if (form) {
+    form.classList.toggle('large')
+  }
+}
