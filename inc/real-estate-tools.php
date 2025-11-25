@@ -117,7 +117,124 @@ function get_property_locations() {
 // Clear the cached data when a property is saved or updated
 add_action('save_post_property', function() {
     delete_transient('property_locations');
+    delete_transient('property_price_range');
+    delete_transient('property_construction_range');
+    delete_transient('property_land_range');
 });
+
+/**
+ * Retrieves the minimum and maximum price range from all published properties.
+ *
+ * Caches the result in a transient for performance optimization.
+ *
+ * @return array An associative array with 'min' and 'max' keys containing price values.
+ */
+function get_property_price_range() {
+    $cached = get_transient('property_price_range');
+    
+    if ($cached !== false) {
+        return $cached;
+    }
+
+    global $wpdb;
+    
+    $result = $wpdb->get_results(
+        "SELECT 
+            MIN(CAST(meta_value AS UNSIGNED)) as min_price,
+            MAX(CAST(meta_value AS UNSIGNED)) as max_price
+        FROM {$wpdb->postmeta} pm
+        INNER JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+        WHERE pm.meta_key = 'eb_price_num'
+        AND p.post_type = 'property'
+        AND p.post_status = 'publish'"
+    );
+
+    $range = [
+        'min' => isset($result[0]->min_price) && $result[0]->min_price ? (int) $result[0]->min_price : 0,
+        'max' => isset($result[0]->max_price) && $result[0]->max_price ? (int) $result[0]->max_price : 0,
+    ];
+
+    // Cache for 24 hours
+    set_transient('property_price_range', $range, DAY_IN_SECONDS);
+
+    return $range;
+}
+
+/**
+ * Retrieves the minimum and maximum construction size range from all published properties.
+ *
+ * Caches the result in a transient for performance optimization.
+ *
+ * @return array An associative array with 'min' and 'max' keys containing construction size values.
+ */
+function get_property_construction_range() {
+    $cached = get_transient('property_construction_range');
+    
+    if ($cached !== false) {
+        return $cached;
+    }
+
+    global $wpdb;
+    
+    $result = $wpdb->get_results(
+        "SELECT 
+            MIN(CAST(meta_value AS UNSIGNED)) as min_construction,
+            MAX(CAST(meta_value AS UNSIGNED)) as max_construction
+        FROM {$wpdb->postmeta} pm
+        INNER JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+        WHERE pm.meta_key = 'eb_construction_size'
+        AND p.post_type = 'property'
+        AND p.post_status = 'publish'"
+    );
+
+    $range = [
+        'min' => isset($result[0]->min_construction) && $result[0]->min_construction ? (int) $result[0]->min_construction : 0,
+        'max' => isset($result[0]->max_construction) && $result[0]->max_construction ? (int) $result[0]->max_construction : 0,
+    ];
+
+    // Cache for 24 hours
+    set_transient('property_construction_range', $range, DAY_IN_SECONDS);
+
+    return $range;
+}
+
+/**
+ * Retrieves the minimum and maximum land/lot size range from all published properties.
+ *
+ * Caches the result in a transient for performance optimization.
+ *
+ * @return array An associative array with 'min' and 'max' keys containing land size values.
+ */
+function get_property_land_range() {
+    $cached = get_transient('property_land_range');
+    
+    if ($cached !== false) {
+        return $cached;
+    }
+
+    global $wpdb;
+    
+    $result = $wpdb->get_results(
+        "SELECT 
+            MIN(CAST(meta_value AS UNSIGNED)) as min_land,
+            MAX(CAST(meta_value AS UNSIGNED)) as max_land
+        FROM {$wpdb->postmeta} pm
+        INNER JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+        WHERE pm.meta_key = 'eb_lot_size'
+        AND p.post_type = 'property'
+        AND p.post_status = 'publish'"
+    );
+
+    $range = [
+        'min' => isset($result[0]->min_land) && $result[0]->min_land ? (int) $result[0]->min_land : 0,
+        'max' => isset($result[0]->max_land) && $result[0]->max_land ? (int) $result[0]->max_land : 0,
+    ];
+
+    // Cache for 24 hours
+    set_transient('property_land_range', $range, DAY_IN_SECONDS);
+
+    return $range;
+}
 
 /**
  * Registers the "Property" custom post type (CPT) for real estate listings.
@@ -442,6 +559,10 @@ function stories_get_metadata_icon($type) {
         'construction' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16"><path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/><path d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/></svg>',
         'lot' => '<svg width="20" height="20" fill="currentcolor" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M6.667,10.333l6.333,0c0.92,0 1.667,0.746 1.667,1.667l0,2c0,0.92 -0.746,1.667 -1.667,1.667l-10,0c-0.92,0 -1.667,-0.746 -1.667,-1.667l0,-10c0,-0.92 0.746,-1.667 1.667,-1.667l2,0c0.92,0 1.667,0.746 1.667,1.667l0,6.333Zm-0.724,4l-2.276,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.667,0l0,-1.333l-2.333,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.667,0l0,-1.333l-2.333,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l2.333,0l0,-1.333l-1.667,0c-0.184,0 -0.333,-0.149 -0.333,-0.333c0,-0.184 0.149,-0.333 0.333,-0.333l1.61,0c-0.137,-0.388 -0.508,-0.667 -0.943,-0.667l-2,0c-0.552,0 -1,0.448 -1,1l0,10c0,0.552 0.448,1 1,1l2,0c0.435,0 0.806,-0.278 0.943,-0.667Zm0.724,-3.333l0,3c0,0.375 -0.124,0.721 -0.333,1l6.667,0c0.552,0 1,-0.448 1,-1l0,-2c0,-0.552 -0.448,-1 -1,-1l-6.333,0Zm4.667,0.667l1.333,0c0.368,0 0.667,0.298 0.667,0.667l0,1.333c0,0.368 -0.298,0.667 -0.667,0.667l-1.333,0c-0.368,0 -0.667,-0.298 -0.667,-0.667l0,-1.333c0,-0.368 0.298,-0.667 0.667,-0.667Zm0,0.667l0,1.333l1.333,0l0,-1.333l-1.333,0Z" style="fill-rule:nonzero;"/></svg>',
         'parking' => '<svg width="20" height="20" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;"><path d="M14.678,10.331c-0.229,-0.304 -1.08,-0.513 -1.44,-1.061c-0.36,-0.547 -0.655,-1.732 -1.571,-2.187c-0.916,-0.455 -2.668,-0.583 -3.668,-0.583c-1,0 -2.75,0.125 -3.668,0.582c-0.918,0.457 -1.211,1.641 -1.571,2.188c-0.36,0.546 -1.211,0.758 -1.44,1.062c-0.229,0.304 -0.39,2.226 -0.292,3.169c0.098,0.943 0.281,1.5 0.281,1.5l2.688,0c0.44,0 0.583,-0.165 1.483,-0.25c0.987,-0.094 1.956,-0.125 2.519,-0.125c0.562,0 1.562,0.031 2.549,0.125c0.9,0.085 1.048,0.25 1.483,0.25l2.656,0c0,0 0.183,-0.557 0.281,-1.5c0.098,-0.943 -0.064,-2.865 -0.292,-3.169Zm-2.178,4.669l1.75,0l0,0.5l-1.75,0l0,-0.5Zm-10.75,0l1.75,0l0,0.5l-1.75,0l0,-0.5Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/><path d="M11.39,12.661c-0.185,-0.213 -0.787,-0.392 -1.583,-0.511c-0.797,-0.119 -1.088,-0.15 -1.8,-0.15c-0.713,0 -1.037,0.051 -1.8,0.15c-0.764,0.099 -1.337,0.275 -1.583,0.511c-0.369,0.357 0.172,0.759 0.596,0.807c0.411,0.047 1.233,0.03 2.791,0.03c1.557,0 2.38,0.017 2.791,-0.03c0.424,-0.052 0.926,-0.425 0.589,-0.807Zm2.097,-2.066c-0.004,-0.051 -0.046,-0.092 -0.097,-0.094c-0.369,-0.013 -0.744,0.013 -1.408,0.209c-0.339,0.099 -0.658,0.258 -0.94,0.471c-0.071,0.056 -0.046,0.206 0.043,0.222c0.548,0.064 1.099,0.097 1.651,0.097c0.331,0 0.672,-0.094 0.736,-0.389c0.032,-0.17 0.038,-0.344 0.015,-0.516Zm-10.973,-0c0.004,-0.051 0.046,-0.092 0.097,-0.094c0.369,-0.013 0.744,0.013 1.408,0.209c0.339,0.099 0.658,0.258 0.94,0.471c0.071,0.056 0.046,0.206 -0.043,0.222c-0.548,0.064 -1.099,0.097 -1.651,0.097c-0.331,0 -0.672,-0.094 -0.736,-0.389c-0.032,-0.17 -0.038,-0.344 -0.015,-0.516Z" style="fill-rule:nonzero;"/><path d="M13.5,9l0.5,0m-12,0l0.5,0m-0.062,0.594c0,0 1.448,-0.375 5.562,-0.375c4.114,0 5.562,0.375 5.562,0.375" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:.8px;"/></svg>',
+        'house' => '<svg height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g><g><g><path style="fill:currentColor;" d="M483.132,423.762c10.894,0,19.609-9.804,19.609-20.698V20.698C502.74,8.715,492.936,0,482.043,0 H29.957C17.974,0,9.26,9.804,9.26,20.698v382.366c0,11.983,9.804,20.698,20.698,20.698H60.46v46.843H29.957 c-11.983,0-20.698,8.715-20.698,20.698C9.26,503.285,19.064,512,29.957,512h51.2h130.723h90.417h129.634h51.2 c10.894,0,19.609-8.715,19.609-20.698c0-11.983-9.804-20.698-20.698-20.698H452.63v-46.843H483.132z M50.655,41.396h411.779 v340.97h-30.502H322.996v-86.06c0-11.983-9.804-20.698-20.698-20.698h-90.417c-11.983,0-20.698,9.804-20.698,20.698v86.06H81.157 H50.655V41.396z M101.855,423.762h89.328v46.843h-89.328V423.762z M231.489,470.604v-153.6H281.6v153.6H231.489z M411.234,470.604h-88.238v-46.843h88.238V470.604z"/><path style="fill:currentColor;" d="M139.983,177.566c11.983,0,20.698-8.715,20.698-19.609V118.74 c0-11.983-8.715-20.698-20.698-20.698c-11.983,0-20.698,9.804-20.698,20.698v38.128 C119.285,168.851,129.089,177.566,139.983,177.566z"/><path style="fill:currentColor;" d="M256.545,177.566c10.894,0,20.698-8.715,20.698-19.609V118.74 c0-11.983-8.715-20.698-20.698-20.698s-20.698,9.804-20.698,20.698v38.128C235.847,168.851,245.651,177.566,256.545,177.566z"/><path style="fill:currentColor;" d="M373.106,177.566c10.894,0,20.698-8.715,20.698-19.609V118.74 c0-11.983-8.715-20.698-20.698-20.698c-11.983,0-20.698,9.804-20.698,20.698v38.128 C352.408,168.851,362.213,177.566,373.106,177.566z"/></g></g></g></svg>',
+        'garden' => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 5.25C7.03323 5.25 5.25 7.15209 5.25 9.75C5.25 12.0121 6.60204 13.7467 8.25001 14.1573V10.9014L6.33398 9.62405L7.16603 8.37597L8.792 9.45995L9.87597 7.83398L11.124 8.66603L9.75001 10.7271V14.1573C11.398 13.7467 12.75 12.0121 12.75 9.75C12.75 7.15209 10.9668 5.25 9 5.25ZM3.75 9.75C3.75 12.6785 5.62993 15.2704 8.25001 15.6906V19.5H3V21H21V19.5H18.75V18L18 17.25H12L11.25 18V19.5H9.75001V15.6906C12.3701 15.2704 14.25 12.6785 14.25 9.75C14.25 6.54892 12.0038 3.75 9 3.75C5.99621 3.75 3.75 6.54892 3.75 9.75ZM12.75 19.5H17.25V18.75H12.75V19.5Z" fill="currentColor"/></svg>',
+        'sale' => '<svg fill="currentColor" height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 406.48 406.48" xml:space="preserve"><g><g><path d="M100.672,287.798c-6.25,0-11.334-5.084-11.334-11.334c0-6.25,5.085-11.334,11.334-11.334h2.868 c4.668,0,8.466,3.798,8.466,8.466c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5c0-12.939-10.527-23.466-23.466-23.466 h-2.868c-14.521,0-26.334,11.813-26.334,26.334s11.813,26.334,26.334,26.334c6.25,0,11.334,5.084,11.334,11.334 c0,6.25-5.084,11.333-11.334,11.333h-2.868c-4.668,0-8.466-3.797-8.466-8.465c0-4.142-3.358-7.5-7.5-7.5 c-4.142,0-7.5,3.358-7.5,7.5c0,12.939,10.527,23.465,23.466,23.465h2.868c14.521,0,26.334-11.813,26.334-26.333 S115.193,287.798,100.672,287.798z"/></g></g><g><g><path d="M260.22,314.988c-4.142,0-7.5,3.358-7.5,7.5v2.979h-22.667v-67.836c0-4.142-3.358-7.5-7.5-7.5c-4.142,0-7.5,3.358-7.5,7.5 v75.335c0,4.142,3.358,7.5,7.5,7.5h37.667c4.142,0,7.5-3.358,7.5-7.5v-10.479C267.72,318.345,264.362,314.988,260.22,314.988z"/></g></g><g><g><path d="M324.642,277.684c4.142,0,7.5-3.358,7.5-7.5v-12.554c0-4.142-3.358-7.5-7.5-7.5h-37.668c-4.142,0-7.5,3.358-7.5,7.5 v75.335c0,4.142,3.358,7.5,7.5,7.5h37.668c4.142,0,7.5-3.358,7.5-7.5v-10.479c0-4.142-3.358-7.5-7.5-7.5 c-4.142,0-7.5,3.358-7.5,7.5v2.979h-22.668v-22.667h13.749c4.142,0,7.5-3.358,7.5-7.5c0-4.142-3.358-7.5-7.5-7.5h-13.749v-22.668 h22.668v5.054C317.142,274.327,320.5,277.684,324.642,277.684z"/></g></g><g><g><path d="M169.03,250.618c-14.386,0-26.09,11.704-26.09,26.09v55.771c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-17.607 h22.18v17.607c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-55.771C195.12,262.322,183.416,250.618,169.03,250.618z M180.12,299.871h-22.18v-23.163c0-6.115,4.975-11.09,11.09-11.09s11.09,4.975,11.09,11.09V299.871z"/></g></g><g><g><path d="M360.811,194.053h-33.864L229.368,65.978c4.985-5.933,7.995-13.579,7.995-21.917c0-18.816-15.308-34.124-34.124-34.124 c-18.816,0-34.124,15.308-34.124,34.124c0,8.34,3.012,15.987,7.999,21.921L79.531,194.053H45.669 C20.487,194.053,0,214.54,0,239.722v111.153c0,25.182,20.487,45.669,45.669,45.669h315.142c25.182,0,45.669-20.487,45.669-45.669 V239.722C406.48,214.54,385.993,194.053,360.811,194.053z M203.24,24.938c10.545,0,19.124,8.579,19.124,19.124 c0,10.545-8.579,19.124-19.124,19.124c-10.545,0-19.124-8.579-19.124-19.124C184.116,33.517,192.695,24.938,203.24,24.938z M189.042,75.079c4.327,1.989,9.133,3.106,14.198,3.106c5.067,0,9.875-1.119,14.203-3.108l90.646,118.977h-209.7L189.042,75.079z M391.48,350.874c0,16.911-13.758,30.669-30.669,30.669H45.669C28.758,381.543,15,367.785,15,350.874V239.722 c0-16.911,13.758-30.669,30.669-30.669h315.142c16.911,0,30.669,13.758,30.669,30.669V350.874z"/></g></g></svg>',
+        'rent' => '<svg fill="currentColor" height="18" width="18" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g><g><path d="M211.772,239.087c3.797-2.022,7.023-4.548,9.651-7.578c4.702-5.376,7.074-11.776,7.074-18.987 c0-4.872-1.126-9.327-3.302-13.184c-2.15-3.789-5.103-6.946-8.798-9.438c-3.448-2.321-7.501-4.096-11.998-5.265 c-4.275-1.109-9.003-1.673-13.978-1.673h-27.725v94.865h24.149V245.24l26.402,32.589h30.575L211.772,239.087z M203.375,216.9 c-0.725,1.229-1.749,2.21-3.149,3.063c-1.553,0.947-3.499,1.698-5.803,2.21c-2.372,0.512-4.898,0.785-7.578,0.836v-18.133h3.447 c2.202,0,4.378,0.222,6.4,0.648c1.775,0.384,3.354,0.973,4.651,1.749c0.947,0.546,1.698,1.289,2.253,2.202 c0.503,0.828,0.751,1.937,0.751,3.302C204.348,214.494,204.023,215.825,203.375,216.9z"/></g></g><g><g><polygon points="270.899,255.787 270.899,240.486 303.795,240.486 303.795,218.453 270.899,218.453 270.899,205.005  305.271,205.005 305.271,182.963 246.741,182.963 246.741,277.828 305.647,277.828 305.647,255.787"/></g></g><g><g><polygon points="370.466,182.963 370.466,233.805 334.217,182.963 313.668,182.963 313.668,277.828 337.323,277.828  337.323,226.987 373.572,277.828 394.121,277.828 394.121,182.963"/></g></g><g><g><polygon points="401.041,182.963 401.041,205.005 425.199,205.005 425.199,277.828 449.348,277.828 449.348,205.005  473.498,205.005 473.498,182.963"/></g></g><g><g><path d="M512,64V38.4H64V0H38.4v38.4H0V64h38.4v422.4H12.8c-7.074,0-12.8,5.726-12.8,12.8c0,7.074,5.726,12.8,12.8,12.8h76.8 c7.074,0,12.8-5.726,12.8-12.8c0-7.074-5.726-12.8-12.8-12.8H64V64h89.591v38.4H128c-14.14,0-25.6,11.46-25.6,25.6v204.8 c0,14.14,11.46,25.6,25.6,25.6h358.4c14.14,0,25.6-11.46,25.6-25.6V128c0-14.14-11.46-25.6-25.6-25.6h-25.6V64H512z M179.191,64 H435.2v38.4H179.191V64z M486.4,128v204.8H128V128H486.4z"/></g></g></svg>',
     ];
 
     return $icons[$type] ?? '';

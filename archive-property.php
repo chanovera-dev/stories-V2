@@ -10,7 +10,14 @@
  *
  * Template Name: Propiedades */
 $locations = get_property_locations();
+$price_range = get_property_price_range();
+$construction_range = get_property_construction_range();
+$land_range = get_property_land_range();
+
 set_query_var('locations', $locations);
+set_query_var('price_range', $price_range);
+set_query_var('construction_range', $construction_range);
+set_query_var('land_range', $land_range);
 
 get_header(); ?>
 

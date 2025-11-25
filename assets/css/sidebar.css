@@ -113,12 +113,206 @@
             }
             
             &:has(.properties--filter) {
-                grid-template-columns: 3rem 1fr;
                 gap: 1rem;
 
                 & .properties--filter {
-                    position: relative;
-                    z-index: 1;
+                    & .property-filter-form {
+                        display: grid;
+                        gap: 1.5rem;
+
+                        & .menu-flex {
+                            display: flex;
+                            gap: .2rem;
+                            padding: .2rem;
+                            border-radius: 10px;
+                            background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+
+                            & .filter-property {
+                                position: relative;
+                                flex: 1;
+                                border-radius: .5rem;
+
+                                &:hover {
+                                    & [type="checkbox"]:not(:checked)+label, 
+                                    & [type="checkbox"]:checked+label {
+                                        color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+                                    }
+                                }
+
+                                & [type="checkbox"]:not(:checked)+label, 
+                                & [type="checkbox"]:checked+label {
+                                    padding: .2rem;
+                                    width: 100%;
+                                    height: 100%;
+                                    z-index: 0;
+                                    color: light-dark(#00000078, #ffffff78);
+                                    font-size: var(--wp--preset--font-size--small);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    gap: .5rem;
+                                    transition: color .3s ease;
+                                }
+
+                                & [type="checkbox"]:checked+label {
+                                    color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+                                }
+
+                                & [type="checkbox"]:not(:checked)+label:before, 
+                                & [type="checkbox"]:checked+label:before {
+                                    content: none;
+                                }
+
+                                & [type="checkbox"]:not(:checked)+label:after, 
+                                & [type="checkbox"]:checked+label:after {
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    z-index: -1;
+                                }
+
+                                & [type="checkbox"]:checked+label:after {
+                                    background-color: light-dark(var(--wp--preset--color--base), var(--base-dark));
+                                    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                                }
+                            }
+                        }
+
+                        & .filter-navigation.menu {
+                            display: grid;
+                            gap: 1rem;
+
+                            & > .menu-item-has-children {
+                                & > .button-for-submenu {
+                                    width: 100%;
+                                    color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--contrast));
+
+                                    & svg {
+                                        transition: transform .3s ease-in-out;
+                                    }
+
+                                    &.rotate {
+                                        & svg {
+                                            transform: rotate(180deg);
+                                        }
+                                    }
+                                }
+
+                                & > .sub-menu {
+                                    /* margin-top: 1rem; */
+                                    padding: 10px;
+                                    /* border: 1px solid light-dark(var(--wp--preset--color--accent-6), var(--wp--preset--color--accent-6)); */
+                                    border: none;
+                                    background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+                                    border-radius: 8px;
+                                    max-height: 10000px;
+                                    overflow: hidden;
+
+                                    &.close {
+                                        max-height: 0;
+                                        padding: 0 10px;
+                                        border-color: transparent;
+                                    }
+
+                                    & > .menu-item-has-children {
+                                        & .wrapper-for-title {
+                                            width: 100%;
+                                            padding: 0;
+                                            padding-right: 7px;
+                                            transition: background-color .3s ease, box-shadow .3s ease;
+
+                                            &:hover {
+                                                background-color: light-dark(var(--wp--preset--color--base), var(--base-dark));
+                                                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                                            }
+                                            
+                                            & .checkbox-filter-properties {
+                                                &:hover {
+                                                    background-color: transparent;
+                                                }
+                                            }
+
+                                            & .button-for-submenu {
+                                                display: grid;
+                                                width: 13px;
+                                                height: 13px;
+                                                place-content: center;
+                                                background-color: transparent;
+                                                border: none;
+                                                transition: transform .3s ease-in-out;
+
+                                                &.rotate {
+                                                    transform: rotate(45deg);
+                                                }
+                                            }
+                                        }
+
+                                        & > .sub-menu {
+                                            padding-left: 1rem;
+                                        }
+                                    }
+                                }
+
+                                &.state {
+                                    & > .sub-menu {
+                                        & li {
+                                            & .sub-menu {
+                                                padding: 0;
+                                                padding-left: 1rem;
+                                                max-height: 0;
+                                                overflow: hidden;
+
+                                                &.open {
+                                                    padding: 10px 0;
+                                                    padding-left: 1rem;
+                                                    max-height: 10000px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &:is(.price,.size) {
+                                    & .sub-menu {
+                                        & li {
+                                            display: grid;
+                                            grid-template-columns: 1fr 1fr;
+                                            gap: 0 .5rem;
+
+                                            & label {
+                                                grid-column: 1 / -1;
+                                            }
+
+                                            &:not(:last-child) {
+                                                margin-bottom: 1rem;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &.rooms {
+                                    & .backdrop {
+                                        display: none;
+                                    }
+
+                                    & .sub-menu {
+                                        display: grid !important;
+                                        grid-template-columns: 1fr 1fr;
+                                        gap: 0 .5rem;
+                                    }
+                                }
+                            }
+                        }
+
+                        & .filter-buttons {
+                            display: grid;
+                            grid-template-columns: auto 1fr;
+                            gap: 2.5rem;
+
+                            & .btn.primary {justify-content: center;}
+                        }
+                    }
 
                     & ul {
                         padding-left: 0;
@@ -130,125 +324,29 @@
                                 position: relative;
                                 display: flex;
                                 align-items: center;
-                                justify-content: center;
                                 height: 27px;
                                 padding: 0 10px;
                                 border-radius: 6px;
                                 transition: background-color .2s ease-in-out;
+
+                                & input[type="checkbox"]:not(:checked) + label:after, [type="checkbox"]:checked + label:after {
+                                    top: 0.48em;
+                                    left: 0.19em;
+                                }
+
+                                &:hover {
+                                    background-color: light-dark(var(--wp--preset--color--main-alpha-25), var(--wp--preset--color--main));
+                                }
                             }
                         }
                     }
 
-                    & input[type=number] {
+                    input[type=number] {
                         background-color: light-dark(var(--wp--preset--color--base), var(--base-dark)) !important;
                         font-size: var(--wp--preset--font-size--small);
 
                         &::placeholder {
                             font-size: var(--wp--preset--font-size--small);
-                        }
-                    }
-
-                    & .property-filter-form {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        background-color: light-dark(var(--wp--preset--color--base), var(--base-dark));
-                        padding: .1rem;
-                        border: 1px solid var(--wp--preset--color--accent-6);
-                        border-radius: 1rem;
-                        display: grid;
-                        gap: 1.5rem;
-                        max-width: 100%;
-                        transition: max-width .6s ease-in-out, padding .3s ease-in-out;
-
-                        & .large-button {
-                            font-size: 0;
-                            background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
-                            padding: .5rem;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 0;
-                            border-radius: .8rem;
-                            transition: font-size .3s ease, gap .3s ease;
-
-                            & svg {
-                                transition: transform .3s ease;
-                            }
-                        }
-
-                        & .menu-operation {
-                            background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
-                            display: flex;
-                            gap: .5rem;
-                            flex-wrap: wrap;
-                            padding: .5rem;
-
-                            & li {
-                                flex: 1;
-                                position: relative;
-                                border-radius: 13.5px;
-                                corner-shape: round;
-                                transition: background-color .3s ease;
-
-                                &:hover {
-                                    background-color: light-dark(#0000000e, #ffffff0e);
-                                }
-
-                                & [type="checkbox"]:not(:checked)+label, 
-                                & [type="checkbox"]:checked+label {
-                                    padding-left: 0;
-                                    width: 100%;
-                                    text-align: center;
-                                    z-index: 0;
-                                    display: inline-flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    gap: .5rem;
-                                    font-size: 0;
-                                }
-
-                                & [type="checkbox"]:not(:checked)+label:before, 
-                                & [type="checkbox"]:checked+label:before {
-                                    top: 0;
-                                    left: 0;
-                                    width: 100%;
-                                    height: 100%;
-                                    border: none;
-                                }
-
-                                & [type="checkbox"]:not(:checked)+label:after, 
-                                & [type="checkbox"]:checked+label:after {
-                                    top: 0;
-                                    left: 0;
-                                    width: 100%;
-                                    height: 100%;
-                                    z-index: -1;
-                                    border-radius: 13.5px;
-                                    corner-shape: round;
-                                }
-
-                                & [type="checkbox"]:checked+label:after {
-                                    background-color: light-dark(var(--wp--preset--color--base), var(--base-dark));
-                                    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.15) 0px 7px 13px -3px;
-                                }
-                            }
-                        }
-
-                        &.large {
-                            max-width: fit-content;
-                            padding: .5rem;
-
-                            .large-button {
-                                font-size: 1rem;
-                                gap: .5rem;
-                                border-radius: .6rem;
-                                padding: .5rem 1rem;
-
-                                & svg {
-                                    transform: rotate(45deg);
-                                }
-                            }
                         }
                     }
                 }
@@ -269,7 +367,6 @@
 
                 &:has(.properties--filter) {
                     grid-template-columns: 300px 1fr;
-                    gap: 1rem;
                 }
             }
         }
@@ -306,13 +403,19 @@ body.is-chromium {
                 &:has(.properties--filter) {
                     & .properties--filter {
                         & .property-filter-form {
-                            border-radius: 2rem;
-                            corner-shape: squircle;
+                            & .menu-flex {
+                                border-radius: 1.4rem;
+                                corner-shape: squircle;
+                            }
 
-                            &.large {
-                                .large-button {
-                                    border-radius: 1.2rem;
-                                    corner-shape: squircle;
+                            & .filter-navigation.menu {
+                                & > .menu-item-has-children {
+                                    &.state {
+                                        & > .sub-menu {
+                                            border-radius: 1rem;
+                                            corner-shape: squircle;
+                                        }
+                                    }
                                 }
                             }
                         }
