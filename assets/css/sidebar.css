@@ -113,7 +113,7 @@
             }
             
             &:has(.properties--filter) {
-                gap: 1rem;
+                gap: 1.5rem;
 
                 & .properties--filter {
                     & .property-filter-form {
@@ -286,6 +286,12 @@
 
                                             &:not(:last-child) {
                                                 margin-bottom: 1rem;
+                                            }
+
+                                            & :is(.price-range,.construction-range,.land-range) {
+                                                margin-top: 1rem;
+                                                display: grid;
+                                                grid-column: 1 / -1;
                                             }
                                         }
                                     }

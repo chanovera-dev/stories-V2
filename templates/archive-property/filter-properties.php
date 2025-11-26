@@ -15,15 +15,15 @@
         <!-- Type -->
         <div class="menu-flex">
             <div class="filter-property"><input type="checkbox" name="type[]" value="house"><label><?= stories_get_metadata_icon('house'); esc_html_e('Casa', 'inmobiliaria'); ?></label></div>
-            <div class="filter-property"><input type="checkbox" name="type[]" value="bedroom"><label><?= stories_get_metadata_icon('house'); esc_html_e('Habitación', 'inmobiliaria'); ?></label></div>
-            <!-- <div class="filter-property"><input type="checkbox" name="type[]" value="apartment"><label><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'inmobiliaria'); ?></label></div>
-            <div class="filter-property"><input type="checkbox" name="type[]" value="land"><label><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'inmobiliaria'); ?></label></div> -->
+            <div class="filter-property"><input type="checkbox" name="type[]" value="bedroom"><label><?= stories_get_metadata_icon('bedroom'); esc_html_e('Habitación', 'inmobiliaria'); ?></label></div>
+            <!-- <div class="filter-property"><input type="checkbox" name="type[]" value="apartment"><label><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'inmobiliaria'); ?></label></div> -->
+            <div class="filter-property"><input type="checkbox" name="type[]" value="land"><label><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'inmobiliaria'); ?></label></div>
         </div>
 
         <ul class="filter-navigation menu">
 
             <!-- Type -->
-            <li class="menu-item-has-children filter type">
+            <!-- <li class="menu-item-has-children filter type">
                 <button class="btn button-for-submenu" type="button">
                     <?php esc_html_e('Tipo', 'inmobiliaria'); ?>
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
@@ -39,7 +39,7 @@
                     <li><p class="checkbox-filter-properties"><input type="checkbox" name="type[]" value="departamento"><label><?php esc_html_e('Departamento', 'inmobiliaria'); ?></label></p></li>
                     <li><p class="checkbox-filter-properties"><input type="checkbox" name="type[]" value="terreno"><label><?php esc_html_e('Terreno', 'inmobiliaria'); ?></label></p></li>
                 </ul>
-            </li>
+            </li> -->
 
             <!-- Location -->
             <li class="menu-item-has-children filter state">
