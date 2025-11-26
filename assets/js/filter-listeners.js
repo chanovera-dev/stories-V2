@@ -3,8 +3,9 @@
  * 
  * Handles range input and number input listeners for property filters.
  * Updates display values and triggers AJAX fetch when changed.
- * Synchronizes numeric inputs with range sliders.
+ * Synchronizes numeric inputs with range sliders (both min and max).
  * Formats numbers with thousands separators.
+ * Implements increase/decrease buttons for number inputs.
  */
 
 // Function to format numbers with thousands separators
@@ -16,6 +17,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('property-filters');
     
     if (!form) return;
+
+    // Handle increase/decrease buttons for number inputs
+    const increaseButtons = form.querySelectorAll('.btn-increase');
+    const decreaseButtons = form.querySelectorAll('.btn-decrease');
+
+    increaseButtons.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (input) {
+                const currentValue = parseFloat(input.value) || 0;
+                input.value = currentValue + 1;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    });
+
+    decreaseButtons.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (input) {
+                const currentValue = parseFloat(input.value) || 0;
+                if (currentValue > 0) {
+                    input.value = currentValue - 1;
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        });
+    });
 
     // Sync price range slider with number inputs
     const priceRangeInput = form.querySelector('#price_range');
@@ -91,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             form.dispatchEvent(changeEvent);
         });
 
-        // Sync number inputs to range sliders
+        // Sync price inputs to range slider
         if (input.name === 'price_min' && priceRangeInput) {
             input.addEventListener('input', function () {
                 if (this.value) {
@@ -104,6 +139,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        if (input.name === 'price_max' && priceMaxInput) {
+            input.addEventListener('input', function () {
+                if (this.value) {
+                    const valueSpan = document.getElementById('price-range-value');
+                    if (valueSpan) {
+                        valueSpan.textContent = formatNumber(this.value);
+                    }
+                }
+            });
+        }
+
+        // Sync construction inputs to range slider
         if (input.name === 'construction_min' && constructionRangeInput) {
             input.addEventListener('input', function () {
                 if (this.value) {
@@ -116,10 +163,33 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        if (input.name === 'construction_max' && constructionMaxInput) {
+            input.addEventListener('input', function () {
+                if (this.value) {
+                    const valueSpan = document.getElementById('construction-range-value');
+                    if (valueSpan) {
+                        valueSpan.textContent = formatNumber(this.value);
+                    }
+                }
+            });
+        }
+
+        // Sync land inputs to range slider
         if (input.name === 'land_min' && landRangeInput) {
             input.addEventListener('input', function () {
                 if (this.value) {
                     landRangeInput.value = this.value;
+                    const valueSpan = document.getElementById('land-range-value');
+                    if (valueSpan) {
+                        valueSpan.textContent = formatNumber(this.value);
+                    }
+                }
+            });
+        }
+
+        if (input.name === 'land_max' && landMaxInput) {
+            input.addEventListener('input', function () {
+                if (this.value) {
                     const valueSpan = document.getElementById('land-range-value');
                     if (valueSpan) {
                         valueSpan.textContent = formatNumber(this.value);

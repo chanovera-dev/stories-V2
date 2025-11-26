@@ -5,8 +5,11 @@
                 <?php
                     $type = get_post_meta(get_the_ID(), 'eb_property_type', true) ?: 'Sin tipo';
                     $operation = get_post_meta( get_the_ID(), 'eb_operation', true );
+                    
+                    // Translate property type from English to Spanish
+                    $type_translated = function_exists('translate_property_type') ? translate_property_type($type) : $type;
 
-                    echo '<span class="post-tag small glass-backdrop glass-bright">' . $type . ' ';
+                    echo '<span class="post-tag small glass-backdrop glass-bright">' . esc_html($type_translated) . ' ';
                     echo $operation === 'sale' ? 'en venta' : ( $operation === 'rental' ? 'en renta' : '' );
                     echo '</span>';
                 ?>
@@ -56,7 +59,30 @@
                 <p><?php echo get_the_date( 'F j, Y' ); ?></p>
             </div>
             <?php $price = get_post_meta( get_the_ID(), 'eb_price', true ); ?>
-            <h3 class="price"><?php echo $price; ?></h3>
+            <h3 class="price">
+                <?php 
+                    // Extract numeric price for formatting
+                    $price_numeric = preg_replace('/[^\d\.,]/', '', $price);
+                    
+                    // Handle european format (1.234.567,89) or US format (1,234,567.89)
+                    if (strpos($price_numeric, ',') !== false && strpos($price_numeric, '.') !== false) {
+                        // If contains both, assume european: remove dots, replace comma with dot
+                        $price_numeric = str_replace('.', '', $price_numeric);
+                        $price_numeric = str_replace(',', '.', $price_numeric);
+                    } else {
+                        // Remove commas used as thousands separators
+                        $price_numeric = str_replace(',', '', $price_numeric);
+                    }
+                    
+                    $price_numeric = preg_replace('/[^\d\.]/', '', $price_numeric);
+                    
+                    if (!empty($price_numeric)) {
+                        echo function_exists('format_price') ? esc_html(format_price($price_numeric)) : esc_html($price);
+                    } else {
+                        echo esc_html($price);
+                    }
+                ?>
+            </h3>
         </div>
         <footer class="post-body__footer">
             <?php stories_display_property_metadata(); ?>

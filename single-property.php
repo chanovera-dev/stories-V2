@@ -35,7 +35,30 @@ while ( have_posts() ) : the_post();
                 <div class="property-data--wrapper">
                     <?php the_title( '<h1 class="property-title">', '</h1>' ); ?>
                     <p class="property--operation post-tag small"><?php echo $operation === 'sale' ? 'En venta' : ( $operation === 'rental' ? 'En renta' : '' ); ?></p>
-                    <h2 class="property--price"><?php echo esc_html( $price ); ?></h2>
+                    <h2 class="property--price">
+                        <?php 
+                            // Extract numeric price for formatting
+                            $price_numeric = preg_replace('/[^\d\.,]/', '', $price);
+                            
+                            // Handle european format (1.234.567,89) or US format (1,234,567.89)
+                            if (strpos($price_numeric, ',') !== false && strpos($price_numeric, '.') !== false) {
+                                // If contains both, assume european: remove dots, replace comma with dot
+                                $price_numeric = str_replace('.', '', $price_numeric);
+                                $price_numeric = str_replace(',', '.', $price_numeric);
+                            } else {
+                                // Remove commas used as thousands separators
+                                $price_numeric = str_replace(',', '', $price_numeric);
+                            }
+                            
+                            $price_numeric = preg_replace('/[^\d\.]/', '', $price_numeric);
+                            
+                            if (!empty($price_numeric)) {
+                                echo function_exists('format_price') ? esc_html(format_price($price_numeric)) : esc_html($price);
+                            } else {
+                                echo esc_html($price);
+                            }
+                        ?>
+                    </h2>
 
                     <div class="property--metadata">
                         <div class="property--map" id="property-map"></div>

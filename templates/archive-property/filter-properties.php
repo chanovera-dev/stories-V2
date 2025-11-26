@@ -70,8 +70,22 @@
                 </button>
                 <ul class="sub-menu">
                     <div class="backdrop"></div>
-                    <li><label for="bedrooms"><?php esc_html_e('Recámaras', 'inmobiliaria'); ?></label><input type="number" name="bedrooms" id="bedrooms" min="0" placeholder="0"></li>
-                    <li><label for="bathrooms"><?php esc_html_e('Baños', 'inmobiliaria'); ?></label><input type="number" name="bathrooms" id="bathrooms" min="0" placeholder="0"></li>
+                    <li>
+                        <label for="bedrooms"><?php esc_html_e('Recámaras', 'inmobiliaria'); ?></label>
+                        <div class="number-input-wrapper">
+                            <button type="button" class="btn-decrease" data-target="bedrooms"><?= stories_get_metadata_icon('minus'); ?></button>
+                            <input type="number" name="bedrooms" id="bedrooms" min="0" placeholder="0">
+                            <button type="button" class="btn-increase" data-target="bedrooms"><?= stories_get_metadata_icon('plus'); ?></button>
+                        </div>
+                    </li>
+                    <li>
+                        <label for="bathrooms"><?php esc_html_e('Baños', 'inmobiliaria'); ?></label>
+                        <div class="number-input-wrapper">
+                            <button type="button" class="btn-decrease" data-target="bathrooms"><?= stories_get_metadata_icon('minus'); ?></button>
+                            <input type="number" name="bathrooms" id="bathrooms" min="0" placeholder="0">
+                            <button type="button" class="btn-increase" data-target="bathrooms"><?= stories_get_metadata_icon('plus'); ?></button>
+                        </div>
+                    </li>
                 </ul>
             </li>
 
@@ -99,7 +113,7 @@
                         <div class="price-range">
                             <label for="price_range"><?php esc_html_e('Rango estimado:', 'inmobiliaria'); ?></label>
                             <input type="range" id="price_range" min="<?php echo esc_attr(get_query_var('price_range')['min'] ?? 0); ?>" max="<?php echo esc_attr(get_query_var('price_range')['max'] ?? 10000); ?>" step="100" value="<?php echo esc_attr(get_query_var('price_range')['min'] ?? 500); ?>">
-                            <span class="range-value"><span id="price-range-value"><?php echo format_numeric(get_query_var('price_range')['min'] ?? 500); ?></span></span>
+                            <span class="range-value"><span id="price-range-value"><?= '$' . format_numeric(get_query_var('price_range')['min'] ?? 500); ?></span></span>
                         </div>
                     </li>
                 </ul>

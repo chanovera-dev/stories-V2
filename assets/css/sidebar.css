@@ -338,15 +338,59 @@
                                     background-color: light-dark(var(--wp--preset--color--main-alpha-25), var(--wp--preset--color--main));
                                 }
                             }
+
+                            & .number-input-wrapper {
+                                position: relative;
+
+                                & input[type=number] {
+                                    padding: 0 2.5rem !important;
+                                    text-align: center;
+                                    font-size: var(--wp--preset--font-size--small) !important;
+
+                                    &::placeholder {
+                                        font-size: var(--wp--preset--font-size--small) !important;
+                                    }
+                                }
+
+                                button {
+                                    display: grid;
+                                    place-content: center;
+                                    position: absolute;
+                                    top: 3px;
+                                    width: 2rem;
+                                    height: calc(100% - 6px);
+                                    border: none;
+                                    border-radius: 5px;
+                                    background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
+                                    transition: transform.3s ease;
+
+                                    &:active {
+                                        transform: translateY(2px);
+                                    }
+
+                                    &:focus-visible {
+                                        outline: none;
+                                        box-shadow: 0 0 0 .2rem #ff44007e;
+                                    }
+                                }
+
+                                button:nth-child(1) {
+                                    left: 3px;
+                                }
+
+                                button:nth-child(3) {
+                                    right: 3px;
+                                }
+                            }
                         }
                     }
 
                     input[type=number] {
                         background-color: light-dark(var(--wp--preset--color--base), var(--base-dark)) !important;
-                        font-size: var(--wp--preset--font-size--small);
+                        font-size: var(--wp--preset--font-size--small) !important;
 
                         &::placeholder {
-                            font-size: var(--wp--preset--font-size--small);
+                            font-size: var(--wp--preset--font-size--small) !important;
                         }
                     }
                 }

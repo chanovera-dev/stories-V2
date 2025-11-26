@@ -530,7 +530,48 @@ function format_numeric($number) {
     }
     
     // Convert to number and format with ' for thousands and , for decimals
-    return number_format((float) $number, 0,  "'", ',');
+    return number_format((float) $number, 0, ',', ",");
+}
+
+/**
+ * Format price with currency symbol
+ * 
+ * Formats numbers with currency symbol and thousand separators.
+ * Example: 1500000 becomes "$1'500'000"
+ *
+ * @param int|float $number The number to format
+ * @param string $currency Currency symbol (default: $)
+ * @return string Formatted price
+ */
+function format_price($number, $currency = '$') {
+    if (empty($number) || !is_numeric($number)) {
+        return $number;
+    }
+    
+    // Convert to number and format with ' for thousands
+    $formatted = number_format((float) $number, 0, '.', ",");
+    return $currency . $formatted;
+}
+
+/**
+ * Translate property type from English to Spanish
+ * 
+ * Translates property types stored in English to Spanish for display
+ * 
+ * @param string $type The property type in English (house, apartment, land, commercial, office, other)
+ * @return string The translated property type in Spanish
+ */
+function translate_property_type($type) {
+    $translations = [
+        'house'      => 'Casa',
+        'apartment'  => 'Departamento',
+        'land'       => 'Terreno',
+        'commercial' => 'Comercial',
+        'office'     => 'Oficina',
+        'other'      => 'Otro',
+    ];
+    
+    return $translations[$type] ?? $type;
 }
 
 /****************************************************************************************************************
@@ -563,6 +604,8 @@ function stories_get_metadata_icon($type) {
         'garden' => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 5.25C7.03323 5.25 5.25 7.15209 5.25 9.75C5.25 12.0121 6.60204 13.7467 8.25001 14.1573V10.9014L6.33398 9.62405L7.16603 8.37597L8.792 9.45995L9.87597 7.83398L11.124 8.66603L9.75001 10.7271V14.1573C11.398 13.7467 12.75 12.0121 12.75 9.75C12.75 7.15209 10.9668 5.25 9 5.25ZM3.75 9.75C3.75 12.6785 5.62993 15.2704 8.25001 15.6906V19.5H3V21H21V19.5H18.75V18L18 17.25H12L11.25 18V19.5H9.75001V15.6906C12.3701 15.2704 14.25 12.6785 14.25 9.75C14.25 6.54892 12.0038 3.75 9 3.75C5.99621 3.75 3.75 6.54892 3.75 9.75ZM12.75 19.5H17.25V18.75H12.75V19.5Z" fill="currentColor"/></svg>',
         'sale' => '<svg fill="currentColor" height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 406.48 406.48" xml:space="preserve"><g><g><path d="M100.672,287.798c-6.25,0-11.334-5.084-11.334-11.334c0-6.25,5.085-11.334,11.334-11.334h2.868 c4.668,0,8.466,3.798,8.466,8.466c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5c0-12.939-10.527-23.466-23.466-23.466 h-2.868c-14.521,0-26.334,11.813-26.334,26.334s11.813,26.334,26.334,26.334c6.25,0,11.334,5.084,11.334,11.334 c0,6.25-5.084,11.333-11.334,11.333h-2.868c-4.668,0-8.466-3.797-8.466-8.465c0-4.142-3.358-7.5-7.5-7.5 c-4.142,0-7.5,3.358-7.5,7.5c0,12.939,10.527,23.465,23.466,23.465h2.868c14.521,0,26.334-11.813,26.334-26.333 S115.193,287.798,100.672,287.798z"/></g></g><g><g><path d="M260.22,314.988c-4.142,0-7.5,3.358-7.5,7.5v2.979h-22.667v-67.836c0-4.142-3.358-7.5-7.5-7.5c-4.142,0-7.5,3.358-7.5,7.5 v75.335c0,4.142,3.358,7.5,7.5,7.5h37.667c4.142,0,7.5-3.358,7.5-7.5v-10.479C267.72,318.345,264.362,314.988,260.22,314.988z"/></g></g><g><g><path d="M324.642,277.684c4.142,0,7.5-3.358,7.5-7.5v-12.554c0-4.142-3.358-7.5-7.5-7.5h-37.668c-4.142,0-7.5,3.358-7.5,7.5 v75.335c0,4.142,3.358,7.5,7.5,7.5h37.668c4.142,0,7.5-3.358,7.5-7.5v-10.479c0-4.142-3.358-7.5-7.5-7.5 c-4.142,0-7.5,3.358-7.5,7.5v2.979h-22.668v-22.667h13.749c4.142,0,7.5-3.358,7.5-7.5c0-4.142-3.358-7.5-7.5-7.5h-13.749v-22.668 h22.668v5.054C317.142,274.327,320.5,277.684,324.642,277.684z"/></g></g><g><g><path d="M169.03,250.618c-14.386,0-26.09,11.704-26.09,26.09v55.771c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-17.607 h22.18v17.607c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-55.771C195.12,262.322,183.416,250.618,169.03,250.618z M180.12,299.871h-22.18v-23.163c0-6.115,4.975-11.09,11.09-11.09s11.09,4.975,11.09,11.09V299.871z"/></g></g><g><g><path d="M360.811,194.053h-33.864L229.368,65.978c4.985-5.933,7.995-13.579,7.995-21.917c0-18.816-15.308-34.124-34.124-34.124 c-18.816,0-34.124,15.308-34.124,34.124c0,8.34,3.012,15.987,7.999,21.921L79.531,194.053H45.669 C20.487,194.053,0,214.54,0,239.722v111.153c0,25.182,20.487,45.669,45.669,45.669h315.142c25.182,0,45.669-20.487,45.669-45.669 V239.722C406.48,214.54,385.993,194.053,360.811,194.053z M203.24,24.938c10.545,0,19.124,8.579,19.124,19.124 c0,10.545-8.579,19.124-19.124,19.124c-10.545,0-19.124-8.579-19.124-19.124C184.116,33.517,192.695,24.938,203.24,24.938z M189.042,75.079c4.327,1.989,9.133,3.106,14.198,3.106c5.067,0,9.875-1.119,14.203-3.108l90.646,118.977h-209.7L189.042,75.079z M391.48,350.874c0,16.911-13.758,30.669-30.669,30.669H45.669C28.758,381.543,15,367.785,15,350.874V239.722 c0-16.911,13.758-30.669,30.669-30.669h315.142c16.911,0,30.669,13.758,30.669,30.669V350.874z"/></g></g></svg>',
         'rent' => '<svg fill="currentColor" height="18" width="18" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g><g><path d="M211.772,239.087c3.797-2.022,7.023-4.548,9.651-7.578c4.702-5.376,7.074-11.776,7.074-18.987 c0-4.872-1.126-9.327-3.302-13.184c-2.15-3.789-5.103-6.946-8.798-9.438c-3.448-2.321-7.501-4.096-11.998-5.265 c-4.275-1.109-9.003-1.673-13.978-1.673h-27.725v94.865h24.149V245.24l26.402,32.589h30.575L211.772,239.087z M203.375,216.9 c-0.725,1.229-1.749,2.21-3.149,3.063c-1.553,0.947-3.499,1.698-5.803,2.21c-2.372,0.512-4.898,0.785-7.578,0.836v-18.133h3.447 c2.202,0,4.378,0.222,6.4,0.648c1.775,0.384,3.354,0.973,4.651,1.749c0.947,0.546,1.698,1.289,2.253,2.202 c0.503,0.828,0.751,1.937,0.751,3.302C204.348,214.494,204.023,215.825,203.375,216.9z"/></g></g><g><g><polygon points="270.899,255.787 270.899,240.486 303.795,240.486 303.795,218.453 270.899,218.453 270.899,205.005  305.271,205.005 305.271,182.963 246.741,182.963 246.741,277.828 305.647,277.828 305.647,255.787"/></g></g><g><g><polygon points="370.466,182.963 370.466,233.805 334.217,182.963 313.668,182.963 313.668,277.828 337.323,277.828  337.323,226.987 373.572,277.828 394.121,277.828 394.121,182.963"/></g></g><g><g><polygon points="401.041,182.963 401.041,205.005 425.199,205.005 425.199,277.828 449.348,277.828 449.348,205.005  473.498,205.005 473.498,182.963"/></g></g><g><g><path d="M512,64V38.4H64V0H38.4v38.4H0V64h38.4v422.4H12.8c-7.074,0-12.8,5.726-12.8,12.8c0,7.074,5.726,12.8,12.8,12.8h76.8 c7.074,0,12.8-5.726,12.8-12.8c0-7.074-5.726-12.8-12.8-12.8H64V64h89.591v38.4H128c-14.14,0-25.6,11.46-25.6,25.6v204.8 c0,14.14,11.46,25.6,25.6,25.6h358.4c14.14,0,25.6-11.46,25.6-25.6V128c0-14.14-11.46-25.6-25.6-25.6h-25.6V64H512z M179.191,64 H435.2v38.4H179.191V64z M486.4,128v204.8H128V128H486.4z"/></g></g></svg>',
+        'minus' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/></svg>',
+        'plus' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path></svg>',
     ];
 
     return $icons[$type] ?? '';
@@ -854,7 +897,28 @@ function stories_render_full_property_metadata($post_id = 0) {
     if (!empty($metadata['price'])) {
         echo '<li>';
         echo '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16"><path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/></svg></span> ';
-        echo 'Precio: ' . esc_html($metadata['price']);
+        
+        // Extract numeric price for formatting
+        $price_numeric = preg_replace('/[^\d\.,]/', '', $metadata['price']);
+        
+        // Handle european format (1.234.567,89) or US format (1,234,567.89)
+        if (strpos($price_numeric, ',') !== false && strpos($price_numeric, '.') !== false) {
+            // If contains both, assume european: remove dots, replace comma with dot
+            $price_numeric = str_replace('.', '', $price_numeric);
+            $price_numeric = str_replace(',', '.', $price_numeric);
+        } else {
+            // Remove commas used as thousands separators
+            $price_numeric = str_replace(',', '', $price_numeric);
+        }
+        
+        $price_numeric = preg_replace('/[^\d\.]/', '', $price_numeric);
+        
+        if (!empty($price_numeric)) {
+            echo 'Precio: ' . esc_html(function_exists('format_price') ? format_price($price_numeric) : $metadata['price']);
+        } else {
+            echo 'Precio: ' . esc_html($metadata['price']);
+        }
+        
         echo '</li>';
     }
     
@@ -952,6 +1016,7 @@ function stories_register_property_acf_fields() {
                     'sale'      => 'En Venta',
                     'rental'    => 'En Renta',
                 ],
+                'return_format' => 'value',
                 'required'      => 1,
             ],
             [
@@ -976,6 +1041,7 @@ function stories_register_property_acf_fields() {
                     'office'    => 'Oficina',
                     'other'     => 'Otro',
                 ],
+                'return_format' => 'value',
                 'required'      => 1,
             ],
             [
@@ -1058,6 +1124,11 @@ add_action('acf/init', 'stories_register_property_acf_fields');
  * Converts ACF's gallery field format to the serialized format used by EasyBroker
  * This ensures compatibility with existing template code and prevents duplicate gallery handling
  * 
+ * Handles both:
+ * - ACF gallery field (array of image IDs)
+ * - ACF image objects (array with id, alt, title, etc.)
+ * - Already processed eb_gallery (array of urls)
+ * 
  * @param int $post_id Post ID
  */
 function stories_convert_acf_gallery_to_eb_format($post_id) {
@@ -1065,28 +1136,41 @@ function stories_convert_acf_gallery_to_eb_format($post_id) {
     $gallery = get_field('eb_gallery', $post_id);
     
     if (empty($gallery)) {
+        // Clear the eb_gallery meta if no ACF gallery is set
+        delete_post_meta($post_id, 'eb_gallery');
         return;
     }
     
     // Convert ACF gallery format to EasyBroker format (array of objects with 'url' key)
     $eb_gallery = [];
+    
     foreach ($gallery as $image) {
         $image_url = '';
         
-        if (is_array($image)) {
-            // If it's already an array with 'url', use it
-            if (isset($image['url'])) {
-                $image_url = $image['url'];
-            } else {
-                // If it has 'id' key, get the URL
-                $image_id = $image['id'] ?? $image;
-                $image_url = wp_get_attachment_image_url($image_id, 'full');
-            }
-        } else {
+        // ACF returns attachment IDs directly when return_format is 'array'
+        if (is_numeric($image)) {
             // It's an image ID - get the full URL
             $image_url = wp_get_attachment_image_url($image, 'full');
+        } elseif (is_array($image)) {
+            // If it's an array with 'url', use it directly
+            if (isset($image['url'])) {
+                $image_url = $image['url'];
+            } elseif (isset($image['id'])) {
+                // If it has 'id' key, get the URL from the attachment ID
+                $image_url = wp_get_attachment_image_url($image['id'], 'full');
+            } elseif (isset($image['ID'])) {
+                // Fallback for capital ID
+                $image_url = wp_get_attachment_image_url($image['ID'], 'full');
+            }
+        } elseif (is_object($image)) {
+            // If it's an object, try to get the ID
+            $image_id = $image->ID ?? $image->id ?? null;
+            if ($image_id) {
+                $image_url = wp_get_attachment_image_url($image_id, 'full');
+            }
         }
         
+        // If we got a URL, add it to the gallery
         if ($image_url) {
             $eb_gallery[] = [
                 'url' => $image_url,
@@ -1097,7 +1181,115 @@ function stories_convert_acf_gallery_to_eb_format($post_id) {
     // Save in EasyBroker meta format for backwards compatibility
     if (!empty($eb_gallery)) {
         update_post_meta($post_id, 'eb_gallery', $eb_gallery);
+    } else {
+        // If no gallery was successfully converted, clear the meta
+        delete_post_meta($post_id, 'eb_gallery');
     }
 }
 
 add_action('acf/save_post', 'stories_convert_acf_gallery_to_eb_format', 20);
+
+/**
+ * Process property metadata when saved manually via ACF
+ * 
+ * Ensures that:
+ * 1. eb_price_num is created from eb_price for filtering
+ * 2. eb_property_type value is normalized (house, apartment, etc.)
+ * 3. eb_operation value is normalized (sale, rental)
+ * 4. Gallery format is compatible with template display
+ * 
+ * @param int $post_id Post ID
+ */
+function stories_process_manual_property_save($post_id) {
+    // Only for property post type
+    if (get_post_type($post_id) !== 'property') {
+        return;
+    }
+
+    // Avoid autosaves and revisions
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_revision($post_id)) return;
+
+    // 1. Normalize eb_property_type (ensure it's the key, not the label)
+    $property_type = get_post_meta($post_id, 'eb_property_type', true);
+    if (!empty($property_type)) {
+        // Map of labels to keys for properties that might have been saved with labels
+        $type_map = [
+            'Casa'        => 'house',
+            'house'       => 'house',
+            'Departamento' => 'apartment',
+            'apartment'   => 'apartment',
+            'Terreno'     => 'land',
+            'land'        => 'land',
+            'Comercial'   => 'commercial',
+            'commercial'  => 'commercial',
+            'Oficina'     => 'office',
+            'office'      => 'office',
+            'Otro'        => 'other',
+            'other'       => 'other',
+        ];
+        
+        // Get the normalized value
+        $normalized_type = $type_map[$property_type] ?? $property_type;
+        
+        // Only update if it changed
+        if ($normalized_type !== $property_type) {
+            update_post_meta($post_id, 'eb_property_type', $normalized_type);
+        }
+    }
+
+    // 2. Normalize eb_operation (ensure it's the key, not the label)
+    $operation = get_post_meta($post_id, 'eb_operation', true);
+    if (!empty($operation)) {
+        // Map of labels to keys for operations that might have been saved with labels
+        $operation_map = [
+            'En Venta'  => 'sale',
+            'sale'      => 'sale',
+            'En Renta'  => 'rental',
+            'rental'    => 'rental',
+        ];
+        
+        // Get the normalized value
+        $normalized_op = $operation_map[$operation] ?? $operation;
+        
+        // Only update if it changed
+        if ($normalized_op !== $operation) {
+            update_post_meta($post_id, 'eb_operation', $normalized_op);
+        }
+    }
+
+    // 3. Convert and save numeric price (eb_price_num) for filtering
+    $price_raw = get_post_meta($post_id, 'eb_price', true);
+    if (!empty($price_raw)) {
+        // Extract only digits and decimals from price string
+        $price_normalized = preg_replace('/[^\d\.,]/', '', $price_raw);
+        
+        // Handle european format (1.234.567,89) or US format (1,234,567.89)
+        if (strpos($price_normalized, ',') !== false && strpos($price_normalized, '.') !== false) {
+            // If contains both, assume european: remove dots, replace comma with dot
+            $price_normalized = str_replace('.', '', $price_normalized);
+            $price_normalized = str_replace(',', '.', $price_normalized);
+        } else {
+            // Remove commas used as thousands separators
+            $price_normalized = str_replace(',', '', $price_normalized);
+        }
+        
+        // Final cleanup: allow only digits and dot
+        $price_normalized = preg_replace('/[^\d\.]/', '', $price_normalized);
+
+        if (!empty($price_normalized)) {
+            // Determine integer vs float
+            $price_value = (strpos($price_normalized, '.') !== false) ? floatval($price_normalized) : intval($price_normalized);
+            update_post_meta($post_id, 'eb_price_num', $price_value);
+        }
+    }
+
+    // 4. Clear transient caches when property is updated
+    delete_transient('property_locations');
+    delete_transient('property_price_range');
+    delete_transient('property_construction_range');
+    delete_transient('property_land_range');
+}
+
+// Hook at priority 25 (after ACF saves the fields but before conversion)
+add_action('acf/save_post', 'stories_process_manual_property_save', 25);
