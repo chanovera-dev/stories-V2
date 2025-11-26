@@ -460,9 +460,12 @@ body.is-chromium {
 
                             & .filter-navigation.menu {
                                 & > .menu-item-has-children {
-                                    &.state {
+                                    &.state,
+                                    &.rooms,
+                                    &.price,
+                                    &.size {
                                         & > .sub-menu {
-                                            border-radius: 1rem;
+                                            border-radius: 1.4rem;
                                             corner-shape: squircle;
                                         }
                                     }
