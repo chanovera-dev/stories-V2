@@ -22,6 +22,25 @@
 
         <ul class="filter-navigation menu">
 
+            <!-- Type -->
+            <li class="menu-item-has-children filter type">
+                <button class="btn button-for-submenu" type="button">
+                    <?php esc_html_e('Tipo', 'inmobiliaria'); ?>
+                    <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 
+                            .708.708l-6 6a.5.5 0 0 1-.708 
+                            0l-6-6a.5.5 0 0 1 0-.708z"></path>
+                    </svg>
+                </button>
+                <ul class="sub-menu">
+                    <div class="backdrop"></div>
+                    <li><p class="checkbox-filter-properties"><input type="checkbox" name="type[]" value="casa"><label><?php esc_html_e('Casa', 'inmobiliaria'); ?></label></p></li>
+                    <li><p class="checkbox-filter-properties"><input type="checkbox" name="type[]" value="departamento"><label><?php esc_html_e('Departamento', 'inmobiliaria'); ?></label></p></li>
+                    <li><p class="checkbox-filter-properties"><input type="checkbox" name="type[]" value="terreno"><label><?php esc_html_e('Terreno', 'inmobiliaria'); ?></label></p></li>
+                </ul>
+            </li>
+
             <!-- Location -->
             <li class="menu-item-has-children filter state">
                 <button class="btn button-for-submenu" type="button">
