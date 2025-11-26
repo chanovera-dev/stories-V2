@@ -14,9 +14,10 @@
 
         <!-- Type -->
         <div class="menu-flex">
-            <div class="filter-property"><input type="checkbox" name="type[]" value="casa"><label><?= stories_get_metadata_icon('house'); esc_html_e('Casa', 'inmobiliaria'); ?></label></div>
-            <div class="filter-property"><input type="checkbox" name="type[]" value="departamento"><label><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'inmobiliaria'); ?></label></div>
-            <div class="filter-property"><input type="checkbox" name="type[]" value="terreno"><label><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'inmobiliaria'); ?></label></div>
+            <div class="filter-property"><input type="checkbox" name="type[]" value="house"><label><?= stories_get_metadata_icon('house'); esc_html_e('Casa', 'inmobiliaria'); ?></label></div>
+            <div class="filter-property"><input type="checkbox" name="type[]" value="bedroom"><label><?= stories_get_metadata_icon('house'); esc_html_e('Habitación', 'inmobiliaria'); ?></label></div>
+            <!-- <div class="filter-property"><input type="checkbox" name="type[]" value="apartment"><label><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'inmobiliaria'); ?></label></div>
+            <div class="filter-property"><input type="checkbox" name="type[]" value="land"><label><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'inmobiliaria'); ?></label></div> -->
         </div>
 
         <ul class="filter-navigation menu">

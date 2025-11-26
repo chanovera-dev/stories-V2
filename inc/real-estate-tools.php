@@ -565,6 +565,7 @@ function translate_property_type($type) {
     $translations = [
         'house'      => 'Casa',
         'apartment'  => 'Departamento',
+        'bedroom'    => 'Habitación',
         'land'       => 'Terreno',
         'commercial' => 'Comercial',
         'office'     => 'Oficina',
@@ -1036,6 +1037,7 @@ function stories_register_property_acf_fields() {
                 'choices'       => [
                     'house'     => 'Casa',
                     'apartment' => 'Departamento',
+                    'bedroom'   => 'Habitación',
                     'land'      => 'Terreno',
                     'commercial' => 'Comercial',
                     'office'    => 'Oficina',
@@ -1190,17 +1192,14 @@ function stories_convert_acf_gallery_to_eb_format($post_id) {
 add_action('acf/save_post', 'stories_convert_acf_gallery_to_eb_format', 20);
 
 /**
- * Process property metadata when saved manually via ACF
+ * Fix property type and operation values before ACF saves
  * 
- * Ensures that:
- * 1. eb_price_num is created from eb_price for filtering
- * 2. eb_property_type value is normalized (house, apartment, etc.)
- * 3. eb_operation value is normalized (sale, rental)
- * 4. Gallery format is compatible with template display
+ * ACF may save the label instead of the value for select fields,
+ * so we need to intercept and fix this on the save_post hook
  * 
  * @param int $post_id Post ID
  */
-function stories_process_manual_property_save($post_id) {
+function stories_fix_property_select_values($post_id) {
     // Only for property post type
     if (get_post_type($post_id) !== 'property') {
         return;
@@ -1210,7 +1209,7 @@ function stories_process_manual_property_save($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (wp_is_post_revision($post_id)) return;
 
-    // 1. Normalize eb_property_type (ensure it's the key, not the label)
+    // 1. Normalize eb_property_type
     $property_type = get_post_meta($post_id, 'eb_property_type', true);
     if (!empty($property_type)) {
         // Map of labels to keys for properties that might have been saved with labels
@@ -1229,19 +1228,15 @@ function stories_process_manual_property_save($post_id) {
             'other'       => 'other',
         ];
         
-        // Get the normalized value
         $normalized_type = $type_map[$property_type] ?? $property_type;
-        
-        // Only update if it changed
         if ($normalized_type !== $property_type) {
             update_post_meta($post_id, 'eb_property_type', $normalized_type);
         }
     }
 
-    // 2. Normalize eb_operation (ensure it's the key, not the label)
+    // 2. Normalize eb_operation
     $operation = get_post_meta($post_id, 'eb_operation', true);
     if (!empty($operation)) {
-        // Map of labels to keys for operations that might have been saved with labels
         $operation_map = [
             'En Venta'  => 'sale',
             'sale'      => 'sale',
@@ -1249,16 +1244,37 @@ function stories_process_manual_property_save($post_id) {
             'rental'    => 'rental',
         ];
         
-        // Get the normalized value
         $normalized_op = $operation_map[$operation] ?? $operation;
-        
-        // Only update if it changed
         if ($normalized_op !== $operation) {
             update_post_meta($post_id, 'eb_operation', $normalized_op);
         }
     }
+}
 
-    // 3. Convert and save numeric price (eb_price_num) for filtering
+// Hook right after ACF saves (priority 15 to run before stories_process_manual_property_save)
+add_action('acf/save_post', 'stories_fix_property_select_values', 15);
+
+/**
+ * Process property metadata when saved manually via ACF
+ * 
+ * Ensures that:
+ * 1. eb_price_num is created from eb_price for filtering
+ * 2. Gallery format is compatible with template display
+ * 3. Caches are cleared
+ * 
+ * @param int $post_id Post ID
+ */
+function stories_process_manual_property_save($post_id) {
+    // Only for property post type
+    if (get_post_type($post_id) !== 'property') {
+        return;
+    }
+
+    // Avoid autosaves and revisions
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_revision($post_id)) return;
+
+    // 1. Convert and save numeric price (eb_price_num) for filtering
     $price_raw = get_post_meta($post_id, 'eb_price', true);
     if (!empty($price_raw)) {
         // Extract only digits and decimals from price string
@@ -1284,12 +1300,20 @@ function stories_process_manual_property_save($post_id) {
         }
     }
 
-    // 4. Clear transient caches when property is updated
+    // 2. Clear transient caches when property is updated
     delete_transient('property_locations');
     delete_transient('property_price_range');
     delete_transient('property_construction_range');
     delete_transient('property_land_range');
 }
 
-// Hook at priority 25 (after ACF saves the fields but before conversion)
+// Hook at priority 25 (after ACF saves the fields)
 add_action('acf/save_post', 'stories_process_manual_property_save', 25);
+
+// Also hook into save_post to catch any direct saves
+add_action('save_post_property', function() {
+    delete_transient('property_locations');
+    delete_transient('property_price_range');
+    delete_transient('property_construction_range');
+    delete_transient('property_land_range');
+});
