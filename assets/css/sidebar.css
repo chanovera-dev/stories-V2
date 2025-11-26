@@ -152,6 +152,11 @@
                                     justify-content: center;
                                     gap: .5rem;
                                     transition: color .3s ease;
+
+                                    & svg {
+                                        position: relative;
+                                        bottom: .2rem;
+                                    }
                                 }
 
                                 & [type="checkbox"]:checked+label {
