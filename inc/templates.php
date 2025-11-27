@@ -79,7 +79,11 @@ function stories_get_assets() {
             'sidebar'                 => "$assets_path/css/sidebar.css",
             'post-gallery-styles'     => "$assets_path/css/post-gallery.css",
 
-            'single-property'          => "$assets_path/css/single-property.css",
+            'single-property'         => "$assets_path/css/single-property.css",
+
+            // Frontpage
+            'frontpage'               => "$assets_path/css/frontpage/frontpage.css",
+            'hero'                    => "$assets_path/css/frontpage/hero.css",
         ],
         'js' => [
             'slideshow-script'        => "$assets_path/js/slideshow.js",
@@ -87,8 +91,10 @@ function stories_get_assets() {
             'post-gallery-script'     => "$assets_path/js/post-gallery.js",
             'parallax-hero'           => "$assets_path/js/parallax-hero.js",
             'animate-in'              => "$assets_path/js/animate-in.js",
+            'blur-typing'             => "$assets_path/js/blur-typing.js",
 
             // REAL ESTATE TOOLS
+            'frontpage'               => "$assets_path/js/frontpage.js",
             'filters'                 => "$assets_path/js/filters.js",
             'filter-listeners'        => "$assets_path/js/filter-listeners.js",
             'reset-properties-filter' => "$assets_path/js/reset-properties-filter.js",
@@ -255,3 +261,44 @@ function properties_templates() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'properties_templates' );
+
+/**
+ * Frontpage template styles
+ * 
+ * Loads custom CSS file only when viewing the front page
+ * to optimize performance and reduce unnecessary loading
+ *
+ * @since 1.0.0
+ * @return void
+ */
+function frontpage_template() {
+    if ( is_front_page() || is_page_template( 'templates/frontpage.php' ) ) {
+        $a = stories_get_assets();
+
+        wp_dequeue_style( 'page' );
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_script( 'property-filter' );
+        wp_dequeue_script( 'reset' );
+
+        stories_enqueue_style( 'frontpage', $a['css']['frontpage'] );
+        stories_enqueue_style( 'hero', $a['css']['hero'] );
+        // stories_enqueue_style( 'featured-properties', $a['css']['featured-properties'] );
+        // stories_enqueue_style( 'filter-properties', $a['css']['filter-properties'] );
+        // stories_enqueue_style( 'why-choose-us', $a['css']['why-choose-us'] );
+        // stories_enqueue_style( 'testimonies', $a['css']['testimonies'] );
+        // stories_enqueue_style( 'call-to-action', $a['css']['call-to-action'] );
+        // stories_enqueue_style( 'about-us', $a['css']['about-us'] );
+        // stories_enqueue_style( 'blog', $a['css']['frontpage-blog'] );
+        // stories_enqueue_style( 'contact', $a['css']['frontpage-contact'] );
+
+        stories_enqueue_script( 'blur-typing', $a['js']['blur-typing'] );
+        stories_enqueue_script( 'frontpage', $a['js']['frontpage'] );
+        // stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        // stories_enqueue_script( 'featured-properties-slideshow', $a['js']['slideshow'] );
+        // stories_enqueue_script( 'parallax', $a['js']['parallax'] );
+        // stories_enqueue_script( 'animation-numbers', $a['js']['animation-numbers'] );
+        // stories_enqueue_script( 'contact-script', $a['js']['fp-contact-script'] );
+
+    }
+}
+add_action( 'wp_enqueue_scripts', 'frontpage_template' );

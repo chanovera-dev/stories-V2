@@ -59,7 +59,7 @@
         & .post-body {
             & .post-body__content {
                 grid-template-columns: 1fr auto;
-                
+
                 & .post--permalink {
                     grid-column: 1 / -1;
                 }
@@ -399,7 +399,7 @@
     &:focus {
         border-color: var(--wp--preset--color--main);
         box-shadow: 0 0 0 1px var(--wp--preset--color--main),
-                    var(--input-shadow);
+            var(--input-shadow);
     }
 
     &:focus-visible {
@@ -412,7 +412,7 @@
     &:active {
         transform: translateY(1px);
         box-shadow: 0 0 0 1px var(--wp--preset--color--main),
-                    var(--input-shadow);
+            var(--input-shadow);
     }
 }
 
@@ -576,6 +576,14 @@ ul {
 
     &:active {
         transform: translateY(.5px);
+    }
+}
+
+.text-white {
+    color: var(--wp--preset--color--base);
+
+    &.text-shadow {
+        text-shadow: var(--modern-text-shadow);
     }
 }
 

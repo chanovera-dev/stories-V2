@@ -1,0 +1,20 @@
+#main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+& .cta {
+    margin-top: 2.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+@media (width < 600px) {
+    & .cta {
+        & .go-to-properties {
+            transform: translateX(-18px);
+        }
+    }
+}
