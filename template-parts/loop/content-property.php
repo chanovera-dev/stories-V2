@@ -86,6 +86,17 @@
         </div>
         <footer class="post-body__footer">
             <?php stories_display_property_metadata(); ?>
+            <?php
+                $content = get_the_content();
+                if ( preg_match( '/https:\/\/wa\.me\/[^\s"]+/', $content, $matches ) ) {
+                    $whatsapp_url = $matches[0];
+                    ?>
+                    <button class="btn primary go-contact" onclick="window.open('<?php echo esc_url( $whatsapp_url ); ?>','_blank','noopener,noreferrer')">
+                        <?= stories_get_metadata_icon('whatsapp') . esc_html__('Informes', 'stories'); ?>
+                    </button>
+                    <?php
+                }
+            ?>
         </footer>
     </div>
 </article>
