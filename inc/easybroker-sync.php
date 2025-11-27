@@ -26,7 +26,7 @@
  * - All remote connections include a 30-second timeout and basic error handling.
  * - For sites with two EasyBroker accounts, both API keys can be defined (EASYBROKER_API_KEY and EASYBROKER_API_KEY2).
  *
- * @inmobiliaria
+ * @stories
  * @since 1.0.0
  * @return void
  */

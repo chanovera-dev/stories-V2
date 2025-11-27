@@ -5,7 +5,7 @@
  * Template for displaying the property archive page (Custom Post Type: 'property').
  * This file handles the property listing loop, filters, pagination, and AJAX-based dynamic loading.
  *
- * @package inmobiliaria
+ * @package stories
  * @since 1.0.0
  *
  * Template Name: Propiedades */

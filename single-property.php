@@ -5,7 +5,7 @@
  * Template for displaying a single property post (Custom Post Type: 'property').
  * This file includes the full property details such as metadata, gallery, location, and related listings.
  *
- * @package inmobiliaria
+ * @package stories
  * @since 1.0.0
  */
 
@@ -109,7 +109,7 @@ while ( have_posts() ) : the_post();
         </header>
         <section class="block property--details">
             <div class="content">
-                <h2 class="title-section"><?php esc_html_e( 'Detalles de la propiedad', 'inmobiliaria' ); ?></h2>
+                <h2 class="title-section"><?php esc_html_e( 'Detalles de la propiedad', 'stories' ); ?></h2>
             </div>
             <div class="content details">
                 <div class="property--metadata">

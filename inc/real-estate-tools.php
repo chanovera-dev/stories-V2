@@ -453,7 +453,7 @@ function ajax_filter_properties() {
  ****************************************************************************************************************/
 // Añadir la columna
 add_filter('manage_property_posts_columns', function($columns) {
-    $columns['featured'] = __('Featured', 'inmobiliaria');
+    $columns['featured'] = __('Featured', 'stories');
     return $columns;
 });
 
