@@ -272,7 +272,7 @@ add_action( 'wp_enqueue_scripts', 'properties_templates' );
  * @return void
  */
 function frontpage_template() {
-    if ( is_front_page() || is_page_template( 'templates/frontpage.php' ) ) {
+    if ( is_page_template( 'templates/frontpage.php' ) ) {
         $a = stories_get_assets();
 
         wp_dequeue_style( 'page' );
