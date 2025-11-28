@@ -29,7 +29,7 @@ get_header(); ?>
     <section class="block posts--body">
         <div class="content">
             <?php     
-                get_template_part('templates/archive-property/filter-properties');
+                // get_template_part('templates/archive-property/filter-properties');
                 get_template_part('templates/archive-property/properties-list');
             ?>
         </div>
