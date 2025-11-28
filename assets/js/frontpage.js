@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (hero) {
-      setTimeout(() => animateIn('.property-filter-form'), 500)
+      setTimeout(() => animateIn('.property-filter-form, .cta'), 500)
     }
 
     if (isWCUSection) {
