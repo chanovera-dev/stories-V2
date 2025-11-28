@@ -49,7 +49,7 @@ function initGallery(wrapper) {
     } else {
         bulletsWrapper.style.display = ""; // Reset display just in case
         originalSlides.forEach((_, index) => {
-            const bullet = document.createElement("li");
+            const bullet = document.createElement("div");
             bullet.classList.add("gallery-bullet");
             if (index === 0) bullet.classList.add("active");
             bullet.dataset.index = index;
