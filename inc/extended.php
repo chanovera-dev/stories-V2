@@ -20,11 +20,36 @@
  * @param array $mimes Current allowed MIME types
  * @return array Modified MIME types
  */
-function mime_types($mimes) {
+function mytheme_allow_svg_mime( $mimes ) {
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
 }
-add_filter( 'upload_mimes', 'mime_types' ); 
+add_filter( 'upload_mimes', 'mytheme_allow_svg_mime' );
+
+function mytheme_validate_svg_mime( $file ) {
+    if ( isset($file['type']) && $file['type'] === 'image/svg+xml' ) {
+        $real_mime = mime_content_type( $file['tmp_name'] );
+
+        if ( $real_mime !== 'image/svg+xml' ) {
+            $file['error'] = 'El archivo no es un SVG válido.';
+            return $file;
+        }
+
+        $svg = file_get_contents( $file['tmp_name'] );
+
+        $svg = preg_replace( '/<script.*?<\/script>/is', '', $svg );
+
+        $svg = preg_replace( '/on\w+="[^"]*"/i', '', $svg );
+        $svg = preg_replace( "/on\w+='[^']*'/i", '', $svg );
+
+        $svg = preg_replace( '/<foreignObject.*?<\/foreignObject>/is', '', $svg );
+
+        file_put_contents( $file['tmp_name'], $svg );
+    }
+
+    return $file;
+}
+add_filter( 'wp_handle_upload_prefilter', 'mytheme_validate_svg_mime' );
 
 /**
  * Customizes excerpt length for better readability
