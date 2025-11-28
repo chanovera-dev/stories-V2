@@ -88,11 +88,25 @@
             <?php stories_display_property_metadata(); ?>
             <?php
                 $content = get_the_content();
+
+                // 1. Buscar WhatsApp
                 if ( preg_match( '/https:\/\/wa\.me\/[^\s"]+/', $content, $matches ) ) {
                     $whatsapp_url = $matches[0];
                     ?>
-                    <button class="btn primary go-contact" onclick="window.open('<?php echo esc_url( $whatsapp_url ); ?>','_blank','noopener,noreferrer')">
+                    <button class="btn primary go-contact"
+                            onclick="window.open('<?php echo esc_url( $whatsapp_url ); ?>','_blank','noopener,noreferrer')">
                         <?= stories_get_metadata_icon('whatsapp') . esc_html__('Informes', 'stories'); ?>
+                    </button>
+                    <?php
+
+                // 2. Si no hay WhatsApp, buscar tel:
+                } elseif ( preg_match( '/tel:([0-9+\-\s]+)/i', $content, $tel_match ) ) {
+                    $tel_url = $tel_match[0];          // tel:555555...
+                    $tel_num = trim($tel_match[1]);    // 555555...
+                    ?>
+                    <button class="btn primary go-contact"
+                            onclick="window.location.href='<?php echo esc_url( $tel_url ); ?>'">
+                        <?= stories_get_metadata_icon('phone') . esc_html__('Informes', 'stories'); ?>
                     </button>
                     <?php
                 }
