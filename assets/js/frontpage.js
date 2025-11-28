@@ -1,15 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const titleEl = document.querySelector("h1.hero-title");
-    if (titleEl) {
-        blurTypingEffect(titleEl);
-    }
-});
+    const titleEl = document.querySelector("h1.hero-title")
+    const hero = document.querySelector('#hero')
+    const isWCUSection = document.querySelector('#why-choose-us')
 
-document.addEventListener('DOMContentLoaded', () => {
-  const isWCUSection = !!document.querySelector('#why-choose-us');
-  if (isWCUSection) {
-    setTimeout(() => animateIn('.content .image, .title-section, .subtitle-section, .paragraph, ul li, .cta'), 500);
-  } else {
-    animateIn('.content .image');
-  }
+    if (titleEl) {
+        blurTypingEffect(titleEl)
+    }
+
+    if (hero) {
+      setTimeout(() => animateIn('.property-filter-form'), 500)
+    }
+
+    if (isWCUSection) {
+      setTimeout(() => animateIn('.content .image, .title-section, .subtitle-section, .paragraph, ul li, .cta'), 500)
+    } else {
+      animateIn('.content .image');
+    }
 });

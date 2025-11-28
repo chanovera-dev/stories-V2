@@ -92,7 +92,7 @@
             & .cta {
                 opacity: 0;
                 &.animate-in {
-                    animation: bounce-in-right 1.5s both;
+                    animation: in-from-right .6s ease-in-out forwards;
                     backdrop-filter: none !important;
                 }
             }
@@ -125,29 +125,5 @@ body.is-chromium {
                 }
             }
         }
-    }
-}
-
-@keyframes in-from-left {
-    0% {
-        transform: translateX(-600px);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes in-from-right {
-    0% {
-        transform: translateX(600px);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateX(0);
-        opacity: 1;
     }
 }

@@ -41,7 +41,13 @@
                 align-items: center;
                 box-shadow: var(--modern-shadow);
                 max-width: 550px;
-                animation: bounce-in-right 1.5s .6s both;
+                backdrop-filter: blur(7px);
+                border-radius: .4rem;
+                opacity: 0;
+                
+                &.animate-in {
+                    animation: in-from-right .6s ease-in-out forwards;
+                }
 
                 & input[type=text] {
                     height: 48px;
@@ -80,8 +86,10 @@
             }
 
             & .cta {
-                animation: bounce-in-right 1.5s .7s both;
-                backdrop-filter: none !important;
+                opacity: 0;
+                &.animate-in {
+                    animation: in-from-right .6s ease-in-out forwards;
+                }
 
                 & .go-to-properties {
                     color: var(--wp--preset--color--base);
@@ -122,68 +130,5 @@ body.is-chromium {
                 corner-shape: squircle;
             }
         }
-    }
-}
-
-@keyframes subtitle-in {
-    0% {
-        transform: translateY(-120%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes bounce-in-right {
-    0% {
-        transform: translateX(600px);
-        animation-timing-function: ease-in;
-        opacity: 0;
-        backdrop-filter: blur(10px);
-    }
-
-    38% {
-        transform: translateX(0);
-        animation-timing-function: ease-out;
-        opacity: 1;
-        backdrop-filter: blur(10px);
-    }
-
-    55% {
-        transform: translateX(68px);
-        animation-timing-function: ease-in;
-        backdrop-filter: blur(10px);
-    }
-
-    72% {
-        transform: translateX(0);
-        animation-timing-function: ease-out;
-        backdrop-filter: blur(10px);
-    }
-
-    81% {
-        transform: translateX(32px);
-        animation-timing-function: ease-in;
-        backdrop-filter: blur(10px);
-    }
-
-    90% {
-        transform: translateX(0);
-        animation-timing-function: ease-out;
-        backdrop-filter: blur(10px);
-    }
-
-    95% {
-        transform: translateX(8px);
-        animation-timing-function: ease-in;
-        backdrop-filter: blur(10px);
-    }
-
-    100% {
-        transform: translateX(0);
-        animation-timing-function: ease-out;
-        backdrop-filter: blur(10px);
-        opacity: 1;
     }
 }
