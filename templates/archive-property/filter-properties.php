@@ -18,7 +18,7 @@
             <legend class="screen-reader-text" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;"><?php esc_html_e('Tipo de Propiedad', 'stories'); ?></legend>
             <div class="filter-property"><input type="checkbox" id="type-casa" name="type[]" value="casa"><label for="type-casa"><?= stories_get_metadata_icon('house'); esc_html_e('Casa', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="type-bedroom" name="type[]" value="bedroom"><label for="type-bedroom"><?= stories_get_metadata_icon('bedroom'); esc_html_e('Habitación', 'stories'); ?></label></div>
-            <div class="filter-property"><input type="checkbox" name="type[]" value="apartment"><label><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'stories'); ?></label></div>
+            <div class="filter-property"><input type="checkbox" id="type-apartment" name="type[]" value="apartment"><label for="type-apartment"><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="type-terreno" name="type[]" value="terreno"><label for="type-terreno"><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'stories'); ?></label></div>
         </fieldset>
 
