@@ -43,7 +43,7 @@
 
             <!-- Location -->
             <li class="menu-item-has-children filter state">
-                <button class="btn button-for-submenu" type="button">
+                <button class="btn button-for-submenu" type="button" aria-label="Open submenu for ubication">
                     <?php esc_html_e('Ubicación', 'stories'); ?>
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -58,7 +58,7 @@
                         <li class="menu-item-has-children">
                             <div class="btn wrapper-for-title">
                                 <p class="checkbox-filter-properties"><input type="checkbox" name="state[]" value="<?php echo esc_attr($state); ?>"><label><?php echo esc_html($state); ?></label></p>
-                                <button class="button-for-submenu" type="button">
+                                <button class="button-for-submenu" type="button"  aria-label="Open submenu for ubication of second level">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -78,7 +78,7 @@
 
             <!-- Rooms -->
             <li class="menu-item-has-children filter rooms">
-                <button class="btn button-for-submenu" type="button">
+                <button class="btn button-for-submenu" type="button"  aria-label="Open submenu for room type">
                     <?php esc_html_e('Habitaciones', 'stories'); ?>
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -93,17 +93,17 @@
                     <li>
                         <label for="bedrooms"><?php esc_html_e('Recámaras', 'stories'); ?></label>
                         <div class="number-input-wrapper">
-                            <button type="button" class="btn-decrease" data-target="bedrooms"><?= stories_get_metadata_icon('minus'); ?></button>
+                            <button type="button" class="btn-decrease" data-target="bedrooms" aria-label="decrease number of bedrooms"><?= stories_get_metadata_icon('minus'); ?></button>
                             <input type="number" name="bedrooms" id="bedrooms" min="0" placeholder="0">
-                            <button type="button" class="btn-increase" data-target="bedrooms"><?= stories_get_metadata_icon('plus'); ?></button>
+                            <button type="button" class="btn-increase" data-target="bedrooms" aria-label="increase number of bedrooms"><?= stories_get_metadata_icon('plus'); ?></button>
                         </div>
                     </li>
                     <li>
                         <label for="bathrooms"><?php esc_html_e('Baños', 'stories'); ?></label>
                         <div class="number-input-wrapper">
-                            <button type="button" class="btn-decrease" data-target="bathrooms"><?= stories_get_metadata_icon('minus'); ?></button>
+                            <button type="button" class="btn-decrease" data-target="bathrooms" aria-label="decrease number of bathrooms"><?= stories_get_metadata_icon('minus'); ?></button>
                             <input type="number" name="bathrooms" id="bathrooms" min="0" placeholder="0">
-                            <button type="button" class="btn-increase" data-target="bathrooms"><?= stories_get_metadata_icon('plus'); ?></button>
+                            <button type="button" class="btn-increase" data-target="bathrooms" aria-label="increase number of bathrooms"><?= stories_get_metadata_icon('plus'); ?></button>
                         </div>
                     </li>
                 </ul>
@@ -111,7 +111,7 @@
 
             <!-- Price -->
             <li class="menu-item-has-children filter price">
-                <button class="btn button-for-submenu" type="button">
+                <button class="btn button-for-submenu" type="button"  aria-label="Open submenu for price">
                     <?php esc_html_e('Precio', 'stories'); ?>
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
@@ -141,7 +141,7 @@
 
             <!-- Size (Construction + Land) -->
             <li class="menu-item-has-children filter size">
-                <button class="btn button-for-submenu" type="button">
+                <button class="btn button-for-submenu" type="button" aria-label="Open submenu for price">
                     <?php esc_html_e('Medidas (m²)', 'stories'); ?>
                     <svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
