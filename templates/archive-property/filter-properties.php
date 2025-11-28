@@ -7,20 +7,20 @@
         </div>
 
         <!-- Operation -->
-        <fieldset class="menu-flex" style="border:0; padding:0; margin:0;">
+        <!-- <fieldset class="menu-flex" style="border:0; padding:0; margin:0;">
             <legend class="screen-reader-text" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;"><?php esc_html_e('Tipo de Operación', 'stories'); ?></legend>
             <div class="filter-property"><input type="checkbox" id="op-sale" name="operation[]" value="sale"><label for="op-sale"><?= stories_get_metadata_icon('sale'); esc_html_e('Venta', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="op-rent" name="operation[]" value="rental"><label for="op-rent"><?= stories_get_metadata_icon('rent'); esc_html_e('Renta', 'stories'); ?></label></div>
-        </fieldset>
+        </fieldset> -->
 
         <!-- Type -->
-        <fieldset class="menu-flex" style="border:0; padding:0; margin:0;">
+        <!-- <fieldset class="menu-flex" style="border:0; padding:0; margin:0;">
             <legend class="screen-reader-text" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;"><?php esc_html_e('Tipo de Propiedad', 'stories'); ?></legend>
             <div class="filter-property"><input type="checkbox" id="type-casa" name="type[]" value="casa"><label for="type-casa"><?= stories_get_metadata_icon('house'); esc_html_e('Casa', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="type-bedroom" name="type[]" value="bedroom"><label for="type-bedroom"><?= stories_get_metadata_icon('bedroom'); esc_html_e('Habitación', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="type-apartment" name="type[]" value="apartment"><label for="type-apartment"><?= stories_get_metadata_icon('construction'); esc_html_e('Depto', 'stories'); ?></label></div>
             <div class="filter-property"><input type="checkbox" id="type-terreno" name="type[]" value="terreno"><label for="type-terreno"><?= stories_get_metadata_icon('garden'); esc_html_e('Terreno', 'stories'); ?></label></div>
-        </fieldset>
+        </fieldset> -->
 
         <ul class="filter-navigation menu">
 
