@@ -9,13 +9,19 @@
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(4, auto);
             gap: 20px;
+            transform: translateY(.8rem);
 
-            & img {
+            & .image {
                 background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
                 aspect-ratio: 1 / 1;
                 border-radius: 1rem;
                 object-fit: cover;
                 width: 100%;
+                opacity: 0;
+
+                &.animate-in {
+                    animation: in-from-left .6s ease-in-out forwards;
+                }
 
                 &.image-01 {
                     grid-column: 2 / 3;
@@ -44,23 +50,50 @@
                 font-size: calc(var(--wp--preset--font-size--xx-large) + 1dvw);
                 line-height: 1.2;
                 font-weight: 600;
+                opacity: 0;
+
+                &.animate-in {
+                    animation: in-from-right .6s ease-in-out forwards;
+                }
             }
 
             h3.subtitle-section {
                 font-size: calc(var(--wp--preset--font-size--large) + 5px);
                 font-weight: 600;
+                opacity: 0;
+
+                &.animate-in {
+                    animation: in-from-right .6s ease-in-out forwards;
+                }
             }
 
-            & p {
+            & .paragraph {
                 margin: 1.2rem 0;
-                opacity: .75;
+                opacity: 0;
+
+                &.animate-in {
+                    animation: in-from-right .6s ease-in-out forwards;
+                }
             }
 
             & ul {
                 & li {
+                    opacity: 0;
+                    &.animate-in {
+                        animation: in-from-right .6s ease-in-out forwards;
+                    }
+
                     & svg {
                         margin-right: .5rem;
                     }
+                }
+            }
+
+            & .cta {
+                opacity: 0;
+                &.animate-in {
+                    animation: bounce-in-right 1.5s both;
+                    backdrop-filter: none !important;
                 }
             }
         }
@@ -92,5 +125,29 @@ body.is-chromium {
                 }
             }
         }
+    }
+}
+
+@keyframes in-from-left {
+    0% {
+        transform: translateX(-600px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes in-from-right {
+    0% {
+        transform: translateX(600px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
     }
 }

@@ -13,12 +13,12 @@ get_header(); ?>
 
         $sections = [
             'frontpage/hero',
+            'frontpage/about-us',
+            'frontpage/why-choose-us',
             'frontpage/featured-properties',
             'frontpage/filter-properties',
-            'frontpage/why-choose-us',
             'frontpage/testimonies',
             'frontpage/call-to-action',
-            'frontpage/about-us',
             'frontpage/blog',
             'frontpage/contact',
             'frontpage/faq',

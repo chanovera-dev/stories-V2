@@ -295,6 +295,7 @@ function frontpage_template() {
 
         stories_enqueue_script( 'blur-typing', $a['js']['blur-typing'] );
         stories_enqueue_script( 'frontpage', $a['js']['frontpage'] );
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
         // stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
         // stories_enqueue_script( 'featured-properties-slideshow', $a['js']['slideshow'] );
         // stories_enqueue_script( 'parallax', $a['js']['parallax'] );

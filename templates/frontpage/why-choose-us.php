@@ -9,7 +9,7 @@
 
                 <?php if ( $img ) : ?>
                     <img 
-                        class="image-<?= sprintf('%02d', $i); ?>" 
+                        class="image image-<?= sprintf('%02d', $i); ?>" 
                         src="<?= esc_url($img['url']); ?>" 
                         alt="<?= esc_attr($img['alt']); ?>"
                     >

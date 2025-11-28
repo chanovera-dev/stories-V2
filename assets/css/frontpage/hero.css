@@ -184,5 +184,6 @@ body.is-chromium {
         transform: translateX(0);
         animation-timing-function: ease-out;
         backdrop-filter: blur(10px);
+        opacity: 1;
     }
 }
