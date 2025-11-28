@@ -79,11 +79,13 @@ function stories_get_assets() {
             'sidebar'                 => "$assets_path/css/sidebar.css",
             'post-gallery-styles'     => "$assets_path/css/post-gallery.css",
 
+            // REAL ESTATE
             'single-property'         => "$assets_path/css/single-property.css",
-
+            
             // Frontpage
             'frontpage'               => "$assets_path/css/frontpage/frontpage.css",
             'hero'                    => "$assets_path/css/frontpage/hero.css",
+            'why-choose-us'           => "$assets_path/css/frontpage/wcu.css",
         ],
         'js' => [
             'slideshow-script'        => "$assets_path/js/slideshow.js",
@@ -93,7 +95,7 @@ function stories_get_assets() {
             'animate-in'              => "$assets_path/js/animate-in.js",
             'blur-typing'             => "$assets_path/js/blur-typing.js",
 
-            // REAL ESTATE TOOLS
+            // REAL ESTATE
             'frontpage'               => "$assets_path/js/frontpage.js",
             'filters'                 => "$assets_path/js/filters.js",
             'filter-listeners'        => "$assets_path/js/filter-listeners.js",
@@ -284,7 +286,7 @@ function frontpage_template() {
         stories_enqueue_style( 'hero', $a['css']['hero'] );
         // stories_enqueue_style( 'featured-properties', $a['css']['featured-properties'] );
         // stories_enqueue_style( 'filter-properties', $a['css']['filter-properties'] );
-        // stories_enqueue_style( 'why-choose-us', $a['css']['why-choose-us'] );
+        stories_enqueue_style( 'why-choose-us', $a['css']['why-choose-us'] );
         // stories_enqueue_style( 'testimonies', $a['css']['testimonies'] );
         // stories_enqueue_style( 'call-to-action', $a['css']['call-to-action'] );
         // stories_enqueue_style( 'about-us', $a['css']['about-us'] );
