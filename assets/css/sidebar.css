@@ -48,9 +48,10 @@
                             display: grid;
                             grid-template-columns: auto 1fr;
                             grid-template-rows: 1fr auto;
-                            gap: 0 .5rem;
+                            gap: 0 1rem;
                             padding: 1rem;
                             border-radius: 1rem;
+                            line-height: 1;
                             transition: background-color .3s ease;
 
                             & .latest-post-thumbnail-wrapper {
@@ -58,15 +59,22 @@
                                 grid-row: 1 / 3;
 
                                 & .wp-post-image {
-                                    width: 70px;
-                                    height: 70px;
+                                    width: 100px;
+                                    aspect-ratio: 3 / 2;
                                     border-radius: .5rem;
+                                    object-fit: cover;
                                 }
                             }
 
                             & .wp-block-latest-posts__post-title {
                                 align-self: end;
+                                font-size: var(--wp--preset--font-size--large);
                                 font-weight: 500;
+                                white-space: nowrap; 
+                                overflow: hidden; 
+                                text-overflow: ellipsis;
+                                margin-bottom: .3rem;
+                                mask-image: linear-gradient(to right, black 60%, transparent 100%);
                             }
 
                             & .latest-post-date {
@@ -74,7 +82,7 @@
                             }
 
                             &:hover {
-                                background-color: light-dark(var(--wp--preset--color--secondary), var(--contrast--darker));
+                                background-color: light-dark(var(--wp--preset--color--secondary), var(--secondary-dark));
                             }
                         }
                     }

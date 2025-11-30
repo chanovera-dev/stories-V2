@@ -134,6 +134,7 @@
                 transition: background-color .3s ease-in-out, backdrop-filter .3s ease-in-out;
 
                 & svg {
+                    filter: drop-shadow(0 0 0.3rem #00000040);
                     fill: var(--wp--preset--color--base);
                 }
 
@@ -511,6 +512,30 @@ ul {
         transform: translateY(.5px);
     }
 }
+
+.wp-block-search__inside-wrapper {
+    position: relative;
+
+    & .wp-block-search__button {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        height: 34px;
+        width: 38px;
+        padding: 0;
+        display: grid;
+        place-content: center;
+        box-shadow: none;
+        background-color: transparent;
+        color: light-dark(var(--wp--preset--color--contrast), var(--wp--preset--color--base));
+        transition: background-color .3s ease;
+
+        &:hover {
+            filter: brightness(1) !important;
+            background-color: light-dark(var(--hover-gallery-button), var(--dark-hover-gallery-button));
+        }
+    }
+} 
 
 @media (width < 600px) {
     .post:not(:has(header.block.entry-header)) {
