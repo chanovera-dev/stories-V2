@@ -78,6 +78,7 @@ function stories_get_assets() {
             'slideshow-styles'    => "$assets_path/css/slideshow.css",
             'sidebar'             => "$assets_path/css/sidebar.css",
             'post-gallery-styles' => "$assets_path/css/post-gallery.css",
+            'home-cpv'            => "$assets_path/css/home-cpv.css",
         ],
         'js' => [
             'slideshow-script'    => "$assets_path/js/slideshow.js",
@@ -221,3 +222,16 @@ function page404_styles() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'page404_styles' );
+
+/**
+ * Enqueues styles especifically for "Conocer para vivir" home page.
+ * 
+ * Loads custom CSS file only viewing here
+ */
+function cpvhome_styles() {
+    if ( is_page_template( 'templates/home-cpv.php' ) ) {
+        $a = stories_get_assets();
+        stories_enqueue_style('home-conocer-para-vivir', $a['css']['home-cpv']);
+    }
+}
+add_action( 'wp_enqueue_scripts', 'cpvhome_styles' );

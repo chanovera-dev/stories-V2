@@ -1,0 +1,13 @@
+.is-layout-constrained {
+    & .post-gallery-wrapper {
+        max-width: 1366px;
+
+        & .post-gallery {
+            & .post-gallery-slide {
+                & img {
+                    aspect-ratio: inherit;
+                }
+            }
+        }       
+    }
+}
