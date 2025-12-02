@@ -73,7 +73,7 @@ function setup_stories() {
 
     add_theme_support( 'customize-selective-refresh-widgets' );
 
-    add_theme_support( 'post-thumbnails', [ 'post', 'page' ] );
+    add_theme_support( 'post-thumbnails', [ 'post', 'page', 'boletin' ] );
     set_post_thumbnail_size( 350, 200, true );
 
     add_image_size( 'post-header-thumbnail', 400, 400, true );
