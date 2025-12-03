@@ -25,7 +25,7 @@
                 </div>
                 <div class="gallery-navigation">
                     <button class="gallery-prev btn-pagination small-pagination" aria-label="Foto anterior"><?= stories_get_metadata_icon('backward'); ?></button>
-                    <div class="gallery-bullets"></div>
+                    <div class="bullets"></div>
                     <button class="gallery-next btn-pagination small-pagination" aria-label="Foto siguiente"><?= stories_get_metadata_icon('forward'); ?></button>
                 </div>
             </div>
