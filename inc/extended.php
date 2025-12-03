@@ -313,11 +313,11 @@ function shortcode_related_boletines() {
 
     if ( $related_posts->have_posts() ) : ?>
         
-        <div class="content related-posts--title">
+        <div class="related-posts--title">
             <h2><?php echo esc_html__( 'Boletín informativo', 'stories' ); ?></h2>
         </div>
 
-        <div class="content slideshow-wrapper">
+        <div class="slideshow-wrapper">
             <div class="related-posts--list slideshow">
                 <?php 
                     while ( $related_posts->have_posts() ) : 

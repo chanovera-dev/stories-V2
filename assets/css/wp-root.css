@@ -22,6 +22,16 @@
     --gallery-bullet: oklch(from var(--wp--preset--color--main) calc(l + 0.3) calc(c - 0.075) calc(h + 0.1));
     --dark-gallery-bullet: oklch(from var(--hover-gallery-button) .35 c h);
 
+    /* home page */
+    --background-sky-2: #1e90ff;
+    --background-sky-1: #87CEEB;
+    --background-sky-1--night: #12171c;
+    --background-sky-2--night: #000000;
+
+    /* opacity */
+    --opacity-clouds: 1;
+    --opacity-stars: 0;
+
     /* lines */
     --line-1: #abb8c3;
     --line-2: #DBE1F3;
@@ -31,11 +41,17 @@
     --input-shadow: 0 0 0 .2rem var(--wp--preset--color--main-alpha-25);
 }
 
-
-
 @media (width >= 783px) {
     :root {
             /* sizes */
         --heigh-wp-adminbar: 2rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* opacity */
+        --opacity-clouds: .15;
+        --opacity-stars: 1;
     }
 }

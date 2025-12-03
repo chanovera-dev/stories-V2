@@ -86,6 +86,7 @@ function stories_get_assets() {
             'post-gallery-script' => "$assets_path/js/post-gallery.js",
             'parallax-hero'       => "$assets_path/js/parallax-hero.js",
             'animate-in'          => "$assets_path/js/animate-in.js",
+            'clouds'              => "$assets_path/js/clouds.js",
         ]
     ];
 }
@@ -235,6 +236,7 @@ function cpvhome_styles() {
         stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
         stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
         stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        stories_enqueue_script( 'clouds', $a['js']['clouds'] );
     }
 }
 add_action( 'wp_enqueue_scripts', 'cpvhome_styles' );
