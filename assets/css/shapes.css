@@ -5,7 +5,8 @@
     }
 }
 
-.post:not(:has(header.block.entry-header)) {
+.post:not(:has(header.block.entry-header)),
+.type-boletin {
     opacity: 0;
     transform: translateY(60px);
     display: grid;
@@ -568,7 +569,8 @@ ul {
 }
 
 body.is-chromium {
-    .post:not(:has(header.block.entry-header)) {
+    .post:not(:has(header.block.entry-header)),
+    .type-boletin {
         border-radius: 2.7rem 2.7rem 1.5rem 1.5rem;
         corner-shape: squircle;
 

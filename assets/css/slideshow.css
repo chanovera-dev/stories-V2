@@ -7,7 +7,7 @@ section.block.posts--body {
                 & .slideshow {
                     & .post:not(:has(header.block.entry-header)) {
                         padding: .1rem;
-
+                        
                         & .post-body {
                             & .post-body__footer {
                                 &::after {

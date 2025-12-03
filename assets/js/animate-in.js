@@ -22,5 +22,5 @@ function animateIn(selectors, animationClasses = ['animate-in'], options = {}) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  animateIn('.post');
+  animateIn('.post, .type-boletin');
 });

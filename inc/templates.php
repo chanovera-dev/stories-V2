@@ -232,6 +232,9 @@ function cpvhome_styles() {
     if ( is_page_template( 'templates/home-cpv.php' ) ) {
         $a = stories_get_assets();
         stories_enqueue_style('home-conocer-para-vivir', $a['css']['home-cpv']);
+        stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
+        stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
     }
 }
 add_action( 'wp_enqueue_scripts', 'cpvhome_styles' );
