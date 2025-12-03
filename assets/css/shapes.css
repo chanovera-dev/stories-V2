@@ -479,6 +479,11 @@ ul {
     transition: background-color .3s ease;
     background-color: transparent;
 
+    & svg {
+        width: 32px;
+        height: 32px;
+    }
+
     &.small-pagination {
         width: 46px;
         height: 46px;
