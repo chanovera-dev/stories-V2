@@ -1,0 +1,200 @@
+#hero {
+    height: calc(100svh - var(--height--header));
+    background-color: var(--wp--preset--color--bg-hero);
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+}
+
+#hero .content {
+    & h2 {
+        color: var(--wp--preset--color--white);
+        span {
+            color: var(--wp--preset--color--green);
+            font-size: var(--wp--preset--font-size--xx-large);
+        }
+        animation: tilt-in-fwd-tr 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) .5s both;
+    }
+
+    & p.available {
+        display: inline-block;
+        font-size: var(--wp--preset--font-size--small);
+        margin-bottom: 24px;
+        padding: 3px 7px;
+        border-radius: 4px;
+        color: var(--at);
+        background-color: var(--bat);
+        opacity: 1;
+        animation-name: animation-introduction-p;
+        animation-direction: normal;
+        animation-duration: 3.4s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: 1;
+    }
+    & h1 {
+      animation: color-page-title .3s forwards 2.5s ease-in-out;
+      margin-bottom: 30px;
+    }
+
+    #contact-for-hero {
+        animation: bounce-in-right 1.5s 3s both;
+        font-size: var(--wp--preset--font-size--medium);
+
+        .whatsapp-button {
+            display: inline-block;
+            position: relative;
+            padding: 6px 16px;
+            border-radius: 4px;
+            background-color: var(--wp--preset--color--green);
+            color: var(--wp--preset--color--base);
+            font-size: var(--wp--preset--font-size--small);
+            font-weight: 500;
+            letter-spacing: .5px;
+            transition: all .3s ease;
+            background-image: linear-gradient(-60deg, transparent, transparent 40%, #ffffff44 40%, #ffffff44 60%, transparent 60% 60%, transparent 100%);
+            background-size: 200% 100%;
+            background-position-x: 150%;
+            background-repeat: no-repeat;
+        }
+
+        .whatsapp-button:before {
+            position: relative;
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: var(--wp--preset--color--base);
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: contain;
+            margin-right: 7px;
+            top: 2px;
+        }
+
+        .whatsapp-button:hover {
+            background-position-x: -150%;
+            transition: all 1s;
+        }
+
+        a[href*="mailto"] {
+            transition: color .3s ease-in-out;
+        }
+
+        a[href*="mailto"]:hover {
+            color: var(--wp--preset--color--white);
+        }
+    }
+}
+
+/* animations */
+@keyframes tilt-in-fwd-tr {
+    0% {
+        transform: rotateY(20deg) rotateX(35deg) translate(300px, -300px) skew(-35deg, 10deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes animation-introduction-p {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) scale(1.5);
+    }
+
+    30% {
+        opacity: 0;
+        transform: translateX(-100%) scale(1.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateX(10px);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    95% {
+        opacity: 1;
+        transform: translateX(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes color-page-title {
+    to {
+        color: var(--wp--preset--color--base);
+    }
+}
+
+@keyframes bounce-in-right {
+    0% {
+        transform: translateX(600px);
+        animation-timing-function: ease-in;
+        opacity: 0;
+    }
+
+    38% {
+        transform: translateX(0);
+        animation-timing-function: ease-out;
+        opacity: 1;
+    }
+
+    55% {
+        transform: translateX(68px);
+        animation-timing-function: ease-in;
+    }
+
+    72% {
+        transform: translateX(0);
+        animation-timing-function: ease-out;
+    }
+
+    81% {
+        transform: translateX(32px);
+        animation-timing-function: ease-in;
+    }
+
+    90% {
+        transform: translateX(0);
+        animation-timing-function: ease-out;
+    }
+
+    95% {
+        transform: translateX(8px);
+        animation-timing-function: ease-in;
+    }
+
+    100% {
+        transform: translateX(0);
+        animation-timing-function: ease-out;
+    }
+}
+
+body.is-chromium {
+    #hero .content p.available,
+    #hero .content #contact-for-hero .whatsapp-button {
+        border-radius: 1rem;
+        corner-shape: squircle;
+    }
+}

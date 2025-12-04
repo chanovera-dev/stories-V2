@@ -116,6 +116,12 @@ function theme_custom_icons() {
             .menu li a[href*="tel"]:before{mask-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/icons/support-phone.svg');}
             .menu li a[href*="mailto"]:before{mask-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/icons/mailto.svg');}
             .menu li a[href*="maps"]:before{mask-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/icons/map.svg');}
+
+            a[href*="tel"]:before {mask-image: url('<?= get_stylesheet_directory_uri(); ?>/assets/icons/tel.svg');}
+            .whatsapp-button:has(a[href*="api.whatsapp"]):before,
+            #contact .content .is-layout-flex ul li a[href*="api.whatsapp"]:before {mask-image: url('<?= get_stylesheet_directory_uri(); ?>/assets/icons/whatsapp.svg');}
+            #contact .content .is-layout-flex ul li a[href*="mailto"]:before {mask-image: url('<?= get_stylesheet_directory_uri(); ?>/assets/icons/mailto.svg');}
+            #contact .content .is-layout-flex ul li.address:before {mask-image: url('<?= get_stylesheet_directory_uri(); ?>/assets/icons/address.svg');}
         </style>
     <?php
 }
@@ -319,3 +325,60 @@ function stories_get_metadata_icon($type) {
 
     return $icons[$type] ?? '';
 }
+
+/**
+ * Remove someone class of wp blocks
+ */
+function remove_wp_block_classes_on_specific_pages($block_content, $block) {
+    if (!is_page(['home', 393])) {
+        return $block_content;
+    }
+
+    if (!empty($block_content) && preg_match('/class="([^"]+)"/', $block_content, $matches)) {
+        $classes = explode(' ', $matches[1]);
+
+        $filtered_classes = array_filter($classes, function($class) {
+            return strpos($class, 'wp-block-') === false &&
+                   $class !== 'is-layout-constrained' &&
+                   $class !== 'has-global-padding';
+        });
+
+        if (!empty($filtered_classes)) {
+            $new_class_attribute = 'class="' . implode(' ', $filtered_classes) . '"';
+            $block_content = str_replace($matches[0], $new_class_attribute, $block_content);
+        } else {
+            $block_content = str_replace($matches[0], '', $block_content);
+        }
+    }
+
+    return $block_content;
+}
+
+add_filter('render_block', 'remove_wp_block_classes_on_specific_pages', 10, 2);
+
+/**
+ * Shortcode for skills on frontpage
+ */
+function mostrar_skills_repeater_shortcode() {
+    ob_start();
+    global $post;
+    if ( have_rows( 'skills_repeater', $post->ID ) ) :
+        while ( have_rows( 'skills_repeater', $post->ID ) ) : the_row();
+            $class = get_sub_field( 'skill_class' );
+            echo '<div class="skill-card ' . $class . '">';
+            if ( $icon_id = get_sub_field( 'skill_icon' ) ) {
+                $icon_path = get_attached_file( $icon_id );
+                if ( file_exists( $icon_path ) ) {
+                    $svg = trim( file_get_contents( $icon_path ) );
+                    echo $svg;
+                }
+            }
+            if ( $text = get_sub_field( 'skill_label' ) ) {
+                echo '<p>' . esc_html( $text ) . '</p>';
+            }
+            echo '</div>';
+        endwhile;
+    endif;
+    return ob_get_clean();
+}
+add_shortcode( 'skills_list', 'mostrar_skills_repeater_shortcode' );

@@ -4,6 +4,7 @@
     /* sizes */
     --heigh-wp-adminbar: 2.875rem;
     --max-width--content: min(100% - 2.5rem, 85.375rem);
+    --height--header: 56px;
 
     /* colors */
     --base-dark: oklch(from var(--wp--preset--color--base) .1 c h);
@@ -21,6 +22,12 @@
 
     --gallery-bullet: oklch(from var(--wp--preset--color--main) calc(l + 0.3) calc(c - 0.075) calc(h + 0.1));
     --dark-gallery-bullet: oklch(from var(--hover-gallery-button) .35 c h);
+
+    --wp--preset--color--bg-hero: #11151a;
+    --wp--preset--color--green: #3fb950;
+    --at: #d1d1d1;
+    --bat: #26303b;
+    --frontpage-section: #0C0E12;
 
     /* lines */
     --line-1: #abb8c3;
