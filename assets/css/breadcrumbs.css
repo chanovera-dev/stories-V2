@@ -38,6 +38,9 @@
                 & :is(h1.page-title,h3.property-title) {
                     font-size: var(--wp--preset--font-size--medium);
                     font-weight: 400;
+                }
+
+                & span + h1.page-title {
                     margin-left: 5px;
 
                     &::first-letter {
