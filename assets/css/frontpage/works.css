@@ -54,6 +54,10 @@
                 display: none;
                 pointer-events: none;
                 transition: transform 1s ease-in-out;
+
+                & img {
+                    width: 100%;
+                }
             }
 
             & figure:after {
@@ -220,5 +224,20 @@
 
     #works.block:has(.content) .content .card-timeline .card-item figure {
         display: grid;
+    }
+}
+
+body.is-chromium {
+    #works.block:has(.content) .content {
+        & .card-timeline {
+            & .card-item {
+                & figure {
+                    & img {
+                        border-radius: 2rem;
+                        corner-shape: squircle;
+                    }
+                }
+            }
+        }
     }
 }
