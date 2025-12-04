@@ -75,7 +75,7 @@
                         </div>
                     </button>
                 </div>
-                <button id="menu-mobile__button" class="menu-mobile__button" onclick="toggleMenuMobile()">
+                <button id="menu-mobile__button" class="menu-mobile__button" onclick="toggleMenuMobile()" aria-label="Open menu">
                     <span class="bar"></span>
                 </button>
             </div>
