@@ -12,106 +12,106 @@ function createSlideshow({
 
   document.addEventListener("DOMContentLoaded", () => {
 
-    const wrapper = document.querySelector(wrapperSelector);
-    if (!wrapper) return;
+    const wrapper = document.querySelector(wrapperSelector) 
+    if (!wrapper) return 
 
-    const slideshow = wrapper.querySelector(slideshowSelector);
-    const navigation = wrapper.querySelector(navigationSelector);
-    const navPrev = wrapper.querySelector(prevSelector);
-    const navNext = wrapper.querySelector(nextSelector);
-    const bulletsContainer = wrapper.querySelector(bulletsSelector);
+    const slideshow = wrapper.querySelector(slideshowSelector) 
+    const navigation = wrapper.querySelector(navigationSelector) 
+    const navPrev = wrapper.querySelector(prevSelector) 
+    const navNext = wrapper.querySelector(nextSelector) 
+    const bulletsContainer = wrapper.querySelector(bulletsSelector) 
 
-    if (!slideshow) return;
+    if (!slideshow) return 
 
-    wrapper.style.overflow = "hidden";
-    wrapper.style.display = "flex";
-    wrapper.style.flexDirection = "column";
-    wrapper.style.gap = "1rem";
-    slideshow.style.display = "flex";
-    if (navigation) navigation.style.display = "flex";
+    wrapper.style.overflow = "hidden" 
+    wrapper.style.display = "flex" 
+    wrapper.style.flexDirection = "column" 
+    wrapper.style.gap = "1rem" 
+    slideshow.style.display = "flex" 
+    if (navigation) navigation.style.display = "flex" 
 
-    let slides = Array.from(slideshow.children);
-    const totalOriginal = slides.length;
-    let itemsPerView = 1;
-    let slideWidth = 0;
-    let autoInterval = null;
-    let firstLoad = true;
+    let slides = Array.from(slideshow.children) 
+    const totalOriginal = slides.length 
+    let itemsPerView = 1 
+    let slideWidth = 0 
+    let autoInterval = null 
+    let firstLoad = true 
 
     // -------------------------------
     // BULLETS
     // -------------------------------
     function createBullets() {
-      if (!useBullets || !bulletsContainer) return;
-      bulletsContainer.innerHTML = "";
+      if (!useBullets || !bulletsContainer) return 
+      bulletsContainer.innerHTML = "" 
 
       for (let i = 0; i < totalOriginal; i++) {
-        const b = document.createElement("button");
-        b.className = "bullet";
-        b.dataset.id = slides[i].dataset.id;
-        bulletsContainer.appendChild(b);
+        const b = document.createElement("button") 
+        b.className = "bullet" 
+        b.dataset.id = slides[i].dataset.id 
+        bulletsContainer.appendChild(b) 
       }
     }
-    if (useBullets) createBullets();
+    if (useBullets) createBullets() 
 
     function updateBullets() {
-      if (!useBullets || !bulletsContainer) return;
+      if (!useBullets || !bulletsContainer) return 
 
-      const bullets = bulletsContainer.querySelectorAll(".bullet");
-      bullets.forEach(b => b.classList.remove("active"));
+      const bullets = bulletsContainer.querySelectorAll(".bullet") 
+      bullets.forEach(b => b.classList.remove("active")) 
 
-      const activeId = slides[0].dataset.id;
+      const activeId = slides[0].dataset.id 
       bullets.forEach(b => {
-        if (b.dataset.id === activeId) b.classList.add("active");
-      });
+        if (b.dataset.id === activeId) b.classList.add("active") 
+      }) 
     }
 
     // -------------------------------
     // RESPONSIVE
     // -------------------------------
     function updateItemsPerView() {
-      const w = window.innerWidth; // ancho de ventana
+      const w = window.innerWidth  // ancho de ventana
 
-      if (w < 600) itemsPerView = 1;
-      else if (w < 809) itemsPerView = 2;
-      else if (w < 1065) itemsPerView = 3;
-      else itemsPerView = 4;
+      if (w < 600) itemsPerView = 1 
+      else if (w < 809) itemsPerView = 2 
+      else if (w < 1065) itemsPerView = 3 
+      else itemsPerView = 4 
 
-      updateSlideWidth();
-      updateBullets();
+      updateSlideWidth() 
+      updateBullets() 
     }
 
     function updateSlideWidth() {
-      const containerWidth = wrapper.getBoundingClientRect().width;
+      const containerWidth = wrapper.getBoundingClientRect().width 
 
       slideWidth =
         (containerWidth - (itemsPerView > 1 ? (itemsPerView - 1) * gap : 0)) /
-        itemsPerView;
+        itemsPerView 
 
-      slideshow.style.gap = itemsPerView > 1 ? `${gap}px` : "0px";
+      slideshow.style.gap = itemsPerView > 1 ? `${gap}px` : "0px" 
 
       slides.forEach(s => {
-        s.style.minWidth = slideWidth + "px";
-        s.style.maxWidth = slideWidth + "px";
-      });
+        s.style.minWidth = slideWidth + "px" 
+        s.style.maxWidth = slideWidth + "px" 
+      }) 
     }
 
     // Ejecutar al cargar
-    updateItemsPerView();
+    updateItemsPerView() 
 
     // Escuchar cambios de tamaño de ventana
-    window.addEventListener("resize", updateItemsPerView);
+    window.addEventListener("resize", updateItemsPerView) 
 
     // -------------------------------
     // ANIMACIONES
     // -------------------------------
     function updateAnimations() {
-      if (firstLoad) return;
+      if (firstLoad) return 
 
-      slides.forEach(s => s.classList.remove("animate-in"));
+      slides.forEach(s => s.classList.remove("animate-in")) 
 
       for (let i = 0; i < itemsPerView; i++) {
-        const visible = slides[i];
-        if (visible) visible.classList.add("animate-in");
+        const visible = slides[i] 
+        if (visible) visible.classList.add("animate-in") 
       }
     }
 
@@ -119,154 +119,154 @@ function createSlideshow({
     // NEXT
     // -------------------------------
     function next() {
-      slideshow.style.transition = "all .5s ease-in-out";
-      slideshow.style.transform = `translateX(-${slideWidth}px)`;
+      slideshow.style.transition = "all .5s ease-in-out" 
+      slideshow.style.transform = `translateX(-${slideWidth}px)` 
 
       setTimeout(() => {
-        slideshow.style.transition = "none";
+        slideshow.style.transition = "none" 
 
-        const first = slides[0];
-        const clone = first.cloneNode(true);
-        clone.classList.remove("animate-in");
+        const first = slides[0] 
+        const clone = first.cloneNode(true) 
+        clone.classList.remove("animate-in") 
 
-        slideshow.appendChild(clone);
-        slideshow.removeChild(first);
+        slideshow.appendChild(clone) 
+        slideshow.removeChild(first) 
 
-        slideshow.style.transform = `translateX(0)`;
+        slideshow.style.transform = `translateX(0)` 
 
-        slides = Array.from(slideshow.children);
-        updateSlideWidth();
-        updateBullets();
+        slides = Array.from(slideshow.children) 
+        updateSlideWidth() 
+        updateBullets() 
 
-        slides.forEach(s => s.classList.remove("animate-in"));
-        void slideshow.offsetWidth;
+        slides.forEach(s => s.classList.remove("animate-in")) 
+        void slideshow.offsetWidth 
 
         for (let i = 0; i < Math.min(itemsPerView, slides.length); i++) {
-          slides[i].classList.add("animate-in");
+          slides[i].classList.add("animate-in") 
         }
 
         requestAnimationFrame(() => {
-          slideshow.style.transition = "all .5s ease-in-out";
-        });
-      }, 500);
+          slideshow.style.transition = "all .5s ease-in-out" 
+        }) 
+      }, 500) 
     }
 
     // -------------------------------
     // PREV
     // -------------------------------
     function prev() {
-      slideshow.style.transition = "none";
+      slideshow.style.transition = "none" 
 
-      const last = slides[slides.length - 1];
-      const clone = last.cloneNode(true);
+      const last = slides[slides.length - 1] 
+      const clone = last.cloneNode(true) 
 
-      slideshow.insertBefore(clone, slides[0]);
-      clone.classList.remove("animate-in");
-      slideshow.removeChild(last);
+      slideshow.insertBefore(clone, slides[0]) 
+      clone.classList.remove("animate-in") 
+      slideshow.removeChild(last) 
 
-      slides = Array.from(slideshow.children);
+      slides = Array.from(slideshow.children) 
 
-      slideshow.style.transform = `translateX(-${slideWidth}px)`;
+      slideshow.style.transform = `translateX(-${slideWidth}px)` 
 
       requestAnimationFrame(() => {
-        slideshow.style.transition = "all .5s ease-in-out";
-        slideshow.style.transform = `translateX(0)`;
+        slideshow.style.transition = "all .5s ease-in-out" 
+        slideshow.style.transform = `translateX(0)` 
 
-        setTimeout(() => clone.classList.add("animate-in"), 500);
-      });
+        setTimeout(() => clone.classList.add("animate-in"), 500) 
+      }) 
 
-      updateSlideWidth();
-      updateBullets();
-      updateAnimations();
+      updateSlideWidth() 
+      updateBullets() 
+      updateAnimations() 
     }
 
-    if (navNext) navNext.addEventListener("click", next);
-    if (navPrev) navPrev.addEventListener("click", prev);
+    if (navNext) navNext.addEventListener("click", next) 
+    if (navPrev) navPrev.addEventListener("click", prev) 
 
     // -------------------------------
     // BULLETS → SALTO
     // -------------------------------
-    let bulletJumping = false;
+    let bulletJumping = false 
 
     function goToSlideById(targetId) {
-      if (!useBullets) return;
+      if (!useBullets) return 
 
-      if (bulletJumping) return;
-      bulletJumping = true;
+      if (bulletJumping) return 
+      bulletJumping = true 
 
       function step() {
         if (slides[0].dataset.id === targetId) {
-          bulletJumping = false;
-          return;
+          bulletJumping = false 
+          return 
         }
-        next();
-        setTimeout(step, 520);
+        next() 
+        setTimeout(step, 520) 
       }
 
-      step();
+      step() 
     }
 
     if (useBullets && bulletsContainer) {
       bulletsContainer.querySelectorAll(".bullet").forEach(b =>
         b.addEventListener("click", () => goToSlideById(b.dataset.id))
-      );
+      ) 
     }
 
     // -------------------------------
     // AUTO SLIDE
     // -------------------------------
     function startAuto() {
-      stopAuto();
-      autoInterval = setInterval(next, autoTime);
+      stopAuto() 
+      autoInterval = setInterval(next, autoTime) 
     }
     function stopAuto() {
-      if (autoInterval) clearInterval(autoInterval);
+      if (autoInterval) clearInterval(autoInterval) 
     }
 
-    wrapper.addEventListener("mouseenter", stopAuto);
-    wrapper.addEventListener("mouseleave", startAuto);
+    wrapper.addEventListener("mouseenter", stopAuto) 
+    wrapper.addEventListener("mouseleave", startAuto) 
 
     // -------------------------------
     // TOUCH
     // -------------------------------
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const SWIPE_THRESHOLD = 50;
+    let touchStartX = 0 
+    let touchEndX = 0 
+    const SWIPE_THRESHOLD = 50 
 
     wrapper.addEventListener("touchstart", (e) => {
-      stopAuto();
-      touchStartX = e.touches[0].clientX;
-      touchEndX = touchStartX;
-    }, { passive: true });
+      stopAuto() 
+      touchStartX = e.touches[0].clientX 
+      touchEndX = touchStartX 
+    }, { passive: true }) 
 
     wrapper.addEventListener("touchmove", (e) => {
-      touchEndX = e.touches[0].clientX;
-    }, { passive: true });
+      touchEndX = e.touches[0].clientX 
+    }, { passive: true }) 
 
     wrapper.addEventListener("touchend", () => {
-      const dx = touchEndX - touchStartX;
+      const dx = touchEndX - touchStartX 
 
       if (Math.abs(dx) > SWIPE_THRESHOLD) {
-        if (dx < 0) next();
-        else prev();
+        if (dx < 0) next() 
+        else prev() 
       }
-      startAuto();
-    });
+      startAuto() 
+    }) 
 
     // -------------------------------
     // INIT
     // -------------------------------
-    updateItemsPerView();
+    updateItemsPerView() 
 
     requestAnimationFrame(() => {
-      updateBullets();
-      startAuto();
-    });
-  });
+      updateBullets() 
+      startAuto() 
+    }) 
+  }) 
 }
 
 createSlideshow({
   wrapperSelector: ".slideshow-wrapper",
   slideshowSelector: ".slideshow",
   navigationSelector: ".slideshow-navigation",
-});
+}) 
