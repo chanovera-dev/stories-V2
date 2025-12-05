@@ -2,7 +2,7 @@
     & .block {
         & .content:has(aside) {
             display: grid;
-            gap: 1rem;
+            gap: 3rem;
 
             & .sidebar {
                 &>*:not(:last-child, .wp-block-heading) {
@@ -127,6 +127,7 @@
     .site-main {
         & .block {
             & .content:has(aside) {
+                gap: 1rem;
                 grid-template-columns: 1fr auto;
 
                 & .sidebar {
