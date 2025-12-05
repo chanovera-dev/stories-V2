@@ -78,6 +78,8 @@ function stories_get_assets() {
             'slideshow-styles'    => "$assets_path/css/slideshow.css",
             'sidebar'             => "$assets_path/css/sidebar.css",
             'post-gallery-styles' => "$assets_path/css/post-gallery.css",
+            'home-slideshow'     => "$assets_path/css/home-slideshow.css",
+            'clouds-styles'      => "$assets_path/css/clouds.css",
         ],
         'js' => [
             'slideshow-script'    => "$assets_path/js/slideshow.js",
@@ -87,6 +89,9 @@ function stories_get_assets() {
             'animate-in'          => "$assets_path/js/animate-in.js",
             'posts-scripts'       => "$assets_path/js/posts.js",
             'post-scripts'        => "$assets_path/js/post.js",
+            'blur-typing'        => "$assets_path/js/blur-typing.js",
+            'home-slideshow-js'  => "$assets_path/js/home-slideshow.js",
+            'clouds-script'      => "$assets_path/js/clouds.js",
         ]
     ];
 }
@@ -149,7 +154,7 @@ add_action( 'wp_enqueue_scripts', 'page_template' );
  * @return void
  */
 function posts_styles() {
-    if ( is_home() or is_archive() or is_search() ) {
+    if ( is_home() || is_archive() || is_search() || is_page_template( 'archive-detras-del-espejo.php' ) ) {
         $a = stories_get_assets();
 
         global $wp_query;
@@ -166,6 +171,14 @@ function posts_styles() {
         if ( $has_gallery ) {
             require_once get_template_directory() . '/templates/helpers/extract-gallery-images.php';
             stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
+        }
+
+        if ( is_home() && is_main_query() && !is_paged() ) {
+            stories_enqueue_style( 'clouds-styles', $a['css']['clouds-styles'] );
+            stories_enqueue_style( 'home-slideshow', $a['css']['home-slideshow'] );
+            stories_enqueue_script( 'clouds-script', $a['js']['clouds-script'] );
+            stories_enqueue_script( 'slideshow', $a['js']['home-slideshow-js'] ); 
+            stories_enqueue_script( 'blur-typing', $a['js']['blur-typing'] ); 
         }
 
         stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );

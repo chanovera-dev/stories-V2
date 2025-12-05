@@ -18,7 +18,13 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main">
 
-    <?php wp_breadcrumbs(); ?>
+    <?php 
+        if ( ! is_paged() ) :
+            get_template_part( 'templates/frontpage/home', 'header' );
+        else :
+            wp_breadcrumbs();
+        endif; 
+    ?>
 
     <!-- Archive Posts Section -->
     <section class="block posts--body">
