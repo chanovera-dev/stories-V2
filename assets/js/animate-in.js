@@ -1,7 +1,7 @@
 function animateIn(selectors, animationClasses = ['animate-in'], options = {}) {
   const {
     threshold = 0.1,
-    stagger = 300 // retraso por elemento
+    stagger = 300
   } = options 
 
   const targets = document.querySelectorAll(selectors) 
