@@ -103,6 +103,34 @@ function toggleMenuMobile() {
     }
 }
 
+function menuWithChildren() {
+    if (window.innerWidth <= 1023) {
+        const menuItems = document.querySelectorAll('.menu-item-has-children');
+  
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+
+                if (e.target.tagName === 'A') {
+                    return;
+                }
+
+                e.preventDefault();
+
+                item.classList.toggle('open');
+
+                const subMenu = item.querySelector('.sub-menu');
+                if (subMenu) {
+                    const childrenCount = subMenu.children.length;
+                    const transitionTime = childrenCount * 0.1; // Calculate transition time based on number of children
+                    subMenu.style.transition = `max-height ${transitionTime}s ease-in-out`;
+                    subMenu.classList.toggle('open');
+                }
+            });
+        });
+    }
+}
+document.addEventListener('DOMContentLoaded', menuWithChildren);
+
 function closeMenuMobile() {
     const button = document.querySelector('.menu-mobile__button');
     const menu = document.querySelector('.main-navigation');
