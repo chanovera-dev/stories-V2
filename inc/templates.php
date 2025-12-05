@@ -85,7 +85,7 @@ function stories_get_assets() {
             'post-gallery-script' => "$assets_path/js/post-gallery.js",
             'parallax-hero'       => "$assets_path/js/parallax-hero.js",
             'animate-in'          => "$assets_path/js/animate-in.js",
-            'posts-scripts'       => "$assets_path/js/posts.js"
+            'posts-scripts'       => "$assets_path/js/posts.js",
         ]
     ];
 }
