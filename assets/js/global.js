@@ -1,64 +1,54 @@
-// Detect Chromium-based browsers
-const ua = navigator.userAgent.toLowerCase();
+const ua = navigator.userAgent.toLowerCase() 
 const isChromium =
-  !!window.chrome && /chrome|crios|crmo|edg|brave|opera|opr|vivaldi/i.test(ua);
+  !!window.chrome && /chrome|crios|crmo|edg|brave|opera|opr|vivaldi/i.test(ua) 
 
 if (isChromium) {
   document.addEventListener('DOMContentLoaded', () => {
-    document.body.classList.add('is-chromium');
-  });
+    document.body.classList.add('is-chromium') 
+  }) 
 }
 
-const body = document.body;
+const body = document.body 
 
 function scrollActions() {
-    let last = 0, ticking = false;
+    let last = 0, ticking = false 
 
     function onScroll() {
-        const y = window.scrollY;
+        const y = window.scrollY 
         if (y <= 0) {
-            body.classList.remove('scroll-up', 'scroll-down');
+            body.classList.remove('scroll-up', 'scroll-down') 
         } else if (y > last) {
-            body.classList.add('scroll-down');
-            body.classList.remove('scroll-up');
+            body.classList.add('scroll-down') 
+            body.classList.remove('scroll-up') 
         } else {
-            body.classList.add('scroll-up');
-            body.classList.remove('scroll-down');
+            body.classList.add('scroll-up') 
+            body.classList.remove('scroll-down') 
         }
-        last = y;
-        ticking = false;
+        last = y 
+        ticking = false 
     }
 
     function handleScroll() {
         if (!ticking) {
-            requestAnimationFrame(onScroll);
-            ticking = true;
+            requestAnimationFrame(onScroll) 
+            ticking = true 
         }
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true }) 
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll) 
 }
-scrollActions();
+scrollActions() 
 
 function openCustomSearchform() {
     const button = document.querySelector('.search-mobile__button')
     const searchform = document.querySelector('#custom-searchform')
     const nav = document.querySelector('#menu-primary')
-
-    // const customSearchform = document.querySelector( '#custom-searchform' );
-    // const primaryMenu = document.querySelector( '#primary .menu' );
-    // const iconSearchBtn = document.querySelector( '#search-mobile__button .bi-search' );
-    // const iconCloseBtn = document.querySelector( '#search-mobile__button .bi-x-circle' );
    
     if (button) button.classList.toggle('active')
     if (searchform) searchform.classList.toggle('show')
     if (nav) nav.classList.toggle('hide')
-    // if (customSearchform) customSearchform.classList.toggle('show');
-    // if (primaryMenu) primaryMenu.classList.toggle('hide');
-    // if (iconSearchBtn) iconSearchBtn.classList.toggle('hide');
-    // if (iconCloseBtn) iconCloseBtn.classList.toggle('show');
 }
 
 function closeCustomSearchform() {
@@ -72,89 +62,82 @@ function closeCustomSearchform() {
 }
 
 function toggleMenuMobile() {
-    const button = document.querySelector( '.menu-mobile__button' );
-    const menu = document.querySelector( '.main-navigation' );
-    const header = document.getElementById( 'main-header' ) || document.querySelector( 'header' );
+    const button = document.querySelector( '.menu-mobile__button' ) 
+    const menu = document.querySelector( '.main-navigation' ) 
+    const header = document.getElementById( 'main-header' ) || document.querySelector( 'header' ) 
 
-    if ( ! button || ! menu ) return;
+    if ( ! button || ! menu ) return 
 
-    // Toggle state
-    const isOpen = menu.classList.toggle( 'open' );
-    button.classList.toggle( 'active', isOpen );
-    body.style.overflow = isOpen ? 'hidden' : '';
+    const isOpen = menu.classList.toggle( 'open' ) 
+    button.classList.toggle( 'active', isOpen ) 
+    body.style.overflow = isOpen ? 'hidden' : '' 
 
-    // Click outside handler should call closeMenuMobile()
     const handleClickOutside = ( e ) => {
-        const target = e.target;
-        const clickedInsideMenu = menu.contains( target );
-        const clickedInsideHeader = header && header.contains( target );
-        const clickedToggleButton = button.contains( target );
+        const target = e.target 
+        const clickedInsideMenu = menu.contains( target ) 
+        const clickedInsideHeader = header && header.contains( target ) 
+        const clickedToggleButton = button.contains( target ) 
 
         if ( ! clickedInsideMenu && ! clickedInsideHeader && ! clickedToggleButton ) {
-            closeMenuMobile();
-            document.removeEventListener( 'click', handleClickOutside );
+            closeMenuMobile() 
+            document.removeEventListener( 'click', handleClickOutside ) 
         }
-    };
+    } 
 
-    // Ensure we don't register multiple identical handlers
-    document.removeEventListener( 'click', handleClickOutside );
+    document.removeEventListener( 'click', handleClickOutside ) 
     if ( isOpen ) {
-        document.addEventListener( 'click', handleClickOutside );
+        document.addEventListener( 'click', handleClickOutside ) 
     }
 }
 
 function menuWithChildren() {
-    if (window.innerWidth <= 1023) {
-        const menuItems = document.querySelectorAll('.menu-item-has-children');
-  
-        menuItems.forEach(item => {
-            item.addEventListener('click', function (e) {
+    const menuItems = document.querySelectorAll('.menu-item-has-children') 
 
-                if (e.target.tagName === 'A') {
-                    return;
-                }
+    menuItems.forEach(item => {
+        item.addEventListener('click', function (e) {
 
-                e.preventDefault();
+            if (e.target.tagName === 'A') {
+                return 
+            }
 
-                item.classList.toggle('open');
+            e.preventDefault() 
 
-                const subMenu = item.querySelector('.sub-menu');
-                if (subMenu) {
-                    const childrenCount = subMenu.children.length;
-                    const transitionTime = childrenCount * 0.1; // Calculate transition time based on number of children
-                    subMenu.style.transition = `max-height ${transitionTime}s ease-in-out`;
-                    subMenu.classList.toggle('open');
-                }
-            });
-        });
-    }
+            item.classList.toggle('open') 
+
+            const subMenu = item.querySelector('.sub-menu') 
+            if (subMenu) {
+                const childrenCount = subMenu.children.length 
+                const transitionTime = childrenCount * 0.1
+                subMenu.style.transition = `max-height ${transitionTime}s ease-in-out` 
+                subMenu.classList.toggle('open') 
+            }
+        }) 
+    }) 
 }
-document.addEventListener('DOMContentLoaded', menuWithChildren);
+document.addEventListener('DOMContentLoaded', menuWithChildren) 
 
 function closeMenuMobile() {
-    const button = document.querySelector('.menu-mobile__button');
-    const menu = document.querySelector('.main-navigation');
-    const body = document.body;
+    const button = document.querySelector('.menu-mobile__button') 
+    const menu = document.querySelector('.main-navigation') 
+    const body = document.body 
 
     if ( button ) {
-        button.classList.remove('active');
+        button.classList.remove('active') 
     }
     if ( menu ) {
-        menu.classList.remove('show');
-        menu.classList.remove('open');
+        menu.classList.remove('show') 
+        menu.classList.remove('open') 
     }
 
     if ( body ) {
-        body.style.overflow = '';
+        body.style.overflow = '' 
     }
 }
 
 document.addEventListener('keydown', function(event) {
-    // Verifica si la tecla presionada es "Escape"
     if (event.key === 'Escape' || event.key === 'Esc') {
-        // Llama a tu función para cerrar el menú
         if (typeof closeMenuMobile === 'function') {
-            closeMenuMobile();
+            closeMenuMobile() 
         }
     }
-});
+}) 
