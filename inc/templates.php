@@ -85,6 +85,7 @@ function stories_get_assets() {
             'post-gallery-script' => "$assets_path/js/post-gallery.js",
             'parallax-hero'       => "$assets_path/js/parallax-hero.js",
             'animate-in'          => "$assets_path/js/animate-in.js",
+            'posts-scripts'       => "$assets_path/js/posts.js"
         ]
     ];
 }
@@ -197,6 +198,7 @@ function posts_styles() {
         stories_enqueue_style( 'posts', $a['css']['posts'] );
         stories_enqueue_style( 'pagination', $a['css']['pagination'] );
         stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        stories_enqueue_script( 'posts-scripts', $a['js']['posts-scripts'] );
 
         if ( is_active_sidebar( 'sidebar-1' ) ) {
             stories_enqueue_style( 'sidebar', $a['css']['sidebar'] );

@@ -20,7 +20,3 @@ function animateIn(selectors, animationClasses = ['animate-in'], options = {}) {
 
   targets.forEach(target => observer.observe(target));
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  animateIn('.post');
-});
