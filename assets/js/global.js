@@ -91,30 +91,30 @@ function toggleMenuMobile() {
 }
 
 function menuWithChildren() {
-    const menuItems = document.querySelectorAll('.menu-item-has-children') 
+    const header = document.querySelector('header')
+    if (!header) return
+
+    const menuItems = header.querySelectorAll('.menu-item-has-children')
 
     menuItems.forEach(item => {
-        item.addEventListener('click', function (e) {
+        item.addEventListener('click', e => {
+            if (e.target.tagName === 'A') return
 
-            if (e.target.tagName === 'A') {
-                return 
-            }
+            e.preventDefault()
+            item.classList.toggle('open')
 
-            e.preventDefault() 
-
-            item.classList.toggle('open') 
-
-            const subMenu = item.querySelector('.sub-menu') 
+            const subMenu = item.querySelector('.sub-menu')
             if (subMenu) {
-                const childrenCount = subMenu.children.length 
+                const childrenCount = subMenu.children.length
                 const transitionTime = childrenCount * 0.1
-                subMenu.style.transition = `max-height ${transitionTime}s ease-in-out` 
-                subMenu.classList.toggle('open') 
+                subMenu.style.transition = `max-height ${transitionTime}s ease-in-out`
+                subMenu.classList.toggle('open')
             }
-        }) 
-    }) 
+        })
+    })
 }
-document.addEventListener('DOMContentLoaded', menuWithChildren) 
+
+document.addEventListener('DOMContentLoaded', menuWithChildren)
 
 function closeMenuMobile() {
     const button = document.querySelector('.menu-mobile__button') 

@@ -78,6 +78,9 @@ function stories_get_assets() {
             'slideshow-styles'    => "$assets_path/css/slideshow.css",
             'sidebar'             => "$assets_path/css/sidebar.css",
             'post-gallery-styles' => "$assets_path/css/post-gallery.css",
+
+            // REAL ESTATE
+            'single-property'         => "$assets_path/css/single-property.css",
         ],
         'js' => [
             'slideshow-script'    => "$assets_path/js/slideshow.js",
@@ -87,6 +90,14 @@ function stories_get_assets() {
             'animate-in'          => "$assets_path/js/animate-in.js",
             'posts-scripts'       => "$assets_path/js/posts.js",
             'post-scripts'        => "$assets_path/js/post.js",
+
+            // REAL ESTATE
+            'frontpage'               => "$assets_path/js/frontpage.js",
+            'filters'                 => "$assets_path/js/filters.js",
+            'filter-listeners'        => "$assets_path/js/filter-listeners.js",
+            'reset-properties-filter' => "$assets_path/js/reset-properties-filter.js",
+            'ajax-properties'         => "$assets_path/js/ajax-properties.js",
+            'ajax-search'             => "$assets_path/js/ajax-search-properties.js",
         ]
     ];
 }
@@ -197,3 +208,61 @@ function page404_styles() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'page404_styles' );
+
+/**
+ * Enqueues specific styles and scripts for property-related templates.
+ *
+ * This function loads custom CSS and JavaScript files for:
+ * - Property archive pages (archive-property.php), including filters,
+ *   pagination, and AJAX-powered property loading.
+ * - Single property pages (single-property.php), including gallery,
+ *   related property slideshow, and parallax effects.
+ *
+ * It uses custom enqueue helpers (stories_enqueue_style/script)
+ * and localizes the AJAX script with the admin-ajax URL.
+ *
+ * @since 1.0.0
+ * @package stories
+ */
+function properties_templates() {
+    if ( is_page_template( 'archive-property.php' ) ) {
+        $a  = stories_get_assets();
+
+        stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
+        stories_enqueue_style( 'sidebar', $a['css']['sidebar'] );
+        stories_enqueue_style( 'posts', $a['css']['posts'] );
+
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
+        stories_enqueue_style( 'pagination', $a['css']['pagination'] );
+        stories_enqueue_script( 'filters', $a['js']['filters'] );
+        stories_enqueue_script( 'filter-listeners', $a['js']['filter-listeners'] );
+        stories_enqueue_script( 'reset', $a['js']['reset-properties-filter'] );
+        stories_enqueue_script( 'ajax-search-from-other-page', $a['js']['ajax-search'] );
+        stories_enqueue_script( 'ajax-properties', $a['js']['ajax-properties'] );
+
+        wp_localize_script('ajax-properties', 'ajax_object', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('filter_properties_nonce')
+        ]);
+    }
+
+    if ( is_singular( 'property' ) ) {
+        $a  = stories_get_assets();
+
+        function unload_parts_header() {
+            wp_dequeue_style( 'page' );
+        }
+        add_action( 'wp_enqueue_scripts', 'unload_parts_header', 100 );
+
+        stories_enqueue_style( 'breadcrumbs', $a['css']['breadcrumbs'] );
+        stories_enqueue_style( 'post-gallery-styles', $a['css']['post-gallery-styles'] );
+        stories_enqueue_style( 'single-property', $a['css']['single-property'] );
+        stories_enqueue_style( 'slideshow-styles', $a['css']['slideshow-styles'] );
+            
+        stories_enqueue_script( 'loop-gallery', $a['js']['loop-gallery'] );
+        stories_enqueue_script( 'post-gallery-script', $a['js']['post-gallery-script'] );
+        stories_enqueue_script( 'slideshow-script', $a['js']['slideshow-script'] );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'properties_templates' );

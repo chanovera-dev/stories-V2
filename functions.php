@@ -35,12 +35,14 @@ if ( ! defined( 'STORIES_VERSION' ) ) {
  * Note: files are included only if they exist.
  */
 $inc_files = array(
-    'core'           => 'inc/core.php',
-    'extended'       => 'inc/extended.php',
-    'custom-widgets' => 'inc/custom-widgets.php',
-    'custom-blocks'  => 'inc/custom-blocks.php',
-    'templates'      => 'inc/templates.php',
-    'customizer'     => 'inc/customizer.php',
+    'core'              => 'inc/core.php',
+    'extended'          => 'inc/extended.php',
+    'custom-widgets'    => 'inc/custom-widgets.php',
+    'custom-blocks'     => 'inc/custom-blocks.php',
+    'templates'         => 'inc/templates.php',
+    'customizer'        => 'inc/customizer.php',
+    'easybroker'        => 'inc/easybroker-sync.php',
+    'real-estate-tools' => 'inc/real-estate-tools.php',
 );
 
 foreach ( $inc_files as $key => $relative_path ) {
