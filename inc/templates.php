@@ -81,6 +81,11 @@ function stories_get_assets() {
 
             // REAL ESTATE
             'single-property'         => "$assets_path/css/single-property.css",
+            
+            // Frontpage
+            'frontpage'               => "$assets_path/css/frontpage/frontpage.css",
+            'hero'                    => "$assets_path/css/frontpage/hero.css",
+            'why-choose-us'           => "$assets_path/css/frontpage/wcu.css",
         ],
         'js' => [
             'slideshow-script'    => "$assets_path/js/slideshow.js",
@@ -90,6 +95,7 @@ function stories_get_assets() {
             'animate-in'          => "$assets_path/js/animate-in.js",
             'posts-scripts'       => "$assets_path/js/posts.js",
             'post-scripts'        => "$assets_path/js/post.js",
+            'blur-typing'             => "$assets_path/js/blur-typing.js",
 
             // REAL ESTATE
             'frontpage'               => "$assets_path/js/frontpage.js",
@@ -266,3 +272,39 @@ function properties_templates() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'properties_templates' );
+
+/**
+ * Frontpage template styles
+ * 
+ * Loads custom CSS file only when viewing the front page
+ * to optimize performance and reduce unnecessary loading
+ *
+ * @since 1.0.0
+ * @return void
+ */
+function frontpage_template() {
+    if ( is_page_template( 'templates/frontpage.php' ) ) {
+        $a = stories_get_assets();
+
+        wp_dequeue_style( 'page' );
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_script( 'property-filter' );
+        wp_dequeue_script( 'reset' );
+
+        stories_enqueue_style( 'frontpage', $a['css']['frontpage'] );
+        stories_enqueue_style( 'hero', $a['css']['hero'] );
+        stories_enqueue_style( 'why-choose-us', $a['css']['why-choose-us'] );
+
+        stories_enqueue_script( 'blur-typing', $a['js']['blur-typing'] );
+        stories_enqueue_script( 'animate-in', $a['js']['animate-in'] );
+        stories_enqueue_script( 'frontpage', $a['js']['frontpage'] );
+        stories_enqueue_script( 'ajax-search-from-other-page', $a['js']['ajax-search'] );
+
+        wp_enqueue_script('ajax-properties', get_template_directory_uri() . '/assets/js/ajax-properties.js', ['jquery'], null, true);
+        wp_localize_script('ajax-properties', 'ajax_object', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('filter_properties_nonce')
+        ]);
+    }
+}
+add_action( 'wp_enqueue_scripts', 'frontpage_template' );
