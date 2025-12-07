@@ -5,7 +5,7 @@
     }
 }
 
-.detras-del-espejo,
+.detras-del-espejo:not(:has(header.block.entry-header)),
 .post:not(:has(header.block.entry-header)) {
     opacity: 0;
     transform: translateY(60px);
@@ -561,7 +561,7 @@ ul {
 } 
 
 @media (width < 600px) {
-    .detras-del-espejo,
+    .detras-del-espejo:not(:has(header.block.entry-header)),
     .post:not(:has(header.block.entry-header)) {
         &:is(.format-video, .format-image, .format-gallery) {
             & .post-body {
@@ -580,7 +580,7 @@ ul {
 }
 
 @media (width >=600px) {
-    .detras-del-espejo,
+    .detras-del-espejo:not(:has(header.block.entry-header)),
     .post:not(:has(header.block.entry-header)) {
         &:is(.format-video, .format-image, .format-gallery) {
             & .post-body {
@@ -593,7 +593,7 @@ ul {
 }
 
 body.is-chromium {
-    .detras-del-espejo,
+    .detras-del-espejo:not(:has(header.block.entry-header)),
     .post:not(:has(header.block.entry-header)) {
         border-radius: 2.7rem 2.7rem 1.5rem 1.5rem;
         corner-shape: squircle;
